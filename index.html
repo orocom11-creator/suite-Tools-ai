@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0f">
+<title>AI DAN SOLUTIONS — Herramientas de IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Auth CSS -->
+<link rel="stylesheet" href="_shared/auth.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #0a0a0f;
+    color: #f1f5f9;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+::selection { background: rgba(99,102,241,0.3); }
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 4rem 1.5rem 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 20px rgba(99,102,241,0.3));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+}
+
+.hero p {
+    color: #94a3b8;
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.hero .count {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.35rem 1rem;
+    background: rgba(99,102,241,0.1);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6366f1;
+}
+
+/* Search */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    padding: 0 1.5rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    padding-left: 2.75rem;
+    background: #12121a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    color: #f1f5f9;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.25s;
+}
+
+.search-input::placeholder { color: #64748b; }
+.search-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    width: 18px;
+    height: 18px;
+}
+
+/* Grid */
+.grid-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* Cards */
+.card {
+    background: #12121a;
+    border: 1px solid #1e293b;
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.card:hover {
+    border-color: #334155;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(99,102,241,0.08);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1.3;
+}
+
+.card-slug {
+    font-size: 0.72rem;
+    color: #64748b;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+}
+
+.card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    width: fit-content;
+}
+
+.badge-simple {
+    background: rgba(16,185,129,0.1);
+    color: #10b981;
+    border: 1px solid rgba(16,185,129,0.15);
+}
+
+.badge-interactive {
+    background: rgba(99,102,241,0.1);
+    color: #818cf8;
+    border: 1px solid rgba(99,102,241,0.15);
+}
+
+.badge-tailwind {
+    background: rgba(6,182,212,0.1);
+    color: #22d3ee;
+    border: 1px solid rgba(6,182,212,0.15);
+}
+
+/* Footer */
+.index-footer {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b;
+    font-size: 0.8rem;
+    border-top: 1px solid #1e293b;
+}
+
+/* No results */
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #64748b;
+    display: none;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 2.2rem;
+    flex-wrap: wrap;
+    padding: 0 1.5rem;
+}
+
+.filter-tab {
+    background: #12121a;
+    border: 1px solid #1e293b;
+    color: #94a3b8;
+    padding: 0.55rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: inherit;
+}
+
+.filter-tab:hover {
+    border-color: #334155;
+    color: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+.filter-tab.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: #6366f1;
+    color: #fff;
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
+}
+
+.filter-tab.tab-premium.active {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #f59e0b;
+    color: #fbbf24;
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
+}
+
+.filter-tab.tab-supervip.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: #818cf8;
+    color: #a5b4fc;
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
+}
+
+.tab-count {
+    font-size: 0.72rem;
+    opacity: 0.85;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+@media (max-width: 640px) {
+    .hero h1 { font-size: 1.75rem; }
+    .grid { grid-template-columns: 1fr; }
+    .filter-tabs { gap: 0.4rem; }
+    .filter-tab { padding: 0.45rem 0.85rem; font-size: 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <img src="_shared/logo.jpg" alt="AI DAN SOLUTIONS" class="hero-logo">
+    <h1>AI DAN SOLUTIONS</h1>
+    <p>Herramientas de inteligencia artificial optimizadas para creativos y profesionales</p>
+    <span class="count" id="toolCount">59 herramientas</span>
+</div>
+
+<div class="search-container">
+    <div class="search-wrapper">
+        <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar herramienta por nombre o slug..." autocomplete="off">
+    </div>
+</div>
+
+<div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" data-tier="all">
+        <span>Todas</span> <span class="tab-count" id="countAll">59</span>
+    </button>
+    <button class="filter-tab tab-premium" data-tier="premium">
+        <span>💎 Premium</span> <span class="tab-count" id="countPremium">25</span>
+    </button>
+    <button class="filter-tab tab-supervip" data-tier="supervip">
+        <span>⚡ SuperVIP</span> <span class="tab-count" id="countSupervip">34</span>
+    </button>
+</div>
+
+<div class="grid-container">
+    <div class="grid" id="toolGrid"></div>
+    <div class="no-results" id="noResults">
+        <p>No se encontraron herramientas con ese criterio</p>
+    </div>
+</div>
+
+<div class="index-footer">
+    <p>&copy; 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+
+<!-- Access Control & Auth System -->
+<script src="_shared/config.js"></script>
+<script src="_shared/access-control.js"></script>
+
+<script>
+const TOOLS = [{"slug": "boceto-de-personas-ia"}, {"slug": "calendarios-ia"}, {"slug": "cambia-materia"}, {"slug": "caricatuas-sutiles-ia"}, {"slug": "caricaturas-grotescas-con-ia"}, {"slug": "caricaturas-ia"}, {"slug": "caricaturas-multiples-ia"}, {"slug": "cinematica-de-jinete-de-animales-con-ia"}, {"slug": "consistencia-personajes-ia"}, {"slug": "correrias-animales-y-objetos"}, {"slug": "crear-posteres-de-cine-con-ia"}, {"slug": "de-comic-a-video-con-ia"}, {"slug": "de-idea-a-comic-ia"}, {"slug": "deportes-con-animales"}, {"slug": "figuritas-basuritas-ia"}, {"slug": "figuritas-coleccionables-ia"}, {"slug": "flyers-con-ia-gratis"}, {"slug": "foto-epica-del-mundial-2026"}, {"slug": "fotos-historicas-con-ia"}, {"slug": "gemelo-3d-ia"}, {"slug": "gigantes-en-monumentos-ia"}, {"slug": "halloween-ia"}, {"slug": "hoja-de-personajes-ia"}, {"slug": "hoja-de-producto-ia"}, {"slug": "hoja-de-referencia-de-personaje-app-web-gratis-4k"}, {"slug": "hrp-4k-suite"}, {"slug": "metodo-zuppelli-4k1"}, {"slug": "mi-yo-controla-mi-vehiculo"}, {"slug": "muneco-funko-fifa"}, {"slug": "oleo-escultorico-3d-extremo-ia"}, {"slug": "optimizador-de-prompt"}, {"slug": "perros-mundialistas-2026"}, {"slug": "post-rompe-cuarta-pared-ia"}, {"slug": "posters-cinematograficos-cartoon-ia"}, {"slug": "posters-de-viaje-vintage-3d-efecto-papercraft"}, {"slug": "prompt-mundial"}, {"slug": "resumen-de-partido-2026"}, {"slug": "retrato-de-caricatura-ia"}, {"slug": "rompiendo-la-realidad"}, {"slug": "ropa-identica-ia"}, {"slug": "salgo-de-las-paginas-ia"}, {"slug": "se-el-protagonista"}, {"slug": "selfie-animal-ia"}, {"slug": "selfie-aventura-ia"}, {"slug": "selfie-con-animales"}, {"slug": "stikers-con-ia"}, {"slug": "storyboard-30s"}, {"slug": "storyboard-ia-10s"}, {"slug": "storyboard-omni-flash"}, {"slug": "tableros-infograficos"}, {"slug": "tarjetas-de-feliz-cumpleanos-con-ia"}, {"slug": "tazas-con-frase-ia"}, {"slug": "tipografico-3d-definitiva-ia"}, {"slug": "transformador-ia-de-fotografia-de-producto-publicitarios"}, {"slug": "tu-erse-el-crack-2026"}, {"slug": "tu-maqueta-con-ia"}, {"slug": "video-infografia-3d"}, {"slug": "voz"}, {"slug": "XPrompt-Camera"}];
+
+let currentTierFilter = 'all';
+
+function slugToTitle(slug) {
+    return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+        .replace(/\bIa\b/g, 'IA').replace(/\bIa$/, 'IA')
+        .replace(/\b3d\b/gi, '3D').replace(/\b4k\b/gi, '4K');
+}
+
+function getToolTierInternal(slug) {
+    if (typeof window.getToolTier === 'function') {
+        return window.getToolTier(slug);
+    }
+    const premiumSet = new Set(AIDANS_CONFIG.PREMIUM_TOOLS || []);
+    return premiumSet.has(slug) ? 'premium' : 'supervip';
+}
+
+function getType(slug) {
+    const interactive = ['cambia-materia','voz','hrp-4k-suite','metodo-zuppelli-4k1',
+        'hoja-de-referencia-de-personaje-app-web-gratis-4k','caricaturas-grotescas-con-ia',
+        'posters-cinematograficos-cartoon-ia'];
+    const tailwind = ['optimizador-de-prompt','XPrompt-Camera'];
+    if (tailwind.includes(slug)) return 'tailwind';
+    if (interactive.includes(slug)) return 'interactive';
+    return 'simple';
+}
+
+function renderCards(filterText = '') {
+    const grid = document.getElementById('toolGrid');
+    const noResults = document.getElementById('noResults');
+    const lf = filterText.toLowerCase().trim();
+
+    const filtered = TOOLS.filter(t => {
+        const tier = getToolTierInternal(t.slug);
+        const matchesTier = currentTierFilter === 'all' || tier === currentTierFilter;
+        const matchesText = !lf || t.slug.toLowerCase().includes(lf) || slugToTitle(t.slug).toLowerCase().includes(lf);
+        return matchesTier && matchesText;
+    });
+
+    grid.innerHTML = filtered.map(t => {
+        const type = getType(t.slug);
+        const tier = getToolTierInternal(t.slug);
+        const title = slugToTitle(t.slug);
+        const badgeClass = type === 'interactive' ? 'badge-interactive' :
+                           type === 'tailwind' ? 'badge-tailwind' : 'badge-simple';
+        const badgeText = type === 'interactive' ? '⚡ Interactiva' :
+                          type === 'tailwind' ? '🎨 App Web' : '📋 Prompt';
+        const tierBadgeClass = tier === 'premium' ? 'badge-premium' : 'badge-supervip';
+        const tierBadgeText = tier === 'premium' ? '💎 Premium' : '⚡ SuperVIP';
+
+        return `<a href="${t.slug}/index.html" class="card" data-tool-slug="${t.slug}">
+            <div class="card-top">
+                <span class="badge-tier ${tierBadgeClass}">${tierBadgeText}</span>
+                <span class="card-badge ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="card-title">${title}</div>
+            <div class="card-slug">${t.slug}</div>
+        </a>`;
+    }).join('');
+
+    const countLabel = `${filtered.length} herramienta${filtered.length !== 1 ? 's' : ''}`;
+    document.getElementById('toolCount').textContent = countLabel;
+    noResults.style.display = filtered.length === 0 ? 'block' : 'none';
+
+    // Aplicar candados de inmediato si el perfil ya está cargado
+    if (window.AIDANS_AUTH && typeof window.AIDANS_AUTH.aplicarCandados === 'function') {
+        window.AIDANS_AUTH.aplicarCandados();
+    }
+}
+
+// Filtro por pestañas
+document.getElementById('filterTabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-tab');
+    if (!btn) return;
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTierFilter = btn.dataset.tier;
+    renderCards(document.getElementById('searchInput').value);
+});
+
+document.getElementById('searchInput').addEventListener('input', e => renderCards(e.target.value));
+renderCards();
+</script>
+
+<script src="_shared/auth.js"></script>
+<div id="authTarget"></div>
+</body>
+</html>

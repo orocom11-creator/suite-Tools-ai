@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cambio de Materia Master Studio (Pro Edition)</title>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<div class="container">
+<header>
+<h1>Cambio de Materia Master Studio</h1>
+<p>Generador de descriptores PBR y shaders hiperrealistas con biblioteca completa de 65+ estilos, acabados sólidos e intactos, optimizador multi-motor y creador personalizado.</p>
+<div class="badge-group">
+<span class="badge">65+ Estilos Maestros Activos</span>
+<span class="badge secondary">Multi-Motor IA &amp; Fuerza Dinámica</span>
+</div>
+<div class="tabs-mode">
+<button class="tab-btn active" id="modePresetBtn">🌟 Biblioteca Completa (65+ Estilos)</button>
+<button class="tab-btn custom-tab" id="modeCustomBtn">✏️ Inventar Mi Propio Estilo</button>
+</div>
+</header>
+<div class="card">
+<div class="grid-form">
+<!-- MOTOR IA SELECTOR -->
+<div class="full-width">
+<label for="aiEngineSelect">🎯 Motor de IA Destino (Adapta la estructura del Prompt):</label>
+<select id="aiEngineSelect">
+<option value="runway">🎬 Runway Gen-3 Alpha / Sora / Kling AI (Cinemático Narrativo y Físicas)</option>
+<option value="midjourney">🎨 Midjourney Video / ComfyUI / Stable Diffusion (Tags, PBR Shaders &amp; Tokens)</option>
+<option value="luma">⚡ Luma Dream Machine / Pika 2.0 (Movimiento Dinámico y Transformación de Escena)</option>
+<option value="universal">🌐 Universal / Estándar (Prompt Video-to-Video Descriptivo Puro)</option>
+</select>
+</div>
+<!-- MODO PREDEFINIDO -->
+<div class="full-width grid-form" id="presetSection" style="padding:0;">
+<div class="full-width">
+<label>Filtrar y Buscar en Biblioteca:</label>
+<div class="filter-bar">
+<input id="searchInput" placeholder="🔍 Buscar por material (ej: chocolate, fresa, madera, hielo, cromo)..." type="text"/>
+<select id="categoryFilter">
+<option value="all">🌟 Todas las categorías (65+ estilos)</option>
+<option value="postres">🍰 Frutas, Postres y Confitería Gourmet (15)</option>
+<option value="artesanias">🪵 Artesanías, Escultura y Maderas (6)</option>
+<option value="minerales">💎 Cristales, Vidrio y Minerales (10)</option>
+<option value="textiles">🧵 Textiles, Papel y Cuero (8)</option>
+<option value="metales">⚙️ Metales, Joyería y Forja (8)</option>
+<option value="pintura">🎨 Pintura y Bellas Artes (6)</option>
+<option value="organicos">🌿 Orgánicos y Elementales (6)</option>
+<option value="scifi">🚀 Sci-Fi y Futurismo (6)</option>
+</select>
+</div>
+</div>
+<div class="full-width">
+<div class="view-toggle-bar">
+<label for="styleSelect" style="margin-bottom:0;">Selecciona el estilo deseado:</label>
+<div class="view-toggle-buttons">
+<button class="view-btn active" id="viewListBtn" type="button">☰ Lista</button>
+<button class="view-btn" id="viewGridBtn" type="button">▦ Cuadrícula Visual</button>
+</div>
+</div>
+<select id="styleSelect" size="6" style="height: 150px;"></select>
+<div class="styles-grid-container" id="stylesGrid" style="display: none;"></div>
+</div>
+</div>
+<!-- MODO PERSONALIZADO -->
+<div class="full-width grid-form custom-mode-box" id="customSection" style="display: none; padding:0;">
+<div class="full-width">
+<label style="color: var(--accent-custom); margin-bottom: 0.8rem;">
+              Asistente Guiado de 4 Pasos (Toca el icono <strong>?</strong> para ver la explicación):
+            </label>
+<div class="custom-guide">
+<div>
+<div class="step-header">
+<label for="customMat">1. Material Base y Técnica:</label>
+<div class="info-tooltip-wrapper" tabindex="0">
+<span class="info-icon" data-content="Define la materia prima primordial y la técnica física o artesanal de fabricación. Le indica al modelo la naturaleza del objeto. 💡 Ej: chocolate negro sólido esculpido, mármol pulido, vidrio de borosilicato soplado macizo." data-title="1. Material Base y Técnica">?</span>
+<div class="tooltip-popup">
+<strong>¿Para qué sirve?</strong>
+                      Define la materia prima primordial y la técnica física o artesanal de fabricación. Le indica al modelo la naturaleza del objeto.
+                      <em>💡 Ej: chocolate negro sólido esculpido, mármol pulido, vidrio de borosilicato soplado macizo.</em>
+</div>
+</div>
+</div>
+<input id="customMat" placeholder="Ej: chocolate negro sólido esculpido / mármol pulido" type="text"/>
+</div>
+<div>
+<div class="step-header">
+<label for="customTex">2. Micro-textura y Relieve:</label>
+<div class="info-tooltip-wrapper" tabindex="0">
+<span class="info-icon" data-content="Añade la geometría táctil superficial microscópica (facetas, huellas, poros, estrías). Evita que la IA cree superficies planas o plásticas. 💡 Ej: acabado pulido espejo, micro-poros densos, facetas pulidas impecables." data-title="2. Micro-textura y Relieve">?</span>
+<div class="tooltip-popup">
+<strong>¿Para qué sirve?</strong>
+                      Añade la geometría táctil superficial microscópica (facetas, huellas, poros, estrías). Evita que la IA cree superficies planas o plásticas.
+                      <em>💡 Ej: acabado pulido espejo, micro-poros densos, facetas pulidas impecables.</em>
+</div>
+</div>
+</div>
+<input id="customTex" placeholder="Ej: acabado pulido espejo, veta densa, textura micro-porosa" type="text"/>
+</div>
+<div>
+<div class="step-header">
+<label for="customLight">3. Iluminación / Shader PBR:</label>
+<div class="info-tooltip-wrapper" tabindex="0">
+<span class="info-icon" data-content="Modela cómo rebota, se absorbe o se refracta la luz sobre la superficie (especularidad, dispersión subsuperficial, refracción). 💡 Ej: dispersión subsuperficial profunda, brillo satinado anisotrópico, cáusticas nítidas." data-title="3. Iluminación / Shader PBR">?</span>
+<div class="tooltip-popup">
+<strong>¿Para qué sirve?</strong>
+                      Modela cómo rebota, se absorbe o se refracta la luz sobre la superficie (especularidad, dispersión subsuperficial, refracción).
+                      <em>💡 Ej: dispersión subsuperficial profunda, brillo satinado anisotrópico, cáusticas nítidas.</em>
+</div>
+</div>
+</div>
+<input id="customLight" placeholder="Ej: transmisión interna de luz, reflejos de borde de alta especularidad" type="text"/>
+</div>
+<div>
+<div class="step-header">
+<label for="customWear">4. Desgaste, Bordes y Color:</label>
+<div class="info-tooltip-wrapper" tabindex="0">
+<span class="info-icon" data-content="Añade imperfecciones orgánicas, pátinas de paso del tiempo, flujo del color y comportamiento de bordes. 💡 Ej: bordes biselados esculpidos limpios, tonos caoba profundos, estructura monolítica intacta sin fisuras." data-title="4. Desgaste, Bordes y Color">?</span>
+<div class="tooltip-popup">
+<strong>¿Para qué sirve?</strong>
+                      Añade imperfecciones orgánicas, pátinas de paso del tiempo, flujo del color y comportamiento de bordes.
+                      <em>💡 Ej: bordes biselados esculpidos limpios, estructura monolítica intacta sin fisuras.</em>
+</div>
+</div>
+</div>
+<input id="customWear" placeholder="Ej: bordes biselados limpios, estructura monolítica sólida e intacta" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- SLIDER DE INTENSIDAD -->
+<div class="full-width">
+<div class="slider-box">
+<div class="slider-header">
+<span>⚡ Intensidad / Fuerza del Estilo:</span>
+<span class="slider-val" id="intensityValueDisplay">100% (Transformación Total)</span>
+</div>
+<input class="intensity-slider" id="intensitySlider" max="100" min="10" step="5" type="range" value="100"/>
+<div class="slider-descriptor" id="intensityDescriptor">
+              Nivel Máximo: Conversión física y matérica radical completa de todos los elementos seleccionados.
+            </div>
+</div>
+</div>
+<!-- Previsualización de Textura Traducida al Español -->
+<div class="full-width">
+<div class="style-preview" id="styleDescription">
+<strong>Shader / Textura Seleccionada:</strong> Selecciona o escribe un estilo.
+          </div>
+</div>
+<!-- Alcance -->
+<div class="full-width">
+<label>¿Dónde aplicar la transformación?</label>
+<div class="radio-group">
+<label class="radio-label">
+<input checked="" id="scopeAll" name="targetScope" type="radio" value="all"/>
+              A toda la escena y fondo (Everything)
+            </label>
+<label class="radio-label">
+<input id="scopeSpecific" name="targetScope" type="radio" value="specific"/>
+              A un elemento específico (Objeto/Persona)
+            </label>
+</div>
+<div id="targetInputContainer" style="display: none; margin-top: 0.6rem;">
+<input id="targetSubject" placeholder="Ej: the dancer, the vintage car, the actor's jacket" type="text"/>
+</div>
+</div>
+<!-- Preservación de Cámara -->
+<div class="full-width">
+<label class="checkbox-label">
+<input checked="" id="keepMotion" type="checkbox"/>
+            Anclar fidelidad cinematográfica (Mantener encuadres, física y movimiento de cámara)
+          </label>
+</div>
+</div>
+</div>
+<!-- Output Prompts -->
+<div class="card output-section">
+<div class="output-header">
+<div>
+<label for="outputPrompt" style="margin-bottom:0; font-size:1.05rem; display:inline-block; margin-right: 0.5rem;">Prompt de Salida Generado:</label>
+<span class="counter-badge" id="promptCounters">0 caracteres | ~0 tokens</span>
+</div>
+<button class="btn-copy" id="copyBtn">
+<span>Copiar Prompt</span>
+</button>
+</div>
+<textarea id="outputPrompt" readonly="" spellcheck="false"></textarea>
+<div class="output-header" style="margin-top: 0.8rem;">
+<div>
+<label for="negativePrompt" style="margin-bottom:0; font-size:0.92rem; color: #f85149; display:inline-block; margin-right: 0.5rem;">Prompt Negativo Recomendado (Anti-Artifacts / Anti-Morphing):</label>
+<span class="counter-badge" id="negativeCounters">0 caracteres</span>
+</div>
+<button class="btn-copy btn-neg" id="copyNegBtn">
+<span>Copiar Negativo</span>
+</button>
+</div>
+<textarea id="negativePrompt" readonly="" spellcheck="false"></textarea>
+<!-- ESPACIO PUBLICITARIO ADSENSE ETIQUETADO COMO ANUNCIO -->
+</div>
+<!-- SECCIÓN DE INFORMACIÓN SOBRE LA APP -->
+<div class="app-info-card">
+<h2>Transformación Matérica Profesional para Video con Inteligencia Artificial</h2>
+<p>
+<strong>Cambio de Materia Master Studio</strong> es una suite web avanzada diseñada para directores de arte, creadores de contenido, animadores y entusiastas de la inteligencia artificial generativa. Esta herramienta resuelve uno de los mayores desafíos en el flujo de trabajo <em>Video-to-Video</em>: transformar con precisión física la materia, textura, iluminación y shaders de cualquier video sin perder la coherencia geométrica ni la estabilidad temporal del metraje original.
+      </p>
+<p>
+        A diferencia de los generadores convencionales, esta aplicación incorpora descriptores físicos PBR (<em>Physically Based Rendering</em>) rigurosamente calibrados para que los materiales se representen de forma sólida, íntegra y sin deformaciones no deseadas como derretimientos espontáneos, roturas o goteos.
+      </p>
+<p><strong>Ventajas de usar esta Web App gratuita e ilimitada:</strong></p>
+<ul>
+<li><strong>Biblioteca Maestra de 65+ Materiales:</strong> Accede al instante a fórmulas ópticas detalladas que abarcan desde maderas nobles y metales forjados hasta cristales bismuto, sedas y repostería gourmet sólida.</li>
+<li><strong>Compatibilidad Multi-Motor IA:</strong> Adapta automáticamente la sintaxis del prompt para los principales motores del mercado: <em>Runway Gen-3 Alpha, Sora, Kling AI, Luma Dream Machine, Pika 2.0, Midjourney Video y Stable Diffusion / ComfyUI</em>.</li>
+<li><strong>Control Dinámico de Fuerza e Intensidad:</strong> Modula la intensidad de transformación del 10% al 100% mediante un slider reactivo con descriptores semánticos automáticos.</li>
+<li><strong>Asistente Guiado de 4 Pasos:</strong> Diseña tus propios materiales personalizados con ayuda contextual interactiva sobre micro-textura, iluminación y acabado.</li>
+<li><strong>100% Gratuita, Ilimitada y Privada:</strong> Sin registros, sin suscripciones de pago y sin límites de generación. Todo se procesa directamente en tu navegador en tiempo real.</li>
+</ul>
+<p>
+        Optimiza tus producciones audiovisuales, elimina horas de prueba y error en la formulación de prompts y lleva tus videos generados por IA a un estándar cinematográfico profesional.
+      </p>
+</div>
+<!-- PIE DE PÁGINA Y COMUNIDAD -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+</div>
+<!-- Mobile Bottom Sheet Dialog -->
+<div class="mobile-sheet-backdrop" id="mobileSheetBackdrop">
+<div class="mobile-sheet" id="mobileSheet">
+<h3 id="sheetTitle" style="color: var(--accent-custom); margin-bottom: 0.6rem; font-size: 1.1rem;"></h3>
+<p id="sheetContent" style="color: #c9d1d9; font-size: 0.95rem; line-height: 1.5;"></p>
+<button class="sheet-close-btn" id="sheetCloseBtn">Entendido</button>
+</div>
+</div>
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

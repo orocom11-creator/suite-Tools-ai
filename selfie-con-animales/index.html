@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SELFIE CON ANIMALES - Prompt en AI DAN SOLUTIONS</title>
+<!-- Meta tags para vista previa al compartir (Open Graph) -->
+<meta content="SELFIE CON ANIMALES - Prompt en AI DAN SOLUTIONS" property="og:title"/>
+<meta content="Aprende a usar la Inteligencia Artificial. Copia este prompt optimizado en un solo clic." property="og:description"/>
+<meta content="assets/ai-dan-logo.jpg" property="og:image"/>
+<meta content="#" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<!-- Script de Google AdSense -->
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<header>
+<div class="header-content">
+<a class="back-btn" href="../index.html">
+<!-- Icono flecha izquierda -->
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al inicio
+            </a>
+</div>
+</header>
+<div class="container">
+<article>
+<!-- Logotipo centrado sobre el título del post -->
+<div class="post-logo-container">
+<img alt="Logo AI DAN SOLUTIONS" class="post-logo" src="assets/ai-dan-logo.jpg"/>
+</div>
+<!-- Título del Post -->
+<h1>SELFIE CON ANIMALES</h1>
+<!-- Imagen Destacada del Post (Se asume en la raíz de la web) -->
+<div class="post-image-container">
+<img alt="SELFIE CON ANIMALES" class="post-image" src="assets/selfieanimal-86d08e1d.jpg"/>
+</div>
+<div style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; color: #0369a1;">
+<h3 style="margin-top: 0; color: #0284c7; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Guía rápida de uso
+    </h3>
+<h4 style="margin: 1rem 0 0.5rem 0; color: #0369a1; font-size: 1rem;">¿Qué hace este prompt?</h4>
+<p style="margin: 0 0 1rem 0; font-size: 0.95rem; line-height: 1.5;">Este prompt genera una selfie grupal hiperrealista utilizando la fotografía de referencia del usuario para mantener su identidad con la máxima fidelidad. El usuario aparece en el centro de la imagen rodeado únicamente por la especie animal indicada.</p>
+<p style="margin: 0 0 0.5rem 0; font-size: 0.95rem; font-weight: 600;">El prompt controla automáticamente:</p>
+<ul style="margin: 0 0 1rem 1.25rem; padding: 0; font-size: 0.9rem; line-height: 1.5;">
+<li>La identidad del usuario (rostro, cabello, ropa, accesorios, etc.).</li>
+<li>La cantidad exacta de animales.</li>
+<li>Que todos sean de la misma especie.</li>
+<li>Una composición tipo selfie con teléfono.</li>
+<li>Un estilo realista, divertido y de alta calidad.</li>
+</ul>
+<h4 style="margin: 1rem 0 0.5rem 0; color: #0369a1; font-size: 1rem;">Requisitos</h4>
+<ul style="margin: 0 0 1rem 1.25rem; padding: 0; font-size: 0.9rem; line-height: 1.5;">
+<li>Adjunta una fotografía clara del usuario.</li>
+<li>Cambia únicamente los campos <strong>ANIMAL</strong> y <strong>CANTIDAD DE ANIMALES</strong>.</li>
+<li>No modifiques el resto del prompt.</li>
+</ul>
+<h4 style="margin: 1rem 0 0.5rem 0; color: #0369a1; font-size: 1rem;">Resultado esperado</h4>
+<p style="margin: 0 0 0.5rem 0; font-size: 0.95rem;">Obtendrás una imagen en formato 9:16 donde:</p>
+<ul style="margin: 0 0 0 1.25rem; padding: 0; font-size: 0.9rem; line-height: 1.5;">
+<li>El usuario aparece sonriendo en el centro.</li>
+<li>Hay exactamente la cantidad de animales indicada.</li>
+<li>Todos pertenecen a la misma especie elegida.</li>
+<li>Cada animal tiene una pose y expresión diferente.</li>
+<li>La escena parece una selfie real tomada con un teléfono móvil en un entorno natural.</li>
+</ul>
+</div>
+<!-- Contenedor del Prompt -->
+<div class="prompt-container">
+<div class="prompt-header">
+<span class="prompt-label">Prompt para copiar</span>
+<button class="copy-btn" id="btnCopiar" onclick="copiarAlPortapapeles()">
+<!-- Icono copiar (SVG) -->
+<svg fill="none" height="14" id="copyIcon" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" ry="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+<span id="btnText">Copiar</span>
+</button>
+</div>
+<pre class="prompt-body" id="textoPrompt">══════════════════════════════════════
+
+VARIABLES (Solo modificar estas dos líneas)
+
+
+
+ANIMAL: {ANIMAL}
+
+CANTIDAD DE ANIMALES: {NUMERO_DE_ANIMALES}
+
+
+
+══════════════════════════════════════
+
+
+
+Utiliza la fotografía del usuario como referencia absoluta para recrear con máxima fidelidad su identidad.
+
+
+
+Conserva exactamente sus rasgos faciales, tono de piel, peinado, color de cabello, complexión, edad aparente y expresión natural. Reproduce también con precisión la ropa, colores, estampados, accesorios y calzado que viste en la fotografía de referencia.
+
+
+
+Genera una divertida selfie grupal donde el usuario aparece en el centro de la imagen rodeado exclusivamente por los animales definidos en las VARIABLES.
+
+
+
+REGLA ABSOLUTA
+
+
+
+• Deben aparecer exactamente {NUMERO_DE_ANIMALES} individuos.
+
+• Todos los individuos pertenecen exclusivamente a la especie {ANIMAL}.
+
+• No está permitido incluir ninguna otra especie animal bajo ninguna circunstancia.
+
+• No agregar animales de fondo.
+
+• No agregar mascotas adicionales.
+
+• No agregar aves, insectos, reptiles ni criaturas fantásticas.
+
+• Si aparece cualquier animal distinto de {ANIMAL}, la imagen es incorrecta.
+
+
+
+Cada uno de los {NUMERO_DE_ANIMALES} {ANIMAL} debe ser claramente reconocible y diferente de los demás mediante expresiones, poses y personalidad propias, manteniendo siempre la misma especie.
+
+
+
+Todos los {ANIMAL} realizan expresiones exageradamente divertidas: bocas muy abiertas, lenguas afuera cuando sea anatómicamente posible, ojos muy expresivos, muecas cómicas y actitud juguetona, como si todos estuvieran posando felices para una selfie.
+
+
+
+El usuario sonríe naturalmente mientras sostiene el teléfono móvil para tomar la fotografía.
+
+
+
+La captura debe parecer una selfie real tomada con un teléfono móvil.
+
+
+
+Características de cámara:
+
+• Cámara frontal.
+
+• Lente gran angular.
+
+• Ángulo ligeramente bajo.
+
+• Todos mirando directamente a la cámara.
+
+• Composición natural típica de una selfie grupal.
+
+• Algunos {ANIMAL} pueden inclinar la cabeza para entrar mejor en el encuadre.
+
+
+
+Escenario natural al aire libre con suaves colinas al fondo, cielo azul intenso y nubes blancas.
+
+
+
+Estilo hiperrealista con un ligero toque fantástico y humorístico.
+
+
+
+Iluminación natural de día.
+
+
+
+Colores vibrantes.
+
+
+
+Excelente rango dinámico.
+
+
+
+Piel realista.
+
+
+
+Pelajes, plumas, escamas o cualquier textura correspondiente a la especie {ANIMAL} extremadamente detailedos.
+
+
+
+Profundidad de campo natural.
+
+
+
+Calidad fotográfica profesional.
+
+
+
+Todos los sujetos deben aparecer completamente enfocados y perfectamente integrados en la escena.
+
+
+
+Relación de aspecto 9:16.</pre>
+</div>
+<!-- Bloque de Publicidad AdSense (Post Template) -->
+</article>
+<!-- Botón de unirse a la comunidad enlazado a YouTube -->
+<div class="community-btn-container">
+<a class="pulsate-btn" href="#" target="_blank">
+<svg fill="currentColor" height="18" style="margin-right: 8px;" viewbox="0 0 24 24" width="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+EXPLORA NUESTRAS HERRAMIENTAS
+</a>
+</div>
+</div>
+<!-- Pie de página con Texto SEO Optimizado y Estructurado (600 palabras) -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<!-- Script de copiado y cambio dinámico de icono -->
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metodo Zuppelli 4k — AI DAN SOLUTIONS.com 2026</title>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<!-- CONTENEDOR PRINCIPAL DE LA WEB APP (100VH) -->
+<div class="app-viewport">
+<header>
+<div class="logo-title">
+<h1>Metodo Zuppelli 4k</h1>
+<p>Creador de Hojas de Personaje en 16:9 (3840x2160) By AI DAN SOLUTIONS.com 2026</p>
+</div>
+<div class="header-actions">
+<button class="btn" id="btnToggleGuides">📏 Activar Modo Calibre</button>
+<button class="btn btn-primary" id="btnExport">💾 Exportar Hoja 4K (PNG)</button>
+</div>
+</header>
+<main>
+<sidebar>
+<!-- OPCIONES GLOBALES -->
+<div class="sidebar-section">
+<h3>Configuración General</h3>
+<div class="form-group">
+<label for="charName">Nombre / Rótulo del Personaje:</label>
+<input class="input-text" id="charName" type="text" value="JUAN MANUEL ZUPPELLI — MODEL SHEET"/>
+</div>
+<div class="form-group">
+<label for="textPos">Posición del Rótulo:</label>
+<select id="textPos">
+<option value="top-left">Superior Izquierda</option>
+<option selected="" value="top-center">Superior Centro</option>
+<option value="top-right">Superior Derecha</option>
+<option value="bottom-center">Inferior Centro</option>
+</select>
+</div>
+<div class="form-group">
+<label for="textOpacity">Opacidad del Rótulo (Transparencia 3%):</label>
+<input class="input-range" id="textOpacity" max="1" min="0.1" step="0.05" type="range" value="0.35"/>
+</div>
+<div class="form-group">
+<label for="bgColor">Color de Fondo del Lienzo:</label>
+<input id="bgColor" style="width:100%; height:32px; border:none; cursor:pointer; border-radius:4px;" type="color" value="#C5C5C5"/>
+</div>
+</div>
+<!-- PANEL MODO CALIBRE (SE ACTIVA AL PULSAR BOTÓN GUÍAS) -->
+<div class="sidebar-section">
+<div class="guides-panel" id="guidesPanel">
+<h3 style="color:#ef4444; margin-bottom:8px;">🎯 Modo Calibre (Escala 1:1)</h3>
+<div class="caliper-info">
+              Distancia Facial Fija: <span id="val-guide-gap">975px</span>
+</div>
+<div class="control-row" style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; margin-bottom:12px;">
+<label style="color:#3b82f6; font-weight:700;">↕️ MOVER CALIBRE COMPLETO (Ambas Líneas): <span id="val-guide-center">1412px</span></label>
+<input class="input-range" id="sliderGuideMove" max="1900" min="200" step="5" type="range" value="1412"/>
+</div>
+<hr style="border:none; border-top:1px dashed var(--border-color); margin:10px 0;"/>
+<p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">
+              Ajusta la separación inicial sobre la foto de frente:
+            </p>
+<div class="control-row">
+<label>🔴 Altura Línea Ojos <span id="val-guide-eye">925px</span></label>
+<input class="input-range" id="sliderGuideEye" max="1800" min="100" step="5" type="range" value="925"/>
+</div>
+<div class="control-row">
+<label>🔵 Altura Línea Mentón <span id="val-guide-chin">1900px</span></label>
+<input class="input-range" id="sliderGuideChin" max="2100" min="200" step="5" type="range" value="1900"/>
+</div>
+</div>
+<h3>Subir las 5 Imágenes</h3>
+<!-- PANELES 0 a 4 -->
+<div class="upload-card" id="card-0">
+<div class="upload-card-header">
+<span>1. Busto de Frente</span>
+<small id="status-0" style="color:var(--text-muted)">Vacío</small>
+</div>
+<label class="upload-btn">
+              📂 Seleccionar Foto
+              <input accept="image/*" class="file-input" data-panel="0" type="file"/>
+</label>
+<div class="panel-controls" id="controls-0">
+<div class="control-row">
+<label>🔍 Zoom <span id="val-zoom-0">1.0x</span></label>
+<input class="input-range slider-zoom" data-panel="0" max="3" min="0.5" step="0.05" type="range" value="1"/>
+</div>
+<div class="control-row">
+<label>↔️ Posición X <span id="val-x-0">0</span></label>
+<input class="input-range slider-panx" data-panel="0" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+<div class="control-row">
+<label>↕️ Posición Y <span id="val-y-0">0</span></label>
+<input class="input-range slider-pany" data-panel="0" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+</div>
+</div>
+<div class="upload-card" id="card-1">
+<div class="upload-card-header">
+<span>2. Perfil Derecho</span>
+<small id="status-1" style="color:var(--text-muted)">Vacío</small>
+</div>
+<label class="upload-btn">
+              📂 Seleccionar Foto
+              <input accept="image/*" class="file-input" data-panel="1" type="file"/>
+</label>
+<div class="panel-controls" id="controls-1">
+<div class="control-row">
+<label>🔍 Zoom <span id="val-zoom-1">1.0x</span></label>
+<input class="input-range slider-zoom" data-panel="1" max="3" min="0.5" step="0.05" type="range" value="1"/>
+</div>
+<div class="control-row">
+<label>↔️ Posición X <span id="val-x-1">0</span></label>
+<input class="input-range slider-panx" data-panel="1" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+<div class="control-row">
+<label>↕️ Posición Y <span id="val-y-1">0</span></label>
+<input class="input-range slider-pany" data-panel="1" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+</div>
+</div>
+<div class="upload-card" id="card-2">
+<div class="upload-card-header">
+<span>3. Perfil Izquierdo</span>
+<small id="status-2" style="color:var(--text-muted)">Vacío</small>
+</div>
+<label class="upload-btn">
+              📂 Seleccionar Foto
+              <input accept="image/*" class="file-input" data-panel="2" type="file"/>
+</label>
+<div class="panel-controls" id="controls-2">
+<div class="control-row">
+<label>🔍 Zoom <span id="val-zoom-2">1.0x</span></label>
+<input class="input-range slider-zoom" data-panel="2" max="3" min="0.5" step="0.05" type="range" value="1"/>
+</div>
+<div class="control-row">
+<label>↔️ Posición X <span id="val-x-2">0</span></label>
+<input class="input-range slider-panx" data-panel="2" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+<div class="control-row">
+<label>↕️ Posición Y <span id="val-y-2">0</span></label>
+<input class="input-range slider-pany" data-panel="2" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+</div>
+</div>
+<div class="upload-card" id="card-3">
+<div class="upload-card-header">
+<span>4. Cuerpo Entero Frente (9:16)</span>
+<small id="status-3" style="color:var(--text-muted)">Vacío</small>
+</div>
+<label class="upload-btn">
+              📂 Seleccionar Foto
+              <input accept="image/*" class="file-input" data-panel="3" type="file"/>
+</label>
+<div class="panel-controls" id="controls-3">
+<div class="control-row">
+<label>🔍 Zoom <span id="val-zoom-3">1.0x</span></label>
+<input class="input-range slider-zoom" data-panel="3" max="3" min="0.5" step="0.05" type="range" value="1"/>
+</div>
+<div class="control-row">
+<label>↔️ Posición X <span id="val-x-3">0</span></label>
+<input class="input-range slider-panx" data-panel="3" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+<div class="control-row">
+<label>↕️ Posición Y <span id="val-y-3">0</span></label>
+<input class="input-range slider-pany" data-panel="3" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+</div>
+</div>
+<div class="upload-card" id="card-4">
+<div class="upload-card-header">
+<span>5. Cuerpo Entero Espalda (9:16)</span>
+<small id="status-4" style="color:var(--text-muted)">Vacío</small>
+</div>
+<label class="upload-btn">
+              📂 Seleccionar Foto
+              <input accept="image/*" class="file-input" data-panel="4" type="file"/>
+</label>
+<div class="panel-controls" id="controls-4">
+<div class="control-row">
+<label>🔍 Zoom <span id="val-zoom-4">1.0x</span></label>
+<input class="input-range slider-zoom" data-panel="4" max="3" min="0.5" step="0.05" type="range" value="1"/>
+</div>
+<div class="control-row">
+<label>↔️ Posición X <span id="val-x-4">0</span></label>
+<input class="input-range slider-panx" data-panel="4" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+<div class="control-row">
+<label>↕️ Posición Y <span id="val-y-4">0</span></label>
+<input class="input-range slider-pany" data-panel="4" max="800" min="-800" step="2" type="range" value="0"/>
+</div>
+</div>
+</div>
+</div>
+</sidebar>
+<!-- ÁREA DEL CANVAS -->
+<div class="canvas-container">
+<div class="canvas-wrapper" id="canvasWrapper">
+<canvas id="previewCanvas"></canvas>
+</div>
+<div class="canvas-instructions">
+          💡 Ajusta la separación de las líneas en la foto de frente. Luego usa <b>"↕️ MOVER CALIBRE COMPLETO"</b> para medir las fotos de perfil.
+        </div>
+</div>
+</main>
+</div>
+<!-- SECCIÓN DE PROMPTS DE GENERACIÓN CON BOTONES DE COPIADO -->
+<section class="prompts-section">
+<div class="prompts-container">
+<div class="prompts-header">
+<h2>📋 PROMPTS DE GENERACIÓN PARA IA</h2>
+<p>Copia cada prompt individualmente con un clic para generar las 5 piezas requeridas en tu herramienta de IA favorita (Midjourney, Stable Diffusion, Flux, Leonardo).</p>
+</div>
+<!-- PIEZA 1 -->
+<div class="prompt-card">
+<div class="prompt-card-header">
+<div class="prompt-title">📷 Pieza 1: Busto de Frente (Imagen Principal)</div>
+</div>
+<ul class="prompt-specs">
+<li>• <strong>Ratio:</strong> <code>--ar 3:4</code></li>
+<li>• <strong>Encuadre:</strong> Retrato frontal cercano, máxima resolución y textura.</li>
+</ul>
+<div class="prompt-box-wrapper">
+<div class="prompt-text" id="prompt-text-1">Exact 1:1 physical clone of the person from the reference photo, 100% identical facial features, front bust portrait looking directly forward, maintaining exact skin pores, micro-wrinkles, eyes, glasses frame, and hair. Subsurface scattering, natural unfiltered skin texture, shot on 85mm f/1.8 lens, sharp focus, raw unedited photograph, wearing the exact same clothing from reference photo, neutral light gray studio background --ar 3:4 --style raw --s 0 --no plastic, smooth skin, airbrushed, wax, CGI, 3D render, glossy</div>
+<button class="btn-copy" onclick="copyPromptText(this, 'prompt-text-1')">📋 Copiar Prompt</button>
+</div>
+</div>
+<!-- BLOQUE PUBLICITARIO DE ADSENSE -->
+<div style="margin: 30px 0; text-align: center;">
+<!-- Metodo Zuppelli -->
+</div>
+<!-- PIEZA 2 -->
+<div class="prompt-card">
+<div class="prompt-card-header">
+<div class="prompt-title">📷 Pieza 2: Perfil Derecho (Arriba Centro)</div>
+</div>
+<ul class="prompt-specs">
+<li>• <strong>Ratio:</strong> <code>--ar 1:1</code></li>
+<li>• <strong>Encuadre:</strong> Perfil derecho a 90 grados, enfoque en alineación de mentón, mandíbula y oreja.</li>
+</ul>
+<div class="prompt-box-wrapper">
+<div class="prompt-text" id="prompt-text-2">Exact 1:1 physical clone of the person from the reference photo, 100% identical facial features. Right side profile close-up portrait turned 90 degrees right, showing exact chin alignment, jawline, and ear. Maintaining exact skin pores, micro-wrinkles, eyes, glasses frame, and hair. Subsurface scattering, natural unfiltered skin texture, shot on 85mm f/1.8 lens, sharp focus, raw unedited photograph, wearing the exact same clothing from reference photo, neutral light gray studio background --ar 1:1 --style raw --s 0 --no plastic, smooth skin, airbrushed, wax, CGI, 3D render, glossy</div>
+<button class="btn-copy" onclick="copyPromptText(this, 'prompt-text-2')">📋 Copiar Prompt</button>
+</div>
+</div>
+<!-- PIEZA 3 -->
+<div class="prompt-card">
+<div class="prompt-card-header">
+<div class="prompt-title">📷 Pieza 3: Perfil Izquierdo (Abajo Centro)</div>
+</div>
+<ul class="prompt-specs">
+<li>• <strong>Ratio:</strong> <code>--ar 1:1</code></li>
+<li>• <strong>Encuadre:</strong> Perfil izquierdo a 90 grados, enfoque en la forma del cráneo, coronilla y oreja.</li>
+</ul>
+<div class="prompt-box-wrapper">
+<div class="prompt-text" id="prompt-text-3">Exact 1:1 physical clone of the person from the reference photo, 100% identical facial features. Left side profile close-up portrait turned 90 degrees left, showing upper skull structure, hair crown, jawline, and ear. Maintaining exact skin pores, micro-wrinkles, eyes, glasses frame, and hair. Subsurface scattering, natural unfiltered skin texture, shot on 85mm f/1.8 lens, sharp focus, raw unedited photograph, wearing the exact same clothing from reference photo, neutral light gray studio background --ar 1:1 --style raw --s 0 --no plastic, smooth skin, airbrushed, wax, CGI, 3D render, glossy</div>
+<button class="btn-copy" onclick="copyPromptText(this, 'prompt-text-3')">📋 Copiar Prompt</button>
+</div>
+</div>
+<!-- PIEZA 4A -->
+<div class="prompt-card">
+<div class="prompt-card-header">
+<div class="prompt-title">📷 Pieza 4A: Cuerpo Entero de Frente (SIN CUELLO NI CABEZA, POSE NEUTRA)</div>
+</div>
+<ul class="prompt-specs">
+<li>• <strong>Ratio:</strong> <code>--ar 9:16</code></li>
+<li>• <strong>Encuadre:</strong> Desde la tela del cuello/hombros hasta las botas, pose neutra con brazos a los lados, llenando todo el alto vertical.</li>
+</ul>
+<div class="prompt-box-wrapper">
+<div class="prompt-text" id="prompt-text-4a">NO HEAD, NO NECK, headless full body front view of the person from the reference photo. Clean horizontal crop right at the shirt collar seam line with zero neck skin or head visible. Neutral relaxed standing pose with both arms resting straight down at the sides, hands relaxed. Tight vertical framing filling the entire height of the frame from shoulders at the top edge down to the boots at the bottom edge. Showing complete outfit, shirt, pants, and footwear strictly matching the reference image, raw unedited photograph, neutral light gray studio background --ar 9:16 --style raw --s 0 --no head, neck, face, skin above collar, plastic, smooth skin, airbrushed, wax, CGI, 3D render, glossy</div>
+<button class="btn-copy" onclick="copyPromptText(this, 'prompt-text-4a')">📋 Copiar Prompt</button>
+</div>
+</div>
+<!-- PIEZA 4B -->
+<div class="prompt-card">
+<div class="prompt-card-header">
+<div class="prompt-title">📷 Pieza 4B: Cuerpo Entero de Espalda (SIN MOCHILA)</div>
+</div>
+<ul class="prompt-specs">
+<li>• <strong>Ratio:</strong> <code>--ar 9:16</code></li>
+<li>• <strong>Encuadre:</strong> De espalda recta, sin mochila, llenando verticalmente todo el marco.</li>
+</ul>
+<div class="prompt-box-wrapper">
+<div class="prompt-text" id="prompt-text-4b">Full body back view of the person from the reference photo, standing straight seen directly from behind, with NO backpack. Tight vertical framing filling the entire height of the frame from the top of the head at the top edge down to the boots at the bottom edge. Showing the back of the exact same outfit, shirt, pants, and footwear strictly matching the reference image, raw unedited photograph, neutral light gray studio background --ar 9:16 --style raw --s 0 --no plastic, smooth skin, airbrushed, wax, CGI, 3D render, glossy</div>
+<button class="btn-copy" onclick="copyPromptText(this, 'prompt-text-4b')">📋 Copiar Prompt</button>
+</div>
+</div>
+<!-- BOTÓN ROJO TITILANTE: VIDEO EXPLICACIÓN -->
+<div style="text-align: center; margin: 35px 0;">
+<a class="btn-video-titilante" href="https://youtu.be/QRGqBzb-Yzo" rel="noopener" target="_blank">
+          🎬 Ver Video Explicación AQUÍ
+        </a>
+</div>
+<!-- CONSEJO -->
+<div class="tips-card">
+<h4>💡 Consejo para ejecutar las imágenes en la IA:</h4>
+<ol>
+<li><strong>Midjourney:</strong> Sube tu foto base, copia su enlace y al final de cada uno de estos prompts agrega: <code>--cref [LINK_DE_TU_FOTO] --cw 100</code>.</li>
+<li><strong>Stable Diffusion / Flux / Leonardo:</strong> Carga tu foto base en el módulo de referencia (IP-Adapter o Image-to-Image) fijando el peso al máximo (1.0) para que mantenga el rostro y la vestimenta exactos en las 5 generaciones.</li>
+</ol>
+<p>Una vez que tengas generadas estas 5 imágenes aisladas en tu computadora o teléfono, me avisas y pasamos al Paso 2: El Montaje y Alineación de Escala.</p>
+</div>
+</div>
+</section>
+<!-- SECCIÓN SEPARADA: MANUAL DE USUARIO Y GUÍA TÉCNICA -->
+<section class="manual-section">
+<div class="manual-container">
+<div class="manual-header">
+<h2>📖 MANUAL DE USUARIO Y GUÍA TÉCNICA</h2>
+<h3>🚀 EL MÉTODO ZUPPELLI 4K</h3>
+<p>Creador de Hojas de Referencia de Personaje en 16:9 (3840x2160) — Desarrollado por <strong>AI DAN SOLUTIONS.com (2026)</strong></p>
+</div>
+<div class="manual-block">
+<h4>📍 1. INTRODUCCIÓN Y PROPÓSITO DEL WORKFLOW</h4>
+<h5>¿Para qué sirve este Workflow?</h5>
+<p>El <strong>Método Zuppelli 4K</strong> es un sistema profesional de diseño y maquetación de Hojas de Referencia de Personajes (<em>Model Sheets / Turnaround Sheets</em>) en formato panorámico 16:9 y resolución nativa 4K Ultra HD (3840 x 2160 píxeles).</p>
+<p>Su objetivo principal es resolver definitivamente el problema técnico más grave que sufren las hojas de personaje generadas mediante Inteligencia Artificial: <strong>la pérdida de calidad, la distorsión facial en planos lejanos y la falta de consistencia de escala entre vistas.</strong></p>
+</div>
+<div class="manual-block">
+<h4>🧠 2. ¿POR QUÉ SE HACE ASÍ? LA LÓGICA TÉCNICA DEL DISEÑO</h4>
+<p>Las hojas de personaje tradicionales generadas por IA mediante un solo prompt (<em>single prompt</em>) siempre fallan por limitaciones matemáticas de la difusión de imágenes:</p>
+<div class="manual-table-wrapper">
+<table class="manual-table">
+<thead>
+<tr>
+<th style="width: 40%;">Problema Estándar de la IA</th>
+<th style="width: 60%;">Solución del Método Zuppelli 4K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rostros pequeños deformados:</strong> En planos enteros, la cara recibe muy pocos píxeles y la IA la deforma (ojos bizcos, nariz plana).</td>
+<td><strong>Rostro Frontal Gigante (Ancla):</strong> Se le otorga ~40% del lienzo al busto frontal para fijar la textura dermatológica, poros, arrugas y gafas.</td>
+</tr>
+<tr>
+<td><strong>Inconsistencia entre vistas:</strong> El perfil sale más pequeño o más grande que el frente.</td>
+<td><strong>Escala Facial 1:1 Obligatoria:</strong> Los rostros de perfil mantienen exactamente la misma densidad de píxeles por ojo que la vista frontal.</td>
+</tr>
+<tr>
+<td><strong>Conflictos de cuello y cara:</strong> La IA confunde el cuello de baja resolución del cuerpo entero con el cuello del retrato.</td>
+<td><strong>Cuerpo Entero Frente SIN CUELLO NI CABEZA:</strong> Se corta limpiamente en la tela del cuello. La IA se concentra al 100% en la ropa, calzado y proporciones.</td>
+</tr>
+<tr>
+<td><strong>Objetos inventados:</strong> La IA suele agregar mochilas o bolsas no deseadas al ver al personaje de espalda.</td>
+<td><strong>Cuerpo Entero Espalda SIN MOCHILA:</strong> Prompt de exclusión estricta para mostrar la caída limpia de la prenda trasera.</td>
+</tr>
+<tr>
+<td><strong>Cuadrículas vacías o defectuosas:</strong> La IA crea recuadros grises vacíos al no entender diseños asimétricos.</td>
+<td><strong>Ensamblado Modular Externo:</strong> La IA genera las piezas sueltas y la App Web las compagina en una grilla perfecta.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="manual-block">
+<h4>💻 3. LA WEB APP: "METODO ZUPPELLI 4K" Y SUS HERRAMIENTAS</h4>
+<p>Para ejecutar la fase de montaje de forma instantánea sin requerir programas complejos como Photoshop o Canva, se creó la aplicación web Metodo Zuppelli 4k.</p>
+<div class="ascii-diagram">+-------------------------------------------------------+-----------------------+
+|  METODO ZUPPELLI 4K BY AI DAN SOLUTIONS.COM                | [Calibre] [Export 4K] |
++-------------------------------------------------------+-----------------------+
+|  PANEL DE CONTROL (380px) | VISTA PREVIA INTERACTIVA (16:9 / 4K)              |
+|  - Configuración Rótulo   |                                                   |
+|  - Modo Calibre 1:1       |  +-------------------+ +---------------+ +-----+ |
+|  - 5 Cards con Sliders:   |  |                   | | PERFIL DERECHO | |C.F. | |
+|    * Zoom                 |  |  BUSTO FRENTE     | +---------------+ |(916)| |
+|    * Posición X           |  |  (Ancla 1:1)      | | PERFIL IZQ.   | +-----+ |
+|    * Posición Y           |  |                   | |               | |C.E. | |
+|                           |  +-------------------+ +---------------+ +-----+ |
++---------------------------+---------------------------------------------------+</div>
+<h5 style="margin-top: 25px;">🛠️ Guía Detallada de cada Herramienta de la App Web</h5>
+<div class="manual-tool-item">
+<strong>1. Lienzo Ultra HD 4K (3840 x 2160 px)</strong>
+<p>Qué hace: Procesa una vista previa liviana en la pantalla del usuario, pero al exportar renderiza a 3840 x 2160 píxeles nativos.</p>
+<span class="advantage">✔ Ventaja: Cero pérdida de nitidez. Cada arruga, poro y textura textil se conserva intacta para producción en alta definición.</span>
+</div>
+<div class="manual-tool-item">
+<strong>2. 🎯 Calibrador de Escala 1:1 (El Pie de Rey Digital)</strong>
+<p>Es la herramienta estrella de la aplicación.</p>
+<ul class="manual-list" style="margin-top: 8px;">
+<li><strong>🔴 Altura Línea Ojos (Slider):</strong> Ajusta la posición vertical de la línea roja sobre el rostro de frente.</li>
+<li><strong>🔵 Altura Línea Mentón (Slider):</strong> Ajusta la posición vertical de la línea azul sobre la barbilla del rostro de frente.</li>
+<li><strong>📊 Distancia Facial Fija (Calculadora):</strong> Muestra los píxeles exactos de altura facial (ej. 975px).</li>
+<li><strong>↕️ MOVER CALIBRE COMPLETO (Slider Azul Destacado):</strong> Desliza ambas líneas juntas hacia arriba o hacia abajo a través de todo el lienzo manteniendo exactamente esa distancia bloqueada.</li>
+</ul>
+<span class="advantage">✔ Ventaja: Te permite desplazar la medida fija sobre los rostros de perfil para calibrar el zoom con precisión quirúrgica.</span>
+</div>
+<div class="manual-tool-item">
+<strong>3. Tarjetas de Carga Desplegables (Las 5 Piezas)</strong>
+<p>Cada una de las 5 imágenes subidas activa su propio panel de controles deslizantes:</p>
+<ul class="manual-list" style="margin-top: 8px;">
+<li><strong>🔍 Slider Zoom (0.5x a 3.0x):</strong> Amplía o reduce la foto dentro de su recuadro.</li>
+<li><strong>↔️ Slider Posición X (-800px a +800px):</strong> Mueve la foto a izquierda o derecha.</li>
+<li><strong>↕️ Slider Posición Y (-800px a +800px):</strong> Mueve la foto hacia arriba o hacia abajo.</li>
+</ul>
+<span class="advantage">✔ Ventaja: Permite encuadrar y centrar las facciones clave sin necesidad de recortar archivos previamente.</span>
+</div>
+<div class="manual-tool-item">
+<strong>4. Interacción Directa en Canvas (Drag &amp; Scroll)</strong>
+<p><strong>Arrastrar con el ratón:</strong> Puedes hacer clic en cualquier recuadro de la vista previa y arrastrar la foto directamente con la mano.</p>
+<p><strong>Rueda del ratón (Wheel Zoom):</strong> Haz scroll sobre cualquier recuadro para hacer zoom in / zoom out en tiempo real.</p>
+<span class="advantage">✔ Sincronización: Todos los movimientos con el ratón actualizan automáticamente los valores de los sliders del menú lateral.</span>
+</div>
+<div class="manual-tool-item">
+<strong>5. Configuración de Rótulo / Marca de Agua</strong>
+<p><strong>Texto de Rótulo:</strong> Campo de texto editable para escribir el nombre del personaje o ficha técnica (Ej. JUAN MANUEL ZUPPELLI — MODEL SHEET).</p>
+<p><strong>Posición:</strong> Selector para ubicar el texto en Superior Izquierda, Superior Centro, Superior Derecha o Inferior Centro.</p>
+<p><strong>Opacidad (Transparencia al 3%-35%):</strong> Deslizador que transforma el texto en un grabado/watermark sutil que nunca invade la ilustración del personaje.</p>
+</div>
+<div class="manual-tool-item">
+<strong>6. Selector de Color de Fondo</strong>
+<p>Permite cambiar el color del lienzo para empatarlo exactamente con el tono de gris del fondo de tus fotos, logrando una transición invisible entre las imágenes y los bordes.</p>
+</div>
+<div class="manual-tool-item">
+<strong>7. Exportador PNG 4K Instantáneo en Cliente</strong>
+<p>Qué hace: Genera la descarga del archivo .png en 4K procesándolo 100% en la memoria local del navegador.</p>
+<span class="advantage">✔ Ventaja: No requiere servidores, no consume datos de internet para renderizar y la exportación tarda menos de 2 segundos.</span>
+</div>
+</div>
+<div class="manual-block">
+<h4>📊 4. CUADRO COMPARATIVO: MÉTODO ZUPPELLI 4K VS. HOJA ESTÁNDAR</h4>
+<div class="manual-table-wrapper">
+<table class="manual-table">
+<thead>
+<tr>
+<th>Característica</th>
+<th>Hoja Estándar Generada por IA</th>
+<th>Hoja con Método Zuppelli 4K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Resolución del Rostro</strong></td>
+<td>Baja / Borrosa (Apenas ~300px)</td>
+<td>Ultra HD 4K (Más de 1800px en el rostro principal)</td>
+</tr>
+<tr>
+<td><strong>Escala de Perfiles</strong></td>
+<td>Inconsistente (Zoom aleatorio)</td>
+<td>Exacta 1:1 (Calibrada con Pie de Rey Digital)</td>
+</tr>
+<tr>
+<td><strong>Textura de Piel</strong></td>
+<td>Plástica / Cera / Filtro 3D</td>
+<td>Textura dermatológica real con poros y arrugas</td>
+</tr>
+<tr>
+<td><strong>Cuerpo Entero Frente</strong></td>
+<td>Cabeza pequeña y deforme</td>
+<td>Sin cabeza ni cuello (Enfoque puro en ropa/botas)</td>
+</tr>
+<tr>
+<td><strong>Cuerpo Entero Espalda</strong></td>
+<td>Añade mochilas o bolsas falsas</td>
+<td>Sin mochila (Limpia y fiel a la referencia)</td>
+</tr>
+<tr>
+<td><strong>Grilla / Formato</strong></td>
+<td>Cuadros grises vacíos / Inestable</td>
+<td>Grilla 16:9 asimétrica perfecta sin errores</td>
+</tr>
+<tr>
+<td><strong>Proporción Cuerpos</strong></td>
+<td>Cuadrada / Lejana</td>
+<td>Ratio 9:16 vertical estilizado de pies a cabeza</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="manual-block">
+<h4>🎯 5. CASOS DE USO PROFESIONALES</h4>
+<p>Este workflow y su aplicación web están diseñados para alimentar pipelines profesionales en:</p>
+<ul class="manual-list">
+<li><strong>Entrenamiento de LoRAs y ControlNet (IA):</strong> Aporta imágenes impecables y limpias en múltiples ángulos con resolución ultra alta para entrenar modelos de IA sin sesgos ni caras deformadas.</li>
+<li><strong>Esculpido y Modelado 3D (ZBrush / Blender / Maya):</strong> Permite a los artistas 3D usar las vistas frontal y lateral con la misma escala exacta como "image planes" (planos de referencia para modelar).</li>
+<li><strong>Producción de Videojuegos y Animación:</strong> Ficha técnica estandarizada para departamentos de arte, vestuario y riggers.</li>
+<li><strong>Catálogos de Personajes y Cómics:</strong> Permite mantener la coherencia visual de un personaje a lo largo de capítulos o entregas.</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- PIE DE PÁGINA Y COMUNIDAD -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<!-- LÓGICA DE JAVASCRIPT -->
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

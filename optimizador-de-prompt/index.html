@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+   EL OPTIMIZADOR DE PROMPTs
+  </title>
+<script src="https://cdn.tailwindcss.com">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white">
+<!-- ========================================== -->
+<!-- BARRA SUPERIOR / HEADER                    -->
+<!-- ========================================== -->
+<header class="border-b border-slate-800/80 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+<div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-teal-400 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-black text-white text-base">
+      ⚡
+     </div>
+<div>
+<h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-indigo-300">
+       EL OPTIMIZADOR DE PROMPTs
+      </h1>
+<p class="text-[11px] text-indigo-400 font-semibold tracking-wider uppercase" id="ui_subtitle">
+       Gemini Omni Flash &amp; AI Studio
+      </p>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-3">
+<div class="flex items-center gap-1.5 bg-slate-950 border border-slate-700/80 rounded-xl px-2.5 py-1.5 shadow-inner">
+<span class="text-xs">
+       🌐
+      </span>
+<select class="bg-transparent text-xs font-semibold text-slate-200 focus:outline-none cursor-pointer" id="langSelect" onchange="changeLanguage(this.value)">
+<option class="bg-slate-900 text-slate-100" selected="" value="es">
+        Español
+       </option>
+<option class="bg-slate-900 text-slate-100" value="pt">
+        Português
+       </option>
+<option class="bg-slate-900 text-slate-100" value="en">
+        English
+       </option>
+</select>
+</div>
+<button class="text-xs px-3 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-300 transition" id="ui_btn_reset" onclick="resetAll()">
+      Restablecer
+     </button>
+</div>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- APLICACIÓN WEB INTERACTIVA                 -->
+<!-- ========================================== -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-8">
+<!-- Selector de Modo: Video vs Imagen -->
+<div class="mb-6 bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+<div class="flex items-center gap-3">
+<span class="text-xs sm:text-sm font-bold text-slate-300" id="ui_target_label">
+      ¿Qué deseas crear?
+     </span>
+<span class="hidden sm:inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700" id="ui_target_badge">
+      Adapta automáticamente las categorías
+     </span>
+</div>
+<div class="grid grid-cols-2 gap-2 w-full sm:w-auto">
+<button class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition duration-150 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30" id="btn_mode_video" onclick="setMediaType('video')" type="button">
+<span>
+       🎬
+      </span>
+<span id="ui_mode_video">
+       Video (Omni Flash)
+      </span>
+</button>
+<button class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition duration-150 bg-slate-950 border border-slate-800 text-slate-400 hover:text-white" id="btn_mode_image" onclick="setMediaType('image')" type="button">
+<span>
+       📸
+      </span>
+<span id="ui_mode_image">
+       Imagen Estática
+      </span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+<!-- COLUMNA IZQUIERDA: Entradas y Categorías (7 cols) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Acción Principal -->
+<div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl group focus-within:border-indigo-500/70 transition">
+<div class="flex items-center justify-between mb-2">
+<label class="text-xs sm:text-sm font-bold text-white flex items-center gap-2" for="mainAction" id="ui_action_label">
+<span class="flex h-2 w-2 rounded-full bg-indigo-400 animate-pulse">
+</span>
+        Acción principal / ¿Qué sucede en la escena?
+       </label>
+<span class="text-[10px] font-semibold text-rose-400 uppercase tracking-wide" id="ui_required">
+        Obligatorio
+       </span>
+</div>
+<textarea class="w-full bg-slate-950/90 border border-slate-800 rounded-xl p-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition resize-none" id="mainAction" placeholder="Describe aquí lo que pasa en tu video o imagen..." rows="3"></textarea>
+<p class="text-[11px] text-slate-500 mt-2" id="ui_action_hint">
+       Escribe en tu idioma habitual. El optimizador ensamblará el prompt cinematográfico en inglés para máxima calidad del motor de IA.
+      </p>
+</div>
+<!-- Encabezado Categorías -->
+<div class="flex items-center justify-between">
+<h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-400" id="ui_categories_title">
+       Categorías Cinemáticas
+      </h2>
+<span class="text-xs text-indigo-400 font-medium" id="ui_categories_subtitle">
+       Activa lo que desees incluir
+      </span>
+</div>
+<!-- Grid de las 9 Categorías -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="categoriesWrapper">
+<!-- Cat 1: Scene & Shots -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat1">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat1" onchange="toggleBox('cat1')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          1
+         </span>
+<span id="label_cat1">
+          🎬 Scene &amp; Shots
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat1">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat1">
+</select>
+</div>
+</div>
+<!-- Cat 2: Camera Movement (Solo Video) -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat2">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat2" onchange="toggleBox('cat2')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          2
+         </span>
+<span id="label_cat2">
+          📹 Movimiento de Cámara
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat2">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat2">
+</select>
+</div>
+</div>
+<!-- Cat 3: Lens & Visual Look -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat3">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat3" onchange="toggleBox('cat3')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          3
+         </span>
+<span id="label_cat3">
+          🔘 Lente y Óptica
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat3">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat3">
+</select>
+</div>
+</div>
+<!-- Cat 4: Lighting & Mood -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat4">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat4" onchange="toggleBox('cat4')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          4
+         </span>
+<span id="label_cat4">
+          ☀️ Iluminación y Atmósfera
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat4">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat4">
+</select>
+</div>
+</div>
+<!-- Cat 5: Composition & Framing -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat5">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat5" onchange="toggleBox('cat5')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          5
+         </span>
+<span id="label_cat5">
+          ⊞ Composición y Encuadre
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat5">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat5">
+</select>
+</div>
+</div>
+<!-- Cat 6: Location & Environment -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat6">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat6" onchange="toggleBox('cat6')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          6
+         </span>
+<span id="label_cat6">
+          🏔️ Ubicación y Entorno
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat6">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat6">
+</select>
+</div>
+</div>
+<!-- Cat 7: People & Action -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat7">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat7" onchange="toggleBox('cat7')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          7
+         </span>
+<span id="label_cat7">
+          👥 Sujetos y Acción
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat7">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat7">
+</select>
+</div>
+</div>
+<!-- Cat 8: Visual Style & Genre -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition" id="card_cat8">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat8" onchange="toggleBox('cat8')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          8
+         </span>
+<span id="label_cat8">
+          🎨 Estilo Visual y Género
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat8">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat8">
+</select>
+</div>
+</div>
+<!-- Cat 9: Advanced Effects -->
+<div class="cat-card bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 transition md:col-span-2" id="card_cat9">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded accent-indigo-600 bg-slate-950 border-slate-700" id="check_cat9" onchange="toggleBox('cat9')" type="checkbox"/>
+<span class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-blue-600/30 border border-blue-500/40 text-[10px] text-blue-300">
+          9
+         </span>
+<span id="label_cat9">
+          🪄 Efectos Avanzados
+         </span>
+</span>
+</label>
+<div class="hidden mt-3 pt-2.5 border-t border-slate-800" id="body_cat9">
+<select class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs p-2.5 text-slate-200 focus:ring-1 focus:ring-indigo-500" id="val_cat9">
+</select>
+</div>
+</div>
+</div>
+<!-- Módulo de Audio Nativo (Exclusivo Video) -->
+<div class="bg-indigo-950/25 border border-indigo-900/50 rounded-xl p-4 flex items-center justify-between gap-3" id="audioWrapper">
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded accent-indigo-500 bg-slate-950 border-slate-700" id="check_audio" type="checkbox"/>
+<div>
+<span class="text-xs font-bold text-indigo-200 block" id="ui_audio_title">
+         🎧 Capa de Audio Nativo Sincronizado
+        </span>
+<span class="text-[11px] text-slate-400" id="ui_audio_desc">
+         Genera directivas de audio foley y ambiente sincronizado para Omni Flash
+        </span>
+</div>
+</label>
+</div>
+<!-- Botón Generar -->
+<button class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 active:scale-[0.99] font-bold text-xs sm:text-sm tracking-wide text-white shadow-xl shadow-indigo-900/40 transition" id="ui_btn_generate" onclick="generatePrompt()">
+      ⚡ Generar Prompt Optimizado
+     </button>
+</div>
+<!-- COLUMNA DERECHA: Salida del Prompt (5 cols) -->
+<div class="lg:col-span-5">
+<div class="sticky top-24 bg-slate-900/95 border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-col min-h-[460px]">
+<div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse">
+</span>
+<h3 class="text-xs sm:text-sm font-bold text-white" id="ui_output_title">
+         Prompt Resultante (Inglés IA)
+        </h3>
+</div>
+<button class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition active:scale-95 shadow" id="copyBtn" onclick="copyPrompt()">
+<span id="copyIcon">
+         📋
+        </span>
+<span id="copyLabel">
+         Copiar
+        </span>
+</button>
+</div>
+<div class="flex-1 bg-slate-950 border border-slate-800/90 rounded-xl p-4 text-xs sm:text-sm text-slate-200 font-mono leading-relaxed overflow-y-auto max-h-[380px] custom-scrollbar selection:bg-indigo-600" id="outputBox">
+<span class="text-slate-500 italic font-sans" id="ui_output_placeholder">
+        Describe la escena a la izquierda, selecciona tus parámetros y presiona "Generar Prompt".
+       </span>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 space-y-1">
+<p class="font-semibold text-slate-300" id="ui_engine_note">
+        🎯 Motor de salida:
+       </p>
+<p class="text-slate-500" id="ui_engine_desc">
+        Optimizado con sintaxis en inglés para máxima obediencia y coherencia en Gemini Omni Flash, Veo e Imagen 3.
+       </p>
+</div>
+</div>
+</div>
+</div>
+<!-- ================================================================= -->
+<!-- SECCIÓN INFERIOR: MANUAL DE INSTRUCCIONES Y GUÍA DE POSIBILIDADES  -->
+<!-- (No influye en la app interactiva; se traduce automáticamente)    -->
+<!-- ================================================================= -->
+<section class="mt-16 pt-12 border-t border-slate-800/80">
+<!-- Título de la Sección del Manual -->
+<div class="mb-10 text-center max-w-3xl mx-auto">
+<span class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-400 text-xs font-bold tracking-widest uppercase inline-block mb-3">
+      Documentation &amp; User Guide
+     </span>
+<h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight" id="manual_header_title">
+      Manual Completo de Instrucciones y Arquitectura
+     </h2>
+<p class="text-xs sm:text-sm text-slate-400 mt-2" id="manual_header_subtitle">
+      Guía exhaustiva para dominar la dirección cinematográfica con inteligencia artificial multimodal.
+     </p>
+</div>
+<!-- Contenedor Dinámico del Manual -->
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl" id="manualDynamicContent">
+<!-- El contenido se inyecta dinámicamente con las traducciones -->
+</div>
+</section>
+</main>
+<!-- ========================================== -->
+<!-- PIE DE PÁGINA / FOOTER                     -->
+<!-- ========================================== -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<script src="app.js"></script>
+<!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

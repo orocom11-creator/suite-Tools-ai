@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STIKERS CON IA - Prompt en AI DAN SOLUTIONS</title>
+<!-- Meta tags para vista previa al compartir (Open Graph) -->
+<meta content="STIKERS CON IA - Prompt en AI DAN SOLUTIONS" property="og:title"/>
+<meta content="Aprende a usar la Inteligencia Artificial. Copia este prompt optimizado en un solo clic." property="og:description"/>
+<meta content="assets/ai-dan-logo.jpg" property="og:image"/>
+<meta content="#" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<!-- Script de Google AdSense -->
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<header>
+<div class="header-content">
+<a class="back-btn" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al inicio
+            </a>
+</div>
+</header>
+<div class="container">
+<article>
+<!-- Logotipo centrado sobre el título del post -->
+<div class="post-logo-container">
+<img alt="Logo AI DAN SOLUTIONS" class="post-logo" src="assets/ai-dan-logo.jpg"/>
+</div>
+<!-- Título del Post -->
+<h1>STIKERS CON IA</h1>
+<!-- Imagen Destacada del Post -->
+<div class="post-image-container">
+<img alt="STIKERS CON IA" class="post-image" src="assets/stikers-4982d737.jpg"/>
+</div>
+<!-- Caja de Manual Rápido de Uso -->
+<div class="manual-card">
+<div class="manual-header">
+<div class="manual-icon-header">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="22"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+</div>
+<div>
+<h2 class="manual-title">Manual Rápido de Uso: Creador de Meme-Stickers 3x3</h2>
+<p class="manual-subtitle">Guía exprés para generar láminas de stickers personalizados con IA a partir de una foto.</p>
+</div>
+</div>
+<!-- Bloque 1: Paso a Paso -->
+<div class="manual-block">
+<h3 class="manual-block-title">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        1. Paso a Paso
+                    </h3>
+<ul class="manual-list">
+<li class="manual-list-item"><strong>Sube tu foto:</strong> Selecciona una imagen nítida, de frente, con buena luz y tus rasgos visibles (peinado, gafas, barba).</li>
+<li class="manual-list-item">
+<strong>Elige el estilo (Opcional):</strong> El prompt viene en <em>3D Render</em> por defecto. Si quieres otro, cambia el texto entre corchetes de la primera línea por una de estas opciones:
+                            <div class="style-tags-group">
+<span class="style-pill">[ESTILO ELEGIDO: Cómic / Pop Art]</span>
+<span class="style-pill">[ESTILO ELEGIDO: Clay / Plastilina]</span>
+<span class="style-pill">[ESTILO ELEGIDO: Doodle / Sketch]</span>
+<span class="style-pill">[ESTILO ELEGIDO: Chibi / Anime]</span>
+</div>
+</li>
+<li class="manual-list-item"><strong>Pega y envía:</strong> Pega el prompt junto con la foto y envía el mensaje.</li>
+</ul>
+</div>
+<!-- Bloque 2: Personalización -->
+<div class="manual-block">
+<h3 class="manual-block-title">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        2. Personalización Avanzada (Opcional)
+                    </h3>
+<p style="font-size: 0.92rem; color: #334155; margin: 0 0 0.35rem 0;">
+                        Para forzar una temática concreta sin tocar la estructura, añade una sola línea al final del prompt:
+                    </p>
+<div class="theme-highlight-box">
+                        «Temática para los 9 stickers: [Mi trabajo de programador / El gimnasio / Vida de oficina / Fin de semana].»
+                    </div>
+</div>
+</div>
+<!-- Contenedor del Prompt -->
+<div class="prompt-container">
+<div class="prompt-header">
+<span class="prompt-label">Prompt para copiar</span>
+<button class="copy-btn" id="btnCopiar" onclick="copiarAlPortapapeles()">
+<svg fill="none" height="14" id="copyIcon" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" ry="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+<span id="btnText">Copiar</span>
+</button>
+</div>
+<pre class="prompt-body" id="textoPrompt">[ESTILO ELEGIDO: 3D Render (Pixar/Avatar)] <!-- OPCIONES DE ESTILOS DISPONIBLES (Cambia el valor de arriba si deseas otro):
+1. 3D Render (Pixar/Avatar) -> [POR DEFECTO] Figuras 3D pulidas, suaves y expresivas con cabeza grande.
+2. Cómic / Pop Art -> Estilo historieta gráfica, líneas negras gruesas entintadas y colores vibrantes.
+3. Clay / Plastilina -> Estilo claymation/stop-motion, figuras modeladas en plastilina suave y artesanal.
+4. Doodle / Sketch -> Dibujo a mano alzada con líneas de tinta sueltas y textura de libreta/boceto.
+5. Chibi / Anime -> Estilo japonés muy tierno, ojos ultra expresivos y líneas limpias.
+-->
+
+Usa la foto adjunta como referencia absoluta para el rostro y rasgos físicos (mantén con precisión mi cara, peinado, barba, tono de piel y gafas si tengo), adaptándolos strictly al [ESTILO ELEGIDO] indicado arriba.
+
+Actúa como director creativo de memes y diseña una lámina en cuadrícula 3x3 con 9 STICKERS DIFERENTES, individuales y súper expresivos.
+
+REGLAS DE DISEÑO:
+- Formato cuadrícula 3x3 limpia sobre fondo blanco plano, con suficiente separación entre stickers.
+- Cada sticker debe tener un contorno blanco grueso troquelado (white die-cut sticker outline) y sutil sombra para despegarlo del fondo.
+- Cada sticker debe incluir un bocadillo de texto (speech bubble) estilo cómic con una frase corta, graciosa e irónica en español.
+
+INSTRUCCIONES PARA LAS 9 SITUACIONES (¡Sé creativo y no repitas!):
+Inventa 9 situaciones cotidianas, absurdas, irónicas o de humor tipo meme. Cada viñeta debe ser única, con gestos faciales exagerados y micro-objetos o accesorios divertidos (tazas de café, laptops echando humo, dinero, fuego, almohadas, etc.).
+
+Combina emociones variadas:
+- Estrés cómico o crisis existencial.
+- Orgullo o ego desmedido por logros diminutos.
+- Batería social al 0% o pereza extrema.
+- Sarcasmo, alegría desbordada o sospecha.
+
+¡Genera los 9 stickers con personalidad única!</pre>
+</div>
+<!-- Bloque de Publicidad AdSense -->
+</article>
+<!-- Botón de unirse a la comunidad -->
+<div class="community-btn-container">
+<a class="pulsate-btn" href="#" target="_blank">
+<svg fill="currentColor" height="18" style="margin-right: 8px;" viewbox="0 0 24 24" width="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+EXPLORA NUESTRAS HERRAMIENTAS
+</a>
+</div>
+</div>
+<!-- Pie de página -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<!-- Script de copiado -->
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

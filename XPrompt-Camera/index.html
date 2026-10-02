@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<!-- [PROTECCIÓN DE DOMINIO ELIMINADA PARA USO LOCAL] -->
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>X-Prompt Camera by AI DAN SOLUTIONS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- LIBRERÍAS THREE.JS PARA EL MOTOR 3D -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body class="flex flex-col antialiased">
+<!-- BARRA SUPERIOR -->
+<header class="h-14 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 flex flex-wrap justify-between items-center gap-3 shrink-0 z-50 sticky top-0">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-indigo-500/20">
+        🎬
+      </div>
+<div>
+<h1 class="text-sm font-bold text-white flex items-center gap-2">
+          X-Prompt Camera by AI DAN SOLUTIONS <span class="text-[10px] bg-indigo-950 text-indigo-400 border border-indigo-700/50 px-1.5 py-0.5 rounded font-mono">v7.5 Clean &amp; 16 ASC</span>
+</h1>
+<p class="text-[10px] text-slate-400">Estudio cinemático diegético puro sin artefactos de rodaje ni cámaras visibles</p>
+</div>
+</div>
+<!-- Controles del Simulador -->
+<div class="flex items-center gap-2 bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">
+<button class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-lg transition flex items-center gap-1 shadow" id="playBtn" onclick="togglePlay()">
+<span id="playIcon">▶</span> <span id="playText">Simular</span>
+</button>
+<button class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700" onclick="stopPlay()">
+        ⏹
+      </button>
+<div class="font-mono text-xs font-bold text-cyan-400 w-20 text-center">
+<span id="timecodeDisplay">00:00.0</span>s
+      </div>
+</div>
+<!-- Acciones Principales -->
+<div class="flex items-center gap-2">
+<button class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg transition shadow flex items-center gap-1" onclick="agregarLuz()">
+        + 💡 Luz
+      </button>
+<button class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg transition shadow flex items-center gap-1" onclick="agregarPersonaje()">
+        + 👤 Actor
+      </button>
+<button class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg transition shadow flex items-center gap-1" onclick="agregarCamaraFisica()">
+        + 🎥 Cámara
+      </button>
+<button class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1.5 rounded-lg border border-slate-700" onclick="reiniciarEscena()">
+        Reset
+      </button>
+</div>
+</header>
+<!-- CONTENEDOR PRINCIPAL DE LA APP WEB -->
+<div class="w-full flex flex-col lg:flex-row overflow-hidden h-[calc(100vh-3.5rem)] min-h-[620px] shrink-0 border-b border-slate-800" id="appContainer">
+<!-- PANEL IZQUIERDO -->
+<div class="w-full lg:w-[380px] xl:w-[420px] h-full bg-slate-900/80 border-r border-slate-800 p-3.5 flex flex-col gap-3 overflow-y-auto shrink-0 select-none">
+<!-- 1. Escenario y Audio Diegético -->
+<div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-indigo-400">1. Escenario &amp; Audio Diegético</span>
+<span class="text-[10px] text-cyan-400 bg-cyan-950/50 border border-cyan-800/40 px-1.5 py-0.5 rounded font-mono" id="scaleBadge">1m ≈ 50px</span>
+</div>
+<div>
+<label class="text-[10px] text-slate-400 block mb-1">Descripción del Set / Decorado</label>
+<textarea class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none leading-tight" id="sceneEnv" placeholder="Describe aquí el escenario (ej. habitación abandonada con piso de madera, persianas venecianas...)" rows="2"></textarea>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div>
+<label class="text-[9px] text-slate-400 block">Ancho W (m)</label>
+<input class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white font-mono" id="stageWidthM" max="50" min="2" onchange="dibujarEscena()" placeholder="8" type="number"/>
+</div>
+<div>
+<label class="text-[9px] text-slate-400 block">Largo L (m)</label>
+<input class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white font-mono" id="stageLengthM" max="50" min="2" onchange="dibujarEscena()" placeholder="6" type="number"/>
+</div>
+<div>
+<label class="text-[9px] text-slate-400 block">Altura H (m)</label>
+<input class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white font-mono" id="stageHeightM" max="20" min="2" onchange="dibujarEscena()" placeholder="3.5" type="number"/>
+</div>
+</div>
+<div>
+<label class="text-[10px] text-emerald-400 block mb-1 font-semibold">Capa de Foley y Ruido de Sala (Saturación Diegética)</label>
+<input class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-200" id="foleyEnv" placeholder="Ej. Quiet room tone, subtle wind through the window, faint footsteps" type="text"/>
+</div>
+<div class="pt-1 border-t border-slate-800 flex items-center justify-between">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-indigo-500" id="noMusicCheck" onchange="compilarPromptOmniFlash()" type="checkbox"/>
+<span class="text-xs text-slate-200 font-semibold">🔇 Protocolo "0 background music"</span>
+</label>
+<span class="text-[9px] text-amber-400">Anti-paradoja activa</span>
+</div>
+</div>
+<!-- 2. Iluminación (Lighting Rig con Intensidad y Dirección) -->
+<div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-amber-400">2. Iluminación (Atmósfera &amp; Rigs)</span>
+<span class="text-[10px] bg-amber-950 text-amber-400 border border-amber-800/40 px-1.5 py-0.5 rounded font-mono" id="lightCountTag">0 Luces</span>
+</div>
+<div>
+<div class="flex justify-between items-center mb-0.5">
+<label class="text-[9px] text-slate-400 block">Estilo Global de Iluminación</label>
+<button class="text-[9px] text-amber-400 hover:underline" onclick="aplicarEstiloGlobalATodas()">Aplicar a todas</button>
+</div>
+<select class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" id="lightStyle" onchange="alCambiarEstiloGlobal()">
+<option selected="" value="tungsten_amber">Ámbar / Naranja de Tungsteno (3200K Nostalgia/Intimidad)</option>
+<option value="chiaroscuro">Chiaroscuro (Alto contraste / Sombras profundas)</option>
+<option value="golden">Golden Hour (3200K Luz Solar Rasante)</option>
+<option value="cyberpunk">Cyberpunk Neon (Cian / Magenta split)</option>
+<option value="soft">Soft Daylight (5600K Luz Natural Difusa)</option>
+<option value="teal_orange_cyan">Cian (Teal and Orange - Sombras azuladas)</option>
+<option value="teal_orange_warm">Naranja (Teal and Orange - Cálido saturado)</option>
+<option value="industrial_mint">Verde Industrial / Menta (Incomodidad psicológica)</option>
+<option value="cobalt_blue">Azul Cobalto / Cian (Luna / Suspenso / Frío)</option>
+<option value="neon_lime">Verde Neón / Lima (Cyberpunk / Tóxico)</option>
+<option value="pastel_magenta">Rosa / Magenta Pastel (Romance / Fantasía)</option>
+<option value="crimson_red">Rojo Carmesí (Peligro inminente / Thriller)</option>
+</select>
+</div>
+<div class="space-y-2 pt-1" id="lightsList"></div>
+</div>
+<!-- 3. Actores -->
+<div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-emerald-400">3. Personajes / Actores</span>
+<span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800/40 px-1.5 py-0.5 rounded font-mono" id="actorCountTag">0 Actores</span>
+</div>
+<div class="space-y-1.5" id="actorsList"></div>
+</div>
+<!-- 4. SECUENCIA TEMPORAL & TOMAS (Shots 10s con Directivas de Intercom) -->
+<div class="bg-slate-950/80 p-3 rounded-xl border border-cyan-900/60 space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1">
+<span>⏱️</span> 4. Secuencia &amp; Tomas (10s)
+          </span>
+<div class="flex items-center gap-2">
+<button class="text-[10px] bg-cyan-900/80 hover:bg-cyan-800 text-cyan-200 px-2 py-0.5 rounded font-bold border border-cyan-700/50" onclick="agregarToma()">+ Toma</button>
+<button class="text-[10px] text-indigo-400 hover:underline" onclick="repartirTiempos()">Repartir</button>
+</div>
+</div>
+<div class="relative w-full h-5 bg-slate-900 rounded overflow-hidden flex border border-slate-800">
+<div class="w-full h-full flex" id="timelineSegments"></div>
+<div class="absolute top-0 bottom-0 w-1 bg-white shadow-lg pointer-events-none transition-all duration-75" id="timelinePlayhead" style="left: 0%;"></div>
+</div>
+<div class="space-y-2 pt-1" id="shotsList"></div>
+</div>
+<!-- 5. CÁMARAS DEL PLATÓ (RIGS FÍSICOS) -->
+<div class="space-y-2 pb-6">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1">
+<span>🎥</span> 5. Cámaras del Plató (Rigs)
+          </span>
+<span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono" id="camTotalBadge">0 Rigs</span>
+</div>
+<div class="space-y-2.5" id="cameraRigsList"></div>
+</div>
+</div>
+<!-- PANEL CENTRAL: CANVAS 2D Y VIEWPORT 3D -->
+<div class="flex-1 h-full bg-slate-950 p-3 flex flex-col overflow-hidden relative viewport-container select-none">
+<div class="flex justify-between items-center mb-2 bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800 text-xs shrink-0">
+<!-- SELECTOR DE VISTA DUAL 2D / 3D CON MODO POV -->
+<div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
+<button class="px-2.5 py-1 rounded font-bold text-[11px] bg-indigo-600 text-white shadow transition flex items-center gap-1" id="btnVista2D" onclick="cambiarModoVista('2d')">
+            🗺️ Plano 2D
+          </button>
+<button class="px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white transition flex items-center gap-1" id="btnVista3D" onclick="cambiarModoVista('3d')">
+            🧊 Estudio 3D
+          </button>
+</div>
+<!-- MODO 3D: CÁMARA ORBITAL VS MONITOR POV DIRECTOR -->
+<div class="hidden flex items-center gap-1.5 bg-slate-950 px-2 py-1 rounded-lg border border-indigo-900/50" id="controlsPOV3D">
+<span class="text-[10px] text-slate-400">Visor 3D:</span>
+<button class="text-[10px] px-2 py-0.5 rounded font-bold bg-indigo-600 text-white" id="btn3DOrbit" onclick="setModoPOV(false)">Plató (Set)</button>
+<button class="text-[10px] px-2 py-0.5 rounded font-bold text-slate-400 hover:text-white" id="btn3DPOV" onclick="setModoPOV(true)">Lente POV (Cero Equipos)</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="bg-slate-950 text-cyan-400 border border-slate-800 px-2.5 py-0.5 rounded font-mono text-[10px]" id="activeCamIndicator">Sin tomas activas</span>
+</div>
+</div>
+<!-- Contenedor del Lienzo y 3D -->
+<div class="relative flex-1 w-full h-full bg-[#040810] border-2 border-slate-800 rounded-xl overflow-hidden shadow-2xl flex items-center justify-center" id="canvasBox">
+<!-- Canvas 2D -->
+<canvas class="w-full h-full block" id="stageCanvas"></canvas>
+<!-- Viewport 3D WebGL -->
+<div class="w-full h-full absolute inset-0 hidden" id="threeContainer"></div>
+<!-- BARRA FLOTANTE DE ZOOM 2D -->
+<div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur border border-slate-700 px-3 py-1.5 rounded-full shadow-2xl flex items-center gap-3 z-30" id="zoomBar2D">
+<button class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center text-xs transition border border-slate-600" onclick="ajustarZoom(-0.15)">
+            −
+          </button>
+<div class="flex items-center gap-1.5">
+<input class="w-24 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500" id="zoomSlider" max="4.0" min="0.2" oninput="cambiarZoomSlider(this.value)" step="0.05" type="range" value="1.0"/>
+<span class="text-[11px] font-mono font-bold text-cyan-300 w-10 text-center" id="zoomLabel">100%</span>
+</div>
+<button class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center text-xs transition border border-slate-600" onclick="ajustarZoom(0.15)">
+            +
+          </button>
+<div class="w-px h-4 bg-slate-700"></div>
+<button class="text-[10px] bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 px-2 py-0.5 rounded-md font-medium transition" onclick="resetearZoom()">
+            Ajustar
+          </button>
+</div>
+<!-- GUÍA DE CONTROL 3D -->
+<div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur border border-slate-700 px-4 py-1.5 rounded-full shadow-2xl text-[10px] text-slate-300 hidden z-30 flex items-center gap-3" id="guide3D">
+<span>🖱️ <b>Click Izq:</b> Rotar 360°</span>
+<span>•</span>
+<span>🔍 <b>Rueda:</b> Zoom</span>
+<span>•</span>
+<span>🖐️ <b>Click Der:</b> Desplazar</span>
+</div>
+</div>
+</div>
+<!-- PANEL DERECHO: PROMPT COMPILADO -->
+<div class="w-full lg:w-[400px] xl:w-[430px] h-full bg-slate-900/90 border-l border-slate-800 p-4 flex flex-col gap-3 overflow-hidden shrink-0 select-none">
+<div class="flex justify-between items-center shrink-0">
+<span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Prompt X-Prompt Camera v7.5
+        </span>
+<button class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3 py-1 rounded-lg transition shadow flex items-center gap-1" onclick="copiarPrompt()">
+<span>📋</span> Copiar
+        </button>
+</div>
+<p class="text-[11px] text-slate-400 leading-tight shrink-0">
+        Sintaxis cinemática diegética pura: iluminación fotométrica vectorial, ópticas precisas y directivas de cámara sin mención a trípodes o rodaje.
+      </p>
+<div class="flex-1 w-full flex flex-col min-h-0">
+<textarea class="w-full flex-1 h-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] font-mono text-emerald-400 resize-none focus:outline-none leading-relaxed select-all shadow-inner" id="promptOutput" readonly=""></textarea>
+</div>
+</div>
+</div>
+<!-- PIE DE PÁGINA (BLOQUE INFERIOR CON TUTORIAL, DESCRIPCIÓN, ADSENSE Y COMUNIDAD) -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<script>
+    // --- ESTILOS DE ILUMINACIÓN Y ESPECIFICACIÓN FOTOMÉTRICA ---
+    const ESTILOS_LUZ = {
+      tungsten_amber: {
+        nombre: "Ámbar / Naranja de Tungsteno (3200K)",
+        color: "#d97706",
+        descEn: "warm 3200K tungsten ambient illumination with deep shadow falloff and gentle golden dust highlights"
+      },
+      chiaroscuro: {
+        nombre: "Chiaroscuro (Alto contraste)",
+        color: "#fbbf24",
+        descEn: "high-contrast chiaroscuro lighting ratio, deep dramatic shadows, crisp silhouette falloff"
+      },
+      golden: {
+        nombre: "Golden Hour (3200K Cálido)",
+        color: "#f59e0b",
+        descEn: "warm golden hour sunlight, low-angle amber illumination, soft atmospheric volumetric dust glow"
+      },
+      cyberpunk: {
+        nombre: "Cyberpunk Neon (Cian/Magenta)",
+        color: "#06b6d4",
+        descEn: "vibrant cyan neon ambient illumination paired with contrasting magenta rim backlight"
+      },
+      soft: {
+        nombre: "Soft Daylight (5600K Natural)",
+        color: "#e2e8f0",
+        descEn: "5600K neutral daylight balanced illumination, soft window diffusion, low-contrast natural film stock aesthetic"
+      },
+      teal_orange_cyan: {
+        nombre: "Cian (Teal & Orange)",
+        color: "#06b6d4",
+        descEn: "cool cyan teal key illumination creating rich complementary skin tone separation"
+      },
+      teal_orange_warm: {
+        nombre: "Naranja (Teal & Orange)",
+        color: "#f97316",
+        descEn: "warm saturated orange key light with complementary teal rim shadows"
+      },
+      industrial_mint: {
+        nombre: "Verde Industrial / Menta",
+        color: "#10b981",
+        descEn: "institutional industrial mint green atmospheric illumination, clinical tension"
+      },
+      cobalt_blue: {
+        nombre: "Azul Cobalto / Cian",
+        color: "#2563eb",
+        descEn: "deep cobalt blue moonlight illumination, emotional suspense and calm solitude"
+      },
+      neon_lime: {
+        nombre: "Verde Neón / Lima",
+        color: "#84cc16",
+        descEn: "toxic vibrant neon lime green lighting cutting through dark nightscapes"
+      },
+      pastel_magenta: {
+        nombre: "Rosa / Magenta Pastel",
+        color: "#f472b6",
+        descEn: "stylized pastel pink and soft magenta romantic glow"
+      },
+      crimson_red: {
+        nombre: "Rojo Carmesí",
+        color: "#dc2626",
+        descEn: "intense crimson red ambient illumination, raw psychological thriller tension"
+      }
+    };
+
+    const ROLES_LUZ = {
+      key: { nombre: "Key Light (Luz Principal)", en: "Key Light" },
+      fill: { nombre: "Fill Light (Relleno)", en: "Fill Light" },
+      rim: { nombre: "Rim / Backlight (Contraluz / Silueta)", en: "Rim Backlight" },
+      practical: { nombre: "Practical / Accent (Acento)", en: "Accent Practical Light" }
+    };
+
+    // --- ÓPTICAS ---
+    const OPTICAS = [
+      { nombre: "24mm Gran Angular (84° FOV)", fov: 84, descEn: "24mm wide cine prime rendering, natural wide field of view, crisp architectural geometry" },
+      { nombre: "35mm Anamórfico 2.0X (63° FOV)", fov: 63, descEn: "35mm anamorphic 2.0x squeeze aesthetic, vertical oval bokeh, subtle horizontal streak" },
+      { nombre: "50mm Master Prime (46° FOV)", fov: 46, descEn: "50mm standard prime framing, natural human eye optical perspective, true-to-life depth" },
+      { nombre: "85mm Telefoto Retrato (28° FOV)", fov: 28, descEn: "85mm portrait telephoto rendering, razor-sharp subject focus with creamy out-of-focus background" }
+    ];
+
+    // --- ALTURAS Z (CON GROUND-LEVEL 0.15M IMPLEMENTADO) ---
+    const ALTURAS_Z = [
+      { nombre: "Ground-Level Worm's-Eye (0.15m)", z: 0.15, termEn: "extreme low-angle ground-level worm's-eye perspective skimming the floor surface looking upwards" },
+      { nombre: "Low-Angle Hero (0.7m)", z: 0.7, termEn: "low-angle framing looking slightly upwards" },
+      { nombre: "Eye-Level Standard (1.6m)", z: 1.6, termEn: "eye-level standard framing" },
+      { nombre: "Elevated High-Angle (2.4m)", z: 2.4, termEn: "elevated high-angle framing looking downwards" }
+    ];
+
+    // --- TAXONOMÍA COMPLETA DE 16 MOVIMIENTOS ASC ---
+    const MOVIMIENTOS_ASC = [
+      {
+        id: "static",
+        nombre: "Static Lock-Off (Plano Fijo Estable)",
+        promptTemplate: (cam, target) => `Locked static composition, perfectly stabilized perspective with zero drift, focusing purely on ${target}'s natural presence. Clean diegetic cinematic framing.`
+      },
+      {
+        id: "dolly_in",
+        nombre: "Push-In / Dolly In (Avance suave hacia el sujeto)",
+        promptTemplate: (cam, target) => `Smooth slow forward push-in advancing through the scene towards ${target}, seamless linear forward motion, shallow depth of field, zero background drift, sharp subject focus.`
+      },
+      {
+        id: "dolly_out",
+        nombre: "Pull-Back / Dolly Out (Retroceso revelador)",
+        promptTemplate: (cam, target) => `Smooth backward pull-out motion retreating away from ${target}, background gradually reveals more spatial scale with precise geometric perspective, subject smoothly recedes in frame.`
+      },
+      {
+        id: "truck",
+        nombre: "Lateral Truck / Crab (Desplazamiento horizontal)",
+        promptTemplate: (cam, target) => `Smooth lateral tracking shot moving horizontally parallel to ${target}, rich foreground and background parallax layers gliding by at constant speed, locked horizon.`
+      },
+      {
+        id: "arc_360",
+        nombre: "Arc Shot 360° (Travelling Circular Orbital)",
+        promptTemplate: (cam, target) => `Smooth 360-degree orbital arc movement gliding clockwise around ${target}, maintaining ${target} centered at eye level throughout the full circular rotation, constant orbital radius, zero zoom distortion.`
+      },
+      {
+        id: "dutch_roll",
+        nombre: "Dutch Roll (Inclinación 15° / Tensión)",
+        promptTemplate: (cam, target) => `Dutch angle framing tilted 15 degrees counter-clockwise along the optical roll axis, dramatic slanted horizon, low-angle perspective creating psychological tension, crisp straight architectural lines.`
+      },
+      {
+        id: "pedestal",
+        nombre: "Pedestal Up / Down (Elevación vertical pura)",
+        promptTemplate: (cam, target) => `Smooth vertical pedestal elevation shot rising strictly straight up along the vertical axis from ground level to eye level, locked optical tilt, zero horizontal drift.`
+      },
+      {
+        id: "crane",
+        nombre: "Crane / Boom Shot (Plano Grúa Ascendente)",
+        promptTemplate: (cam, target) => `Sweeping vertical crane boom shot rising in a smooth parabolic arc over the scene, smoothly tilting downward to maintain composition centered on ${target}, cinematic elevated perspective.`
+      },
+      {
+        id: "drone_glide",
+        nombre: "Drone / Aerial Glide (Vuelo Aéreo Suave)",
+        promptTemplate: (cam, target) => `Smooth airborne aerial glide floating forward high above the scene, wide expansive cinematic perspective, smooth continuous trajectory.`
+      },
+      {
+        id: "fpv_dive",
+        nombre: "FPV Drone Dive (Vuelo Rasante Rápido)",
+        promptTemplate: (cam, target) => `Dynamic fast-paced aerial dive descending rapidly through the environment with high kinetic energy, banking smoothly around ${target}.`
+      },
+      {
+        id: "steadicam",
+        nombre: "Steadicam Floating Track (Estabilizador flotante)",
+        promptTemplate: (cam, target) => `Smooth gliding stabilized tracking shot following ${target}, floating camera feel, completely stabilized trajectory, consistent distance to subject.`
+      },
+      {
+        id: "handheld",
+        nombre: "Handheld Orgánico (Micro-vibración fisiológica)",
+        promptTemplate: (cam, target) => `Organic handheld framing with subtle natural micro-vibrations and gentle human breathing rhythm, raw authentic documentary feel, natural handheld camera motion.`
+      },
+      {
+        id: "snorricam",
+        nombre: "SnorriCam (Anclaje al Pecho del Actor)",
+        promptTemplate: (cam, target) => `SnorriCam chest-level perspective locked directly in front of ${target}'s face; the subject's face remains razor-sharp and centered in frame while the surrounding background rotates dynamically with motion. Pure diegetic view, no visible rig or harness.`
+      },
+      {
+        id: "dolly_zoom",
+        nombre: "Dolly-Zoom (Zolly / Efecto Vértigo)",
+        promptTemplate: (cam, target) => `Vertigo effect shot, forward tracking motion while simultaneously zooming out the lens, keeping ${target}'s screen size perfectly constant while the background visibly compresses and warps in perspective.`
+      },
+      {
+        id: "crash_zoom",
+        nombre: "Crash Zoom (Golpe de Zoom Rápido)",
+        promptTemplate: (cam, target) => `Rapid dynamic crash-zoom magnification snapping instantly onto ${target}'s face, sudden optical punch-in, sharp focal lock.`
+      },
+      {
+        id: "rack_focus",
+        nombre: "Rack Focus / Trasfoco (Cambio de plano focal)",
+        promptTemplate: (cam, target) => `Rack focus shot with ultra-shallow depth of field, optical focus smoothly shifts across the focal plane directly onto ${target}, turning blurry foreground bokeh into sharp subject definition.`
+      }
+    ];
+
+    const COLORES_CAMARAS = ["#6366f1", "#06b6d4", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6"];
+    const LETRAS_CAMARAS = ["A", "B", "C", "D", "E", "F"];
+
+    // --- ESTADO GLOBAL ---
+    let actores = [];
+    let luces = [];
+    let camarasFisicas = [];
+    let tomas = [];
+
+    let modoVista = '2d';
+    let modoPOV = false;
+    let zoomNivel = 1.0;
+    let panOffset = { x: 0, y: 0 };
+
+    let elementoArrastrado = null;
+    let elementoHover = null;
+    let animando = false;
+    let tiempoActual = 0.0;
+    let animId = null;
+    let ultimoTiempo = 0;
+
+    const canvas = document.getElementById('stageCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Variables Three.js 3D
+    let scene3D, camera3D, cameraPOV3D, renderer3D, controls3D;
+    let objects3DGroup = null;
+
+    // --- INICIALIZACIÓN LIMPIA ---
+    function initDefaultScene() {
+      actores = [];
+      luces = [];
+      camarasFisicas = [];
+      tomas = [];
+
+      document.getElementById('sceneEnv').value = "";
+      document.getElementById('stageWidthM').value = "";
+      document.getElementById('stageLengthM').value = "";
+      document.getElementById('stageHeightM').value = "";
+      document.getElementById('foleyEnv').value = "";
+      document.getElementById('lightStyle').value = "tungsten_amber";
+
+      resetearZoom();
+      renderizarTodo();
+    }
+
+    // --- MATEMÁTICAS MÉTRICAS ---
+    function obtenerMetricasEscenario() {
+      const wM = parseFloat(document.getElementById('stageWidthM').value) || 8;
+      const lM = parseFloat(document.getElementById('stageLengthM').value) || 6;
+      const hM = parseFloat(document.getElementById('stageHeightM').value) || 3.5;
+
+      const rect = canvas.getBoundingClientRect();
+      const margin = 40;
+      const fitW = (rect.width - margin * 2) / wM;
+      const fitH = (rect.height - margin * 2) / lM;
+      const escalaBase = Math.min(fitW, fitH);
+      const escalaFinal = escalaBase * zoomNivel;
+
+      const stageWidthPx = wM * escalaFinal;
+      const stageLengthPx = lM * escalaFinal;
+
+      const centroX = (rect.width / 2) + panOffset.x;
+      const centroY = (rect.height / 2) + panOffset.y;
+
+      const stageX0 = centroX - (stageWidthPx / 2);
+      const stageY0 = centroY - (stageLengthPx / 2);
+
+      return { wM, lM, hM, escalaBase, escalaFinal, stageWidthPx, stageLengthPx, centroX, centroY, stageX0, stageY0 };
+    }
+
+    function metrosAPantalla(xm, ym) {
+      const m = obtenerMetricasEscenario();
+      return { x: m.stageX0 + (xm * m.escalaFinal), y: m.stageY0 + (ym * m.escalaFinal) };
+    }
+
+    function pantallaAMetros(px, py) {
+      const m = obtenerMetricasEscenario();
+      return {
+        xm: Math.max(0, Math.min(m.wM, (px - m.stageX0) / m.escalaFinal)),
+        ym: Math.max(0, Math.min(m.lM, (py - m.stageY0) / m.escalaFinal))
+      };
+    }
+
+    // --- ZOOM 2D ---
+    function cambiarZoomSlider(val) {
+      zoomNivel = parseFloat(val);
+      document.getElementById('zoomLabel').innerText = `${Math.round(zoomNivel * 100)}%`;
+      dibujarEscena();
+    }
+
+    function ajustarZoom(delta) {
+      zoomNivel = Math.max(0.2, Math.min(4.0, parseFloat((zoomNivel + delta).toFixed(2))));
+      document.getElementById('zoomSlider').value = zoomNivel;
+      document.getElementById('zoomLabel').innerText = `${Math.round(zoomNivel * 100)}%`;
+      dibujarEscena();
+    }
+
+    function resetearZoom() {
+      zoomNivel = 1.0;
+      panOffset = { x: 0, y: 0 };
+      document.getElementById('zoomSlider').value = 1.0;
+      document.getElementById('zoomLabel').innerText = "100%";
+      dibujarEscena();
+    }
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      ajustarZoom(e.deltaY < 0 ? 0.1 : -0.1);
+    }, { passive: false });
+
+    function redimensionarCanvas() {
+      const cont = document.getElementById('canvasBox');
+      const rect = cont.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      if (rect.width === 0 || rect.height === 0) return;
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dibujarEscena();
+    }
+    window.addEventListener('resize', redimensionarCanvas);
+
+    function getPointerXY(e) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      return {
+        x: (e.clientX - rect.left) * ((canvas.width / dpr) / rect.width),
+        y: (e.clientY - rect.top) * ((canvas.height / dpr) / rect.height)
+      };
+    }
+
+    // --- GESTIÓN DE LUCES CON DIRECCIÓN E INTENSIDAD (50% a 150%) ---
+    function alCambiarEstiloGlobal() {
+      dibujarEscena();
+      compilarPromptOmniFlash();
+    }
+
+    function aplicarEstiloGlobalATodas() {
+      const estilo = document.getElementById('lightStyle').value;
+      luces.forEach(l => l.estilo = estilo);
+      renderizarListaLuces();
+      dibujarEscena();
+    }
+
+    function agregarLuz() {
+      const id = luces.length + 1;
+      const m = obtenerMetricasEscenario();
+      const estiloGlobal = document.getElementById('lightStyle').value;
+
+      luces.push({
+        id: id,
+        nombre: `Luz ${id}`,
+        rol: id === 1 ? "key" : (id === 2 ? "fill" : "rim"),
+        xm: Math.max(0.5, Math.min(m.wM - 0.5, m.wM * 0.75 + (Math.random() * 0.6 - 0.3))),
+        ym: Math.max(0.5, Math.min(m.lM - 0.5, m.lM * 0.25 + (Math.random() * 0.6 - 0.3))),
+        targetXm: m.wM * 0.5,
+        targetYm: m.lM * 0.5,
+        intensidad: 100, // 50% - 150%
+        estilo: estiloGlobal
+      });
+      renderizarListaLuces();
+      dibujarEscena();
+    }
+
+    function eliminarLuz(idx) {
+      luces.splice(idx, 1);
+      renderizarListaLuces();
+      dibujarEscena();
+    }
+
+    function cambiarEstiloLuz(idx, nuevoEstilo) {
+      luces[idx].estilo = nuevoEstilo;
+      renderizarListaLuces();
+      dibujarEscena();
+    }
+
+    function cambiarRolLuz(idx, nuevoRol) {
+      luces[idx].rol = nuevoRol;
+      renderizarListaLuces();
+      dibujarEscena();
+    }
+
+    function cambiarIntensidadLuz(idx, nuevaIntensidad) {
+      luces[idx].intensidad = parseInt(nuevaIntensidad);
+      const label = document.getElementById(`lightIntVal_${idx}`);
+      if (label) label.innerText = `${luces[idx].intensidad}%`;
+      dibujarEscena();
+    }
+
+    function renderizarListaLuces() {
+      const cont = document.getElementById('lightsList');
+      document.getElementById('lightCountTag').innerText = `${luces.length} Luces`;
+      cont.innerHTML = '';
+      if (luces.length === 0) {
+        cont.innerHTML = '<p class="text-[10px] text-slate-500 italic">No hay luces añadidas. Pulsa "+ 💡 Luz".</p>';
+        return;
+      }
+      luces.forEach((luz, idx) => {
+        const estilo = ESTILOS_LUZ[luz.estilo] || ESTILOS_LUZ.tungsten_amber;
+        const row = document.createElement('div');
+        row.className = "flex flex-col gap-1.5 bg-slate-900 p-2 rounded-lg text-xs border border-slate-800 shadow-sm";
+        row.innerHTML = `
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full border border-white/40 shadow" style="background-color: ${estilo.color}"></span>
+              <span class="font-bold text-white text-[11px]">${luz.nombre}</span>
+              <span class="text-[9px] bg-slate-800 text-amber-300 px-1.5 py-0.2 rounded font-mono">${ROLES_LUZ[luz.rol].en}</span>
+            </div>
+            <button onclick="eliminarLuz(${idx})" class="text-[10px] text-rose-400 hover:underline">Eliminar</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-1.5">
+            <div>
+              <label class="text-[9px] text-slate-400 block font-medium">Rol Fotométrico</label>
+              <select onchange="cambiarRolLuz(${idx}, this.value)" class="w-full bg-slate-950 border border-slate-700 rounded p-1 text-[10px] text-slate-200">
+                ${Object.entries(ROLES_LUZ).map(([k, v]) => `<option value="${k}" ${k === luz.rol ? 'selected' : ''}>${v.nombre}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="text-[9px] text-slate-400 block font-medium">Temperatura / Tinte</label>
+              <select onchange="cambiarEstiloLuz(${idx}, this.value)" class="w-full bg-slate-950 border border-slate-700 rounded p-1 text-[10px] text-slate-200">
+                ${Object.entries(ESTILOS_LUZ).map(([key, val]) => `<option value="${key}" ${key === luz.estilo ? 'selected' : ''}>${val.nombre}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div class="pt-1 border-t border-slate-800/80 flex items-center justify-between gap-2">
+            <label class="text-[9px] text-amber-400 font-semibold flex items-center gap-1">
+              <span>⚡ Potencia:</span> <span id="lightIntVal_${idx}" class="font-mono text-white">${luz.intensidad}%</span>
+            </label>
+            <input type="range" min="50" max="150" step="5" value="${luz.intensidad}" 
+              oninput="cambiarIntensidadLuz(${idx}, this.value)" 
+              class="w-32 h-1.5 bg-slate-700 rounded appearance-none cursor-pointer accent-amber-500">
+          </div>
+        `;
+        cont.appendChild(row);
+      });
+    }
+
+    // --- GESTIÓN DE ACTORES ---
+    function agregarPersonaje() {
+      const id = actores.length;
+      const m = obtenerMetricasEscenario();
+      const col = ["#22c55e", "#a855f7", "#f97316", "#06b6d4", "#ec4899"][id % 5];
+
+      actores.push({
+        id: id,
+        tag: `<IMAGE_REF_${id}>`,
+        nombre: `Actor ${id + 1}`,
+        xm: Math.max(0.5, Math.min(m.wM - 0.5, m.wM * 0.5 + (id * 1.2 - 0.6))),
+        ym: Math.max(0.5, Math.min(m.lM - 0.5, m.lM * 0.5)),
+        color: col
+      });
+      renderizarListaActores();
+      renderizarCamsYRigs();
+      dibujarEscena();
+    }
+
+    function eliminarActor(idx) {
+      actores.splice(idx, 1);
+      actores.forEach((a, i) => { a.id = i; a.tag = `<IMAGE_REF_${i}>`; });
+      camarasFisicas.forEach(c => {
+        if (c.focoActorIdx === idx) c.focoActorIdx = -1;
+        else if (c.focoActorIdx > idx) c.focoActorIdx--;
+      });
+      renderizarListaActores();
+      renderizarCamsYRigs();
+      dibujarEscena();
+    }
+
+    function renderizarListaActores() {
+      const cont = document.getElementById('actorsList');
+      document.getElementById('actorCountTag').innerText = `${actores.length} Actores`;
+      cont.innerHTML = '';
+      if (actores.length === 0) {
+        cont.innerHTML = '<p class="text-[10px] text-slate-500 italic">No hay actores añadidos. Pulsa "+ 👤 Actor".</p>';
+        return;
+      }
+      actores.forEach((actor, idx) => {
+        const row = document.createElement('div');
+        row.className = "bg-slate-900 border border-slate-800 p-1.5 rounded-lg flex justify-between items-center text-xs";
+        row.innerHTML = `
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full" style="background:${actor.color}"></span>
+            <span class="font-bold text-white text-[11px]">${actor.tag}</span>
+            <input type="text" value="${actor.nombre}" onchange="cambiarNombreActor(${idx}, this.value)" class="bg-transparent font-semibold text-white text-xs border-b border-slate-700 focus:outline-none">
+          </div>
+          <button onclick="eliminarActor(${idx})" class="text-[10px] text-rose-400 hover:underline">Eliminar</button>
+        `;
+        cont.appendChild(row);
+      });
+    }
+
+    window.cambiarNombreActor = (idx, val) => {
+      actores[idx].nombre = val;
+      renderizarCamsYRigs();
+      dibujarEscena();
+    };
+
+    // --- GESTIÓN DE CÁMARAS FÍSICAS (RIGS) ---
+    function agregarCamaraFisica() {
+      const id = camarasFisicas.length + 1;
+      const m = obtenerMetricasEscenario();
+      const col = COLORES_CAMARAS[(id - 1) % COLORES_CAMARAS.length];
+      const letra = LETRAS_CAMARAS[(id - 1) % LETRAS_CAMARAS.length] || `C${id}`;
+
+      camarasFisicas.push({
+        id: id,
+        letter: letra,
+        nombre: `Cámara ${letra}`,
+        modo: "estatica",
+        inicioXm: Math.max(0.5, m.wM * 0.5 - 1.0 + (id * 0.4)),
+        inicioYm: Math.max(0.5, m.lM * 0.8),
+        finXm: Math.max(0.5, m.wM * 0.5),
+        finYm: Math.max(0.5, m.lM * 0.5),
+        miraXm: m.wM * 0.5,
+        miraYm: m.lM * 0.5,
+        focoActorIdx: actores.length > 0 ? 0 : -1,
+        opticaIdx: 1, // 35mm
+        alturaIdx: 2, // Eye-Level Standard (1.6m) por defecto
+        movIdx: 0,    // Static Lock-Off
+        color: col
+      });
+
+      if (tomas.length === 0) {
+        tomas.push({
+          id: 1,
+          camId: id,
+          duracion: 10.0,
+          customDesc: ""
+        });
+      }
+
+      renderizarCamsYRigs();
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    function eliminarCamaraFisica(idx) {
+      const camEliminada = camarasFisicas[idx];
+      camarasFisicas.splice(idx, 1);
+      tomas = tomas.filter(t => t.camId !== camEliminada.id);
+      if (tomas.length > 0) normalizarTiempos();
+      renderizarCamsYRigs();
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    // --- GESTIÓN DE TOMAS (SHOTS) CON DIRECTIVAS DE OPERADOR ---
+    function agregarToma() {
+      if (camarasFisicas.length === 0) {
+        alert("Primero crea al menos una cámara física en el plató pulsando '+ 🎥 Cámara'.");
+        return;
+      }
+      const nuevoId = tomas.length + 1;
+      const camDefault = camarasFisicas[Math.min(tomas.length, camarasFisicas.length - 1)].id;
+      tomas.push({
+        id: nuevoId,
+        camId: camDefault,
+        duracion: 3.0,
+        customDesc: ""
+      });
+      normalizarTiempos();
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    function eliminarToma(idx) {
+      tomas.splice(idx, 1);
+      if (tomas.length > 0) normalizarTiempos();
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    function moverTomaOrden(idx, dir) {
+      const nuevoIdx = idx + dir;
+      if (nuevoIdx < 0 || nuevoIdx >= tomas.length) return;
+      const temp = tomas[idx];
+      tomas[idx] = tomas[nuevoIdx];
+      tomas[nuevoIdx] = temp;
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    function repartirTiempos() {
+      if (tomas.length === 0) return;
+      const seg = parseFloat((10.0 / tomas.length).toFixed(1));
+      tomas.forEach((t, idx) => {
+        t.duracion = (idx === tomas.length - 1) ? parseFloat((10.0 - seg * (tomas.length - 1)).toFixed(1)) : seg;
+      });
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    function normalizarTiempos() {
+      if (tomas.length === 0) return;
+      let suma = tomas.reduce((acc, t) => acc + parseFloat(t.duracion), 0);
+      if (suma <= 0) suma = 1;
+      tomas.forEach(t => t.duracion = parseFloat(((t.duracion / suma) * 10).toFixed(1)));
+      const diff = 10.0 - tomas.reduce((acc, t) => acc + t.duracion, 0);
+      tomas[tomas.length - 1].duracion = parseFloat((tomas[tomas.length - 1].duracion + diff).toFixed(1));
+      renderizarTimeline();
+    }
+
+    function renderizarTimeline() {
+      const segs = document.getElementById('timelineSegments');
+      const list = document.getElementById('shotsList');
+      segs.innerHTML = ''; list.innerHTML = '';
+      if (tomas.length === 0) {
+        list.innerHTML = '<p class="text-[10px] text-slate-500 italic p-2">No hay tomas en la secuencia. Pulsa "+ Toma".</p>';
+        return;
+      }
+
+      let acum = 0;
+      tomas.forEach((toma, idx) => {
+        const s = acum;
+        const e = parseFloat((acum + toma.duracion).toFixed(1));
+        acum = e;
+
+        const cam = camarasFisicas.find(c => c.id === toma.camId) || camarasFisicas[0];
+        const color = cam ? cam.color : "#6366f1";
+        const letra = cam ? cam.letter : "?";
+
+        const divSeg = document.createElement('div');
+        divSeg.style.width = `${(toma.duracion / 10) * 100}%`;
+        divSeg.style.backgroundColor = color;
+        divSeg.className = "h-full flex items-center justify-center text-[9px] font-bold text-white border-r border-slate-950 truncate px-1 shadow-sm";
+        divSeg.innerText = `[${s.toFixed(0)}-${e.toFixed(0)}s] CAM ${letra}`;
+        segs.appendChild(divSeg);
+
+        let esRetorno = false;
+        for (let i = 0; i < idx; i++) {
+          if (tomas[i].camId === toma.camId) { esRetorno = true; break; }
+        }
+
+        const card = document.createElement('div');
+        card.className = `p-2.5 rounded-lg border ${esRetorno ? 'bg-indigo-950/40 border-indigo-700/60' : 'bg-slate-900 border-slate-800'} space-y-1.5 text-xs`;
+        card.innerHTML = `
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-1.5">
+              <span class="font-mono font-bold text-cyan-300 text-[11px]">[${s.toFixed(1)}s ➔ ${e.toFixed(1)}s]</span>
+              <span class="font-bold text-white">Toma #${idx + 1}</span>
+              ${esRetorno ? '<span class="text-[9px] bg-indigo-900 text-indigo-200 border border-indigo-500/50 px-1 py-0.2 rounded font-mono font-semibold">🔄 Re-anchor (Retorno)</span>' : ''}
+            </div>
+            <div class="flex items-center gap-1">
+              <button onclick="moverTomaOrden(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-30"' : ''} class="bg-slate-800 hover:bg-slate-700 px-1.5 py-0.5 rounded text-[10px] text-white">⬆</button>
+              <button onclick="moverTomaOrden(${idx}, 1)" ${idx === tomas.length - 1 ? 'disabled class="opacity-30"' : ''} class="bg-slate-800 hover:bg-slate-700 px-1.5 py-0.5 rounded text-[10px] text-white">⬇</button>
+              <input type="number" min="0.5" max="9.5" step="0.5" value="${toma.duracion}" 
+                onchange="cambiarDuracionToma(${idx}, this.value)" 
+                class="w-12 bg-slate-950 border border-slate-700 rounded text-center text-cyan-300 font-mono text-xs p-0.5 font-bold">
+              <span class="text-[10px] text-slate-400">s</span>
+              <button onclick="eliminarToma(${idx})" class="text-[10px] text-rose-400 hover:underline ml-1">✕</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1">
+            <div>
+              <label class="text-[9px] text-slate-400 block font-medium">🎥 Cámara Asignada</label>
+              <select onchange="asignarCamaraAToma(${idx}, parseInt(this.value))" class="w-full bg-slate-950 border border-slate-700 rounded p-1 text-[11px] font-bold text-white">
+                ${camarasFisicas.map(c => `<option value="${c.id}" ${c.id === toma.camId ? 'selected' : ''}>Cámara ${c.letter} (${c.nombre})</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="text-[9px] text-cyan-400 block font-semibold">🎧 Orden Intercom / Directiva Operador (Opcional)</label>
+              <input type="text" value="${toma.customDesc || ''}" 
+                placeholder="Ej. Priorizar encuadre en las manos, reencuadre suave a la derecha..."
+                onchange="cambiarDescToma(${idx}, this.value)"
+                class="w-full bg-slate-950 border border-cyan-800/40 rounded p-1 text-[11px] text-cyan-100 placeholder-slate-500">
+            </div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    window.cambiarDuracionToma = (idx, val) => {
+      tomas[idx].duracion = Math.max(0.5, parseFloat(val) || 0.5);
+      normalizarTiempos();
+      dibujarEscena();
+    };
+
+    window.asignarCamaraAToma = (idx, camId) => {
+      tomas[idx].camId = camId;
+      renderizarTimeline();
+      dibujarEscena();
+    };
+
+    window.cambiarDescToma = (idx, val) => {
+      tomas[idx].customDesc = val;
+      dibujarEscena();
+    };
+
+    function renderizarCamsYRigs() {
+      const cont = document.getElementById('cameraRigsList');
+      document.getElementById('camTotalBadge').innerText = `${camarasFisicas.length} Rigs`;
+      cont.innerHTML = '';
+
+      if (camarasFisicas.length === 0) {
+        cont.innerHTML = '<p class="text-[10px] text-slate-500 italic p-2">No hay cámaras en el plató. Pulsa "+ 🎥 Cámara".</p>';
+        return;
+      }
+
+      camarasFisicas.forEach((cam, idx) => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2 text-xs";
+        card.innerHTML = `
+          <div class="flex justify-between items-center border-b border-slate-800 pb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full shadow" style="background:${cam.color}"></span>
+              <span class="font-bold text-white text-xs">Cámara ${cam.letter}:</span>
+              <input type="text" value="${cam.nombre}" onchange="cambiarPropCamFisica(${idx}, 'nombre', this.value)" class="bg-transparent font-bold text-white text-xs focus:outline-none">
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="toggleModoMovil(${idx})" class="text-[10px] ${cam.modo === 'movil' ? 'bg-indigo-950 text-indigo-300 border border-indigo-600' : 'bg-slate-800 text-slate-400'} px-2 py-0.5 rounded font-semibold transition">
+                ${cam.modo === 'movil' ? '🏃 6-DOF Móvil' : '🔒 Fija Nodal'}
+              </button>
+              <button onclick="eliminarCamaraFisica(${idx})" class="text-[10px] text-rose-400 hover:underline">Eliminar</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[9px] text-emerald-400 block font-semibold">🎯 Anclaje de Foco (Look-At)</label>
+            <select onchange="cambiarFocoCam(${idx}, parseInt(this.value))" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-[10px] text-emerald-300">
+              <option value="-1" ${cam.focoActorIdx === -1 ? 'selected' : ''}>Plano General / Foco Libre</option>
+              ${actores.map((a, i) => `<option value="${i}" ${cam.focoActorIdx === i ? 'selected' : ''}>${a.nombre} (${a.tag})</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-1.5">
+            <div>
+              <label class="text-[9px] text-slate-400 block font-medium">Lente Óptica</label>
+              <select onchange="cambiarPropCamFisica(${idx}, 'opticaIdx', parseInt(this.value))" class="w-full bg-slate-900 border border-slate-800 rounded p-1 text-[10px] text-slate-200">
+                ${OPTICAS.map((o, i) => `<option value="${i}" ${i === cam.opticaIdx ? 'selected' : ''}>${o.nombre}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="text-[9px] text-slate-400 block font-medium">Altura Z</label>
+              <select onchange="cambiarPropCamFisica(${idx}, 'alturaIdx', parseInt(this.value))" class="w-full bg-slate-900 border border-slate-800 rounded p-1 text-[10px] text-slate-200">
+                ${ALTURAS_Z.map((a, i) => `<option value="${i}" ${i === cam.alturaIdx ? 'selected' : ''}>${a.nombre}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[9px] text-cyan-400 block font-semibold">Cinemática ASC (16 Movimientos)</label>
+            <select onchange="cambiarPropCamFisica(${idx}, 'movIdx', parseInt(this.value))" class="w-full bg-slate-900 border border-cyan-800/40 rounded p-1 text-[10px] text-cyan-200">
+              ${MOVIMIENTOS_ASC.map((m, i) => `<option value="${i}" ${i === cam.movIdx ? 'selected' : ''}>${m.nombre}</option>`).join('')}
+            </select>
+          </div>
+        `;
+        cont.appendChild(card);
+      });
+      renderizarTimeline();
+    }
+
+    window.cambiarPropCamFisica = (idx, prop, val) => {
+      camarasFisicas[idx][prop] = val;
+      renderizarTimeline();
+      dibujarEscena();
+    };
+
+    window.cambiarFocoCam = (idx, actorIdx) => {
+      camarasFisicas[idx].focoActorIdx = actorIdx;
+      dibujarEscena();
+    };
+
+    window.toggleModoMovil = (idx) => {
+      const c = camarasFisicas[idx];
+      c.modo = (c.modo === 'movil') ? 'estatica' : 'movil';
+      if (c.modo === 'movil') {
+        c.finXm = Math.min(obtenerMetricasEscenario().wM - 0.5, c.inicioXm + 0.8);
+        c.finYm = Math.min(obtenerMetricasEscenario().lM - 0.5, c.inicioYm + 0.4);
+      }
+      renderizarCamsYRigs();
+      dibujarEscena();
+    };
+
+    function renderizarTodo() {
+      renderizarListaActores();
+      renderizarListaLuces();
+      renderizarCamsYRigs();
+      renderizarTimeline();
+      dibujarEscena();
+    }
+
+    // --- CÁLCULO DE TOMA Y CÁMARA ACTIVA ---
+    function obtenerTomaYCamaraActiva(t) {
+      if (tomas.length === 0) return { toma: null, cam: null, tomaIdx: -1, progToma: 0 };
+      let acum = 0;
+      for (let i = 0; i < tomas.length; i++) {
+        const dur = tomas[i].duracion;
+        if (t >= acum && t < acum + dur) {
+          const prog = (t - acum) / dur;
+          const cam = camarasFisicas.find(c => c.id === tomas[i].camId) || camarasFisicas[0];
+          return { toma: tomas[i], cam: cam, tomaIdx: i, progToma: prog, inicioS: acum, finS: acum + dur };
+        }
+        acum += dur;
+      }
+      const ultimaToma = tomas[tomas.length - 1];
+      const cam = camarasFisicas.find(c => c.id === ultimaToma.camId) || camarasFisicas[0];
+      return { toma: ultimaToma, cam: cam, tomaIdx: tomas.length - 1, progToma: 1.0, inicioS: acum - ultimaToma.duracion, finS: 10.0 };
+    }
+
+    // --- CINEMÁTICA VECTORIAL PARA LOS 16 MOVIMIENTOS ASC ---
+    function calcularCinematicaCamara(cam, prog, t) {
+      const mov = MOVIMIENTOS_ASC[cam.movIdx];
+      let curX = cam.inicioXm;
+      let curY = cam.inicioYm;
+      let curZ = ALTURAS_Z[cam.alturaIdx].z;
+      let rollAngle = 0;
+      let dynamicFovModifier = 1.0;
+
+      let targetX = cam.miraXm;
+      let targetY = cam.miraYm;
+      if (cam.focoActorIdx >= 0 && cam.focoActorIdx < actores.length) {
+        targetX = actores[cam.focoActorIdx].xm;
+        targetY = actores[cam.focoActorIdx].ym;
+      }
+
+      if (cam.modo === 'movil') {
+        curX = cam.inicioXm + (cam.finXm - cam.inicioXm) * prog;
+        curY = cam.inicioYm + (cam.finYm - cam.inicioYm) * prog;
+      }
+
+      switch (mov.id) {
+        case 'dolly_in':
+          curX = curX + (targetX - curX) * 0.45 * prog;
+          curY = curY + (targetY - curY) * 0.45 * prog;
+          break;
+        case 'dolly_out':
+          curX = curX - (targetX - curX) * 0.35 * prog;
+          curY = curY - (targetY - curY) * 0.35 * prog;
+          break;
+        case 'truck':
+          const angPerp = Math.atan2(targetY - curY, targetX - curX) + Math.PI / 2;
+          curX += Math.cos(angPerp) * (prog * 1.5 - 0.75);
+          curY += Math.sin(angPerp) * (prog * 1.5 - 0.75);
+          break;
+        case 'arc_360':
+          const radio = Math.hypot(cam.inicioXm - targetX, cam.inicioYm - targetY) || 2.2;
+          const angIni = Math.atan2(cam.inicioYm - targetY, cam.inicioXm - targetX);
+          const angCur = angIni + (prog * Math.PI * 2);
+          curX = targetX + Math.cos(angCur) * radio;
+          curY = targetY + Math.sin(angCur) * radio;
+          break;
+        case 'dutch_roll':
+          rollAngle = -15 * (Math.PI / 180);
+          break;
+        case 'pedestal':
+          curZ = 0.15 + (prog * 1.8);
+          break;
+        case 'crane':
+          curZ = Math.max(0.15, curZ + (2.8 * Math.sin(prog * Math.PI * 0.5)));
+          break;
+        case 'drone_glide':
+          curZ = 3.5;
+          curX += (targetX - curX) * 0.3 * prog;
+          break;
+        case 'fpv_dive':
+          curZ = Math.max(0.15, 4.2 - (prog * 3.8));
+          curX += (targetX - curX) * 0.5 * prog;
+          break;
+        case 'steadicam':
+          curX += Math.sin(prog * Math.PI) * 0.2;
+          break;
+        case 'handheld':
+          curX += Math.sin(t * 12.0) * 0.04;
+          curY += Math.cos(t * 10.0) * 0.03;
+          break;
+        case 'snorricam':
+          if (cam.focoActorIdx >= 0 && cam.focoActorIdx < actores.length) {
+            const act = actores[cam.focoActorIdx];
+            curX = act.xm + 0.8;
+            curY = act.ym;
+            curZ = 1.5;
+          }
+          break;
+        case 'dolly_zoom':
+          curX = curX + (targetX - curX) * 0.4 * prog;
+          curY = curY + (targetY - curY) * 0.4 * prog;
+          dynamicFovModifier = 1.0 + (prog * 0.6);
+          break;
+        case 'crash_zoom':
+          if (prog > 0.4) dynamicFovModifier = 0.5;
+          break;
+        case 'rack_focus':
+          break;
+      }
+
+      return { curX, curY, curZ, targetX, targetY, rollAngle, dynamicFovModifier };
+    }
+
+    // --- RENDERIZADO EN CANVAS 2D ---
+    function dibujarEscena() {
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      if (w === 0 || h === 0) return;
+
+      ctx.clearRect(0, 0, w, h);
+      const m = obtenerMetricasEscenario();
+      document.getElementById('scaleBadge').innerText = `1m ≈ ${Math.round(m.escalaFinal)}px`;
+
+      // Fondo y Cuadrícula
+      ctx.fillStyle = "#09101f";
+      ctx.fillRect(m.stageX0, m.stageY0, m.stageWidthPx, m.stageLengthPx);
+
+      ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = Math.max(2, Math.min(4, 2.5 * zoomNivel));
+      ctx.strokeRect(m.stageX0, m.stageY0, m.stageWidthPx, m.stageLengthPx);
+
+      ctx.strokeStyle = "#162035"; ctx.lineWidth = 1;
+      for (let xm = 0; xm <= m.wM; xm += 1) {
+        const p1 = metrosAPantalla(xm, 0); const p2 = metrosAPantalla(xm, m.lM);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
+      for (let ym = 0; ym <= m.lM; ym += 1) {
+        const p1 = metrosAPantalla(0, ym); const p2 = metrosAPantalla(m.wM, ym);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
+
+      const radioPx = Math.max(5, Math.min(50, 0.35 * m.escalaFinal));
+
+      // Eje de 180° de diálogo
+      if (actores.length >= 2) {
+        const p1 = metrosAPantalla(actores[0].xm, actores[0].ym);
+        const p2 = metrosAPantalla(actores[1].xm, actores[1].ym);
+        ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Render Luces (Dirección vectorial real + Cono de emisión + Intensidad)
+      luces.forEach((luz) => {
+        const pLuz = metrosAPantalla(luz.xm, luz.ym);
+        const pTarget = metrosAPantalla(luz.targetXm, luz.targetYm);
+        const estilo = ESTILOS_LUZ[luz.estilo] || ESTILOS_LUZ.tungsten_amber;
+        const anguloLuz = Math.atan2(pTarget.y - pLuz.y, pTarget.x - pLuz.x);
+        const aperturaCono = Math.PI / 4; // 45 grados de apertura
+        const alcanceCono = Math.max(35, 2.6 * m.escalaFinal * (luz.intensidad / 100));
+
+        // Cono de emisión direccional
+        ctx.save();
+        const grad = ctx.createRadialGradient(pLuz.x, pLuz.y, radioPx * 0.5, pLuz.x, pLuz.y, alcanceCono);
+        const alphaHex = Math.round(Math.min(255, 30 * (luz.intensidad / 100))).toString(16).padStart(2, '0');
+        grad.addColorStop(0, estilo.color + alphaHex);
+        grad.addColorStop(1, estilo.color + "00");
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(pLuz.x, pLuz.y);
+        ctx.arc(pLuz.x, pLuz.y, alcanceCono, anguloLuz - aperturaCono / 2, anguloLuz + aperturaCono / 2);
+        ctx.closePath();
+        ctx.fill();
+
+        // Vector de dirección (Línea hacia el Target)
+        ctx.strokeStyle = estilo.color + "99";
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(pLuz.x, pLuz.y);
+        ctx.lineTo(pTarget.x, pTarget.y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // Target arrastrable de la luz
+        dibujarGlow(pTarget.x, pTarget.y, radioPx * 0.6, luz.target === elementoHover || (elementoArrastrado && elementoArrastrado.ref === luz && elementoArrastrado.type === 'luz_target'));
+        ctx.strokeStyle = estilo.color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(pTarget.x, pTarget.y, Math.max(3, radioPx * 0.5), 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(pTarget.x - 5, pTarget.y); ctx.lineTo(pTarget.x + 5, pTarget.y);
+        ctx.moveTo(pTarget.x, pTarget.y - 5); ctx.lineTo(pTarget.x, pTarget.y + 5);
+        ctx.stroke();
+
+        // Bombilla física
+        dibujarGlow(pLuz.x, pLuz.y, radioPx, luz === elementoHover || (elementoArrastrado && elementoArrastrado.ref === luz && elementoArrastrado.type === 'luz'));
+        ctx.fillStyle = estilo.color;
+        ctx.beginPath();
+        ctx.arc(pLuz.x, pLuz.y, radioPx, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        if (radioPx >= 9) {
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold 9px sans-serif";
+          ctx.fillText(`💡 ${luz.nombre} (${luz.intensidad}%)`, pLuz.x - radioPx * 1.5, pLuz.y + radioPx + 11);
+        }
+      });
+
+      // Render Actores
+      actores.forEach((actor, idx) => {
+        const pAct = metrosAPantalla(actor.xm, actor.ym);
+        dibujarGlow(pAct.x, pAct.y, radioPx, actor === elementoHover || (elementoArrastrado && elementoArrastrado.ref === actor));
+
+        ctx.fillStyle = actor.color;
+        ctx.beginPath();
+        ctx.arc(pAct.x, pAct.y, radioPx, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        if (radioPx >= 8) {
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold 10px sans-serif";
+          ctx.fillText(`P${idx + 1}`, pAct.x - 6, pAct.y + 3);
+          ctx.fillText(`${actor.nombre}`, pAct.x - 25, pAct.y + radioPx + 12);
+        }
+      });
+
+      // Estado de simulación
+      const estadoSim = obtenerTomaYCamaraActiva(tiempoActual);
+      if (estadoSim.toma && estadoSim.cam) {
+        document.getElementById('activeCamIndicator').innerText = `Toma Activa: #${estadoSim.tomaIdx + 1} (${estadoSim.cam.nombre})`;
+      } else {
+        document.getElementById('activeCamIndicator').innerText = "Sin tomas activas";
+      }
+
+      // Render Cámaras Físicas
+      camarasFisicas.forEach((cam) => {
+        const esActiva = estadoSim.cam && (estadoSim.cam.id === cam.id);
+        const optica = OPTICAS[cam.opticaIdx];
+        const fovRad = (optica.fov * Math.PI) / 180;
+
+        let { curX, curY, targetX, targetY } = calcularCinematicaCamara(cam, esActiva ? estadoSim.progToma : 0, tiempoActual);
+
+        if (cam.modo === 'movil') {
+          const pIni = metrosAPantalla(cam.inicioXm, cam.inicioYm);
+          const pFin = metrosAPantalla(cam.finXm, cam.finYm);
+          ctx.strokeStyle = cam.color; ctx.lineWidth = esActiva ? 2.5 : 1.5; ctx.setLineDash([4, 4]);
+          ctx.beginPath(); ctx.moveTo(pIni.x, pIni.y); ctx.lineTo(pFin.x, pFin.y); ctx.stroke(); ctx.setLineDash([]);
+
+          dibujarGlow(pFin.x, pFin.y, radioPx * 0.8, cam.fin === elementoHover || (elementoArrastrado && elementoArrastrado.ref === cam.fin));
+          ctx.fillStyle = "#090d16"; ctx.beginPath(); ctx.arc(pFin.x, pFin.y, Math.max(3, radioPx * 0.8), 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = cam.color; ctx.lineWidth = 2; ctx.stroke();
+        }
+
+        const pCam = metrosAPantalla(curX, curY);
+        const pMira = metrosAPantalla(targetX, targetY);
+        const anguloFoco = Math.atan2(pMira.y - pCam.y, pMira.x - pCam.x);
+        const longCono = esActiva ? Math.max(30, 2.8 * m.escalaFinal) : Math.max(20, 1.8 * m.escalaFinal);
+
+        // Cono de visión (FOV óptico)
+        ctx.fillStyle = esActiva ? cam.color + "45" : cam.color + "18";
+        ctx.strokeStyle = esActiva ? "#ffffff" : cam.color;
+        ctx.lineWidth = esActiva ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(pCam.x, pCam.y);
+        ctx.arc(pCam.x, pCam.y, longCono, anguloFoco - fovRad / 2, anguloFoco + fovRad / 2);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+
+        // Mira (Target)
+        dibujarGlow(pMira.x, pMira.y, radioPx * 0.7, cam.mira === elementoHover || (elementoArrastrado && elementoArrastrado.ref === cam.mira));
+        ctx.strokeStyle = cam.color; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(pMira.x, pMira.y, Math.max(4, radioPx * 0.7), 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pMira.x - 8, pMira.y); ctx.lineTo(pMira.x + 8, pMira.y); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pMira.x, pMira.y - 8); ctx.lineTo(pMira.x, pMira.y + 8); ctx.stroke();
+
+        // Cuerpo de Cámara
+        dibujarGlow(pCam.x, pCam.y, radioPx, cam.inicio === elementoHover || (elementoArrastrado && elementoArrastrado.ref === cam.inicio));
+        ctx.fillStyle = cam.color; ctx.beginPath(); ctx.arc(pCam.x, pCam.y, Math.max(4, radioPx), 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = esActiva ? "#ffffff" : "#cbd5e1"; ctx.lineWidth = esActiva ? 2.5 : 1.5; ctx.stroke();
+
+        if (radioPx >= 8) {
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 9px sans-serif";
+          ctx.fillText(`CAM ${cam.letter}`, pCam.x - 12, pCam.y - radioPx - 5);
+        }
+      });
+
+      if (animando) {
+        ctx.fillStyle = "#ef4444"; ctx.beginPath(); ctx.arc(45, 35, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px monospace";
+        ctx.fillText(`REC [${tiempoActual.toFixed(1)}s / 10.0s] - EN VIVO`, 58, 39);
+      }
+
+      compilarPromptOmniFlash();
+      if (modoVista === '3d') actualizarEscena3D();
+    }
+
+    function dibujarGlow(x, y, radio, activo) {
+      if (!activo) return;
+      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, radio + 6, 0, Math.PI * 2); ctx.stroke();
+    }
+
+    // --- ARRASTRE DE ELEMENTOS (DRAG & DROP 2D) ---
+    function obtenerPuntosInteractivos() {
+      const puntos = [];
+      actores.forEach(a => {
+        const p = metrosAPantalla(a.xm, a.ym);
+        puntos.push({ ref: a, x: p.x, y: p.y, desc: `👤 Actor ${a.nombre}`, type: 'actor' });
+      });
+      luces.forEach(l => {
+        const pLuz = metrosAPantalla(l.xm, l.ym);
+        puntos.push({ ref: l, propX: 'xm', propY: 'ym', x: pLuz.x, y: pLuz.y, desc: `💡 ${l.nombre}`, type: 'luz' });
+
+        const pTarget = metrosAPantalla(l.targetXm, l.targetYm);
+        puntos.push({ ref: l, propX: 'targetXm', propY: 'targetYm', x: pTarget.x, y: pTarget.y, desc: `🎯 Dirección ${l.nombre}`, type: 'luz_target' });
+      });
+      camarasFisicas.forEach(c => {
+        const pIni = metrosAPantalla(c.inicioXm, c.inicioYm);
+        puntos.push({ ref: c, propX: 'inicioXm', propY: 'inicioYm', x: pIni.x, y: pIni.y, desc: `🎥 Origen Cámara ${c.letter}`, type: 'cam_inicio' });
+
+        if (c.modo === 'movil') {
+          const pFin = metrosAPantalla(c.finXm, c.finYm);
+          puntos.push({ ref: c, propX: 'finXm', propY: 'finYm', x: pFin.x, y: pFin.y, desc: `🏁 Destino Cámara ${c.letter}`, type: 'cam_fin' });
+        }
+
+        if (c.focoActorIdx < 0) {
+          const pMira = metrosAPantalla(c.miraXm, c.miraYm);
+          puntos.push({ ref: c, propX: 'miraXm', propY: 'miraYm', x: pMira.x, y: pMira.y, desc: `🎯 Mira Libre Cámara ${c.letter}`, type: 'cam_mira' });
+        }
+      });
+      return puntos;
+    }
+
+    function buscarPuntoMasCercano(pos, maxDist = 36) {
+      const lista = obtenerPuntosInteractivos();
+      let mejor = null; let minD = Infinity;
+      for (const item of lista) {
+        const d = Math.hypot(item.x - pos.x, item.y - pos.y);
+        if (d < maxDist && d < minD) { minD = d; mejor = item; }
+      }
+      return mejor;
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      if (modoVista === '3d') return;
+      const pos = getPointerXY(e);
+      const hit = buscarPuntoMasCercano(pos, 38);
+      if (hit) {
+        if (animando) stopPlay();
+        elementoArrastrado = hit;
+        canvas.style.cursor = 'grabbing';
+        try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+        dibujarEscena();
+      }
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (modoVista === '3d') return;
+      const pos = getPointerXY(e);
+      if (elementoArrastrado) {
+        const met = pantallaAMetros(pos.x, pos.y);
+        const item = elementoArrastrado;
+        if (item.type === 'actor') { item.ref.xm = met.xm; item.ref.ym = met.ym; }
+        else if (item.type === 'luz') { item.ref.xm = met.xm; item.ref.ym = met.ym; }
+        else if (item.type === 'luz_target') { item.ref.targetXm = met.xm; item.ref.targetYm = met.ym; }
+        else if (item.type === 'cam_inicio') { item.ref.inicioXm = met.xm; item.ref.inicioYm = met.ym; }
+        else if (item.type === 'cam_fin') { item.ref.finXm = met.xm; item.ref.finYm = met.ym; }
+        else if (item.type === 'cam_mira') { item.ref.miraXm = met.xm; item.ref.miraYm = met.ym; }
+        dibujarEscena();
+      } else {
+        const hit = buscarPuntoMasCercano(pos, 32);
+        elementoHover = hit ? hit.ref : null;
+        canvas.style.cursor = hit ? 'grab' : 'default';
+        dibujarEscena();
+      }
+    });
+
+    function soltarPointer(e) {
+      if (elementoArrastrado) {
+        try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
+        elementoArrastrado = null;
+        canvas.style.cursor = 'default';
+        dibujarEscena();
+      }
+    }
+    canvas.addEventListener('pointerup', soltarPointer);
+    canvas.addEventListener('pointercancel', soltarPointer);
+
+    // --- REPRODUCTOR / SIMULADOR ---
+    function togglePlay() {
+      if (tomas.length === 0) {
+        alert('Añade al menos una cámara física y una toma para simular.');
+        return;
+      }
+      if (animando) {
+        animando = false;
+        cancelAnimationFrame(animId);
+        document.getElementById('playIcon').innerText = "▶";
+        document.getElementById('playText').innerText = "Reanudar";
+        dibujarEscena();
+      } else {
+        if (tiempoActual >= 10.0) tiempoActual = 0.0;
+        animando = true;
+        ultimoTiempo = performance.now();
+        document.getElementById('playIcon').innerText = "⏸";
+        document.getElementById('playText').innerText = "Pausar";
+        buclePlay();
+      }
+    }
+
+    function stopPlay() {
+      animando = false;
+      cancelAnimationFrame(animId);
+      tiempoActual = 0.0;
+      document.getElementById('playIcon').innerText = "▶";
+      document.getElementById('playText').innerText = "Simular";
+      document.getElementById('timecodeDisplay').innerText = "00:00.0";
+      const playhead = document.getElementById('timelinePlayhead');
+      if (playhead) playhead.style.left = "0%";
+      dibujarEscena();
+    }
+
+    function buclePlay() {
+      if (!animando) return;
+      const ahora = performance.now();
+      const delta = (ahora - ultimoTiempo) / 1000;
+      ultimoTiempo = ahora;
+      tiempoActual += delta;
+
+      if (tiempoActual >= 10.0) {
+        tiempoActual = 10.0;
+        stopPlay();
+        return;
+      }
+
+      const tStr = tiempoActual < 10 ? `00:0${tiempoActual.toFixed(1)}` : `00:${tiempoActual.toFixed(1)}`;
+      document.getElementById('timecodeDisplay').innerText = tStr;
+
+      const playhead = document.getElementById('timelinePlayhead');
+      if (playhead) playhead.style.left = `${(tiempoActual / 10.0) * 100}%`;
+
+      dibujarEscena();
+      animId = requestAnimationFrame(buclePlay);
+    }
+
+    // --- MOTOR THREE.JS 3D CON MODO MONITOR DIEGÉTICO (POV PURO) ---
+    function cambiarModoVista(modo) {
+      modoVista = modo;
+      const btn2D = document.getElementById('btnVista2D');
+      const btn3D = document.getElementById('btnVista3D');
+      const canvas2D = document.getElementById('stageCanvas');
+      const container3D = document.getElementById('threeContainer');
+      const zoomBar2D = document.getElementById('zoomBar2D');
+      const guide3D = document.getElementById('guide3D');
+      const controlsPOV = document.getElementById('controlsPOV3D');
+
+      if (modo === '2d') {
+        btn2D.className = "px-2.5 py-1 rounded font-bold text-[11px] bg-indigo-600 text-white shadow transition flex items-center gap-1";
+        btn3D.className = "px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white transition flex items-center gap-1";
+        canvas2D.classList.remove('hidden');
+        container3D.classList.add('hidden');
+        zoomBar2D.classList.remove('hidden');
+        guide3D.classList.add('hidden');
+        controlsPOV.classList.add('hidden');
+        redimensionarCanvas();
+      } else {
+        btn3D.className = "px-2.5 py-1 rounded font-bold text-[11px] bg-indigo-600 text-white shadow transition flex items-center gap-1";
+        btn2D.className = "px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white transition flex items-center gap-1";
+        canvas2D.classList.add('hidden');
+        container3D.classList.remove('hidden');
+        zoomBar2D.classList.add('hidden');
+        guide3D.classList.remove('hidden');
+        controlsPOV.classList.remove('hidden');
+        initThreeScene();
+        actualizarEscena3D();
+      }
+    }
+
+    function setModoPOV(activarPOV) {
+      modoPOV = activarPOV;
+      const btnOrbit = document.getElementById('btn3DOrbit');
+      const btnPOV = document.getElementById('btn3DPOV');
+      if (modoPOV) {
+        btnPOV.className = "text-[10px] px-2 py-0.5 rounded font-bold bg-indigo-600 text-white";
+        btnOrbit.className = "text-[10px] px-2 py-0.5 rounded font-bold text-slate-400 hover:text-white";
+      } else {
+        btnOrbit.className = "text-[10px] px-2 py-0.5 rounded font-bold bg-indigo-600 text-white";
+        btnPOV.className = "text-[10px] px-2 py-0.5 rounded font-bold text-slate-400 hover:text-white";
+      }
+      actualizarEscena3D();
+    }
+
+    function initThreeScene() {
+      const container = document.getElementById('threeContainer');
+      if (renderer3D) {
+        const rect = container.getBoundingClientRect();
+        camera3D.aspect = rect.width / rect.height;
+        camera3D.updateProjectionMatrix();
+        renderer3D.setSize(rect.width, rect.height);
+        return;
+      }
+
+      const rect = container.getBoundingClientRect();
+      scene3D = new THREE.Scene();
+      scene3D.background = new THREE.Color(0x060810);
+
+      camera3D = new THREE.PerspectiveCamera(45, rect.width / rect.height, 0.1, 1000);
+      camera3D.position.set(0, 8, 12);
+
+      cameraPOV3D = new THREE.PerspectiveCamera(63, rect.width / rect.height, 0.05, 1000);
+
+      renderer3D = new THREE.WebGLRenderer({ antialias: true });
+      renderer3D.setSize(rect.width, rect.height);
+      renderer3D.shadowMap.enabled = true;
+      renderer3D.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer3D.domElement);
+
+      controls3D = new THREE.OrbitControls(camera3D, renderer3D.domElement);
+      controls3D.enableDamping = true;
+      controls3D.dampingFactor = 0.05;
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+      scene3D.add(ambientLight);
+
+      objects3DGroup = new THREE.Group();
+      scene3D.add(objects3DGroup);
+
+      function animarLoop3D() {
+        requestAnimationFrame(animarLoop3D);
+        if (modoVista === '3d') {
+          if (!modoPOV && controls3D) controls3D.update();
+          const camRender = modoPOV ? cameraPOV3D : camera3D;
+          renderer3D.render(scene3D, camRender);
+        }
+      }
+      animarLoop3D();
+    }
+
+    function actualizarEscena3D() {
+      if (!scene3D || !objects3DGroup) return;
+
+      while (objects3DGroup.children.length > 0) {
+        const obj = objects3DGroup.children[0];
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          else obj.material.dispose();
+        }
+        objects3DGroup.remove(obj);
+      }
+
+      const m = obtenerMetricasEscenario();
+      const wM = m.wM; const lM = m.lM; const hM = m.hM;
+
+      // Suelo
+      const floorGeo = new THREE.PlaneGeometry(wM, lM);
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x09101f, roughness: 0.8 });
+      const floor = new THREE.Mesh(floorGeo, floorMat);
+      floor.rotation.x = -Math.PI / 2;
+      floor.receiveShadow = true;
+      objects3DGroup.add(floor);
+
+      if (!modoPOV) {
+        const grid = new THREE.GridHelper(Math.max(wM, lM), Math.max(wM, lM), 0x38bdf8, 0x162035);
+        grid.position.y = 0.01;
+        objects3DGroup.add(grid);
+
+        const boxGeo = new THREE.BoxGeometry(wM, hM, lM);
+        const wire = new THREE.LineSegments(new THREE.EdgesGeometry(boxGeo), new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 2 }));
+        wire.position.y = hM / 2;
+        objects3DGroup.add(wire);
+      }
+
+      // 1. Actores 3D
+      actores.forEach((a) => {
+        const actorGroup = new THREE.Group();
+        const posX = a.xm - wM / 2;
+        const posZ = a.ym - lM / 2;
+
+        const bodyGeo = new THREE.CylinderGeometry(0.18, 0.22, 1.1, 16);
+        const bodyMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(a.color) });
+        const body = new THREE.Mesh(bodyGeo, bodyMat);
+        body.position.y = 0.85;
+        body.castShadow = true;
+        actorGroup.add(body);
+
+        const headGeo = new THREE.SphereGeometry(0.16, 16, 16);
+        const head = new THREE.Mesh(headGeo, bodyMat);
+        head.position.y = 1.55;
+        head.castShadow = true;
+        actorGroup.add(head);
+
+        actorGroup.position.set(posX, 0, posZ);
+        objects3DGroup.add(actorGroup);
+      });
+
+      // 2. Luces en 3D con Dirección Real e Intensidad Calibrada
+      luces.forEach((luz) => {
+        const posX = luz.xm - wM / 2;
+        const posZ = luz.ym - lM / 2;
+        const targetX = luz.targetXm - wM / 2;
+        const targetZ = luz.targetYm - lM / 2;
+        const estilo = ESTILOS_LUZ[luz.estilo] || ESTILOS_LUZ.tungsten_amber;
+        const threeColor = new THREE.Color(estilo.color);
+
+        if (!modoPOV) {
+          const bulbGeo = new THREE.SphereGeometry(0.18, 16, 16);
+          const bulbMat = new THREE.MeshBasicMaterial({ color: threeColor });
+          const bulb = new THREE.Mesh(bulbGeo, bulbMat);
+          bulb.position.set(posX, hM * 0.85, posZ);
+          objects3DGroup.add(bulb);
+        }
+
+        const spot = new THREE.SpotLight(threeColor, 2.5 * (luz.intensidad / 100));
+        spot.position.set(posX, hM * 0.85, posZ);
+        spot.target.position.set(targetX, 0.8, targetZ);
+        spot.angle = Math.PI / 4;
+        spot.penumbra = 0.4;
+        spot.castShadow = true;
+        objects3DGroup.add(spot);
+        objects3DGroup.add(spot.target);
+      });
+
+      // 3. Cámaras en 3D
+      const estadoSim = obtenerTomaYCamaraActiva(tiempoActual);
+
+      camarasFisicas.forEach((cam) => {
+        const esActiva = estadoSim.cam && (estadoSim.cam.id === cam.id);
+        let { curX, curY, curZ, targetX, targetY, rollAngle, dynamicFovModifier } = calcularCinematicaCamara(cam, esActiva ? estadoSim.progToma : 0, tiempoActual);
+
+        const posX = curX - wM / 2;
+        const posZ = curY - lM / 2;
+        const posY = curZ;
+
+        const targetPosX = targetX - wM / 2;
+        const targetPosZ = targetY - lM / 2;
+        const targetPosY = (cam.alturaIdx === 0) ? 1.4 : 1.2; // Si está a ras de suelo, mira hacia arriba
+
+        if (!modoPOV) {
+          const camGroup = new THREE.Group();
+          const camGeo = new THREE.BoxGeometry(0.35, 0.25, 0.45);
+          const camMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(cam.color) });
+          const camMesh = new THREE.Mesh(camGeo, camMat);
+          camGroup.add(camMesh);
+
+          camGroup.position.set(posX, posY, posZ);
+          camGroup.lookAt(targetPosX, targetPosY, targetPosZ);
+          if (rollAngle !== 0) camGroup.rotation.z += rollAngle;
+
+          const coneGeo = new THREE.ConeGeometry(0.8, 2.0, 4);
+          const coneMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(cam.color), wireframe: true });
+          const cone = new THREE.Mesh(coneGeo, coneMat);
+          cone.rotation.x = -Math.PI / 2;
+          cone.position.z = 1.0;
+          camGroup.add(cone);
+
+          objects3DGroup.add(camGroup);
+        }
+
+        if (modoPOV && esActiva && cameraPOV3D) {
+          const opt = OPTICAS[cam.opticaIdx];
+          cameraPOV3D.fov = opt.fov * dynamicFovModifier;
+          cameraPOV3D.updateProjectionMatrix();
+          cameraPOV3D.position.set(posX, posY, posZ);
+          cameraPOV3D.lookAt(targetPosX, targetPosY, targetPosZ);
+          if (rollAngle !== 0) cameraPOV3D.rotation.z += rollAngle;
+        }
+      });
+    }
+
+    // --- COMPILADOR DEL PROMPT CLICMAYORES / X-PROMPT CAMERA V7.5 ---
+    function compilarPromptOmniFlash() {
+      const env = document.getElementById('sceneEnv').value.trim();
+      const foley = document.getElementById('foleyEnv').value.trim();
+      const noMusic = document.getElementById('noMusicCheck').checked;
+      const estiloGlobal = ESTILOS_LUZ[document.getElementById('lightStyle').value] || ESTILOS_LUZ.tungsten_amber;
+
+      if (tomas.length === 0 && actores.length === 0 && luces.length === 0) {
+        document.getElementById('promptOutput').value = `[X-PROMPT CAMERA] Añade actores, luces o cámaras para comenzar a compilar tu secuencia cinemática.`;
+        return;
+      }
+
+      // 1. ANCLAJE Y CONSISTENCIA
+      let prompt = `<MASTER_STAGE_REFERENCE>@Image1 used to lock the architectural layout and lighting.\n\n`;
+
+      if (env) {
+        prompt += `[ENVIRONMENT: ${env}]\n\n`;
+      }
+
+      // 2. RIG DE ILUMINACIÓN VECTORIAL Y FOTOMETRÍA (DIRECCIÓN, POSICIÓN E INTENSIDAD)
+      if (luces.length > 0) {
+        prompt += `[LIGHTING RIG & PHOTOMETRIC DIRECTIONALITY]:\n`;
+        luces.forEach(l => {
+          const estilo = ESTILOS_LUZ[l.estilo] || ESTILOS_LUZ.tungsten_amber;
+          const rol = ROLES_LUZ[l.rol].en;
+          const dx = (l.targetXm - l.xm).toFixed(1);
+          const dy = (l.targetYm - l.ym).toFixed(1);
+          prompt += `- ${rol} (${luzNombreEstilo(l.estilo)}): Origin at [X: ${l.xm.toFixed(1)}m, Y: ${l.ym.toFixed(1)}m], casting a true directional beam angled towards [X: ${l.targetXm.toFixed(1)}m, Y: ${l.targetYm.toFixed(1)}m] (vector: ${dx}m, ${dy}m) at ${l.intensidad}% intensity. Emitting ${estilo.descEn}.\n`;
+        });
+        prompt += `\n`;
+      }
+
+      // 3. SECUENCIA TEMPORAL DE ENCUADRES CON DIRECTIVAS DE OPERADOR
+      let acum = 0;
+      const camarasUsadasPreviamente = new Set();
+
+      tomas.forEach((toma, idx) => {
+        const s = acum.toFixed(0);
+        const e = (acum + toma.duracion).toFixed(0);
+        acum += toma.duracion;
+
+        const cam = camarasFisicas.find(c => c.id === toma.camId) || camarasFisicas[0];
+        const optica = OPTICAS[cam.opticaIdx];
+        const altura = ALTURAS_Z[cam.alturaIdx];
+        const mov = MOVIMIENTOS_ASC[cam.movIdx];
+
+        let targetName = "the environment";
+        if (cam.focoActorIdx >= 0 && cam.focoActorIdx < actores.length) {
+          targetName = `${actores[cam.focoActorIdx].nombre} (${actores[cam.focoActorIdx].tag})`;
+        }
+
+        const esRetorno = camarasUsadasPreviamente.has(cam.id);
+        camarasUsadasPreviamente.add(cam.id);
+
+        let kinematicDesc = mov.promptTemplate(cam, targetName);
+
+        // Traducción diegética de la directiva del intercom/operador
+        let directivaOperador = "";
+        if (toma.customDesc && toma.customDesc.trim()) {
+          directivaOperador = `Framing priority & lens operation cue: smoothly prioritize framing on ${toma.customDesc.trim()}, preserving locked optical stability and continuous subject centering.`;
+        }
+
+        if (esRetorno) {
+          prompt += `[${s}-${e}s] Cut back to Shot ${cam.letter} framing: ${optica.nombre}, ${altura.termEn}. Re-anchor the scene with the exact same ${estiloGlobal.descEn}. Keep the same spatial composition, props, and textures behind ${targetName} exactly as in the opening setup. ${kinematicDesc} ${directivaOperador ? `${directivaOperador} ` : ''}\n\n`;
+        } else {
+          prompt += `[${s}-${e}s] Shot ${cam.letter} framing: ${optica.descEn}, ${altura.termEn}. Focused on ${targetName}. ${estiloGlobal.descEn}. ${kinematicDesc} ${directivaOperador ? `${directivaOperador} ` : ''}\n\n`;
+        }
+      });
+
+      // 4. SATURACIÓN DE FOLEY DIEGÉTICO
+      const audioFoley = foley ? foley : "subtle atmospheric room tone, gentle breathing, delicate environmental presence";
+      prompt += `Audio: Native audio, 48kHz. Precision foley: ${audioFoley}. ${noMusic ? "0 background music. No dialogue." : "Atmospheric environmental sound."}\n\n`;
+
+      // 5. NEGATIVE PROMPT ESTRICTO
+      prompt += `[NEGATIVE_PROMPT: camera equipment, visible camera, tripods, dolly tracks, camera rig, cameraman, film crew, filming gear, studio lights, lighting equipment, boom microphone, film set, behind the scenes, making of, production gear, watermark, text overlay, blurry, low resolution, compressed, frame jump, temporal inconsistency, deformed face, distorted hands, morphing furniture, shifting room geometry${noMusic ? ", background music, musical soundtrack, singing" : ""}.]`;
+
+      document.getElementById('promptOutput').value = prompt;
+    }
+
+    function luzNombreEstilo(k) {
+      const e = ESTILOS_LUZ[k];
+      return e ? e.nombre.split(' (')[0] : 'Tungsten';
+    }
+
+    // --- ACCIONES AUXILIARES ---
+    window.copiarPrompt = () => {
+      navigator.clipboard.writeText(document.getElementById('promptOutput').value);
+      alert('¡Prompt copiado al portapapeles!');
+    };
+
+    window.reiniciarEscena = () => {
+      initDefaultScene();
+    };
+
+    ['sceneEnv', 'foleyEnv', 'stageWidthM', 'stageLengthM', 'stageHeightM'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => { dibujarEscena(); compilarPromptOmniFlash(); });
+    });
+
+    setTimeout(() => {
+      initDefaultScene();
+      redimensionarCanvas();
+    }, 150);
+  </script>
+<!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

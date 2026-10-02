@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metodo Zuppelli 4k - Constructor HRP — AI DAN SOLUTIONS.com 2026</title>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<!-- PANTALLA SPLASH DE INICIO -->
+<div class="splash-screen-overlay" id="splashScreenOverlay">
+<!-- SELECTOR DE IDIOMA EN EL ÁREA SUPERIOR IZQUIERDA (ZONA DEL CIELO) -->
+<canvas id="splashSparksCanvas"></canvas>
+<!-- CAJITA DE IDIOMA Y BOTÓN DE VERSIÓN -->
+<div class="splash-lang-container">
+<div class="splash-lang-title">🌐 Idioma / Language</div>
+<label class="splash-lang-option">
+<input checked="" name="splashLangRadio" onchange="cambiarIdiomaGlobal('es')" type="radio" value="es"/>
+<span>Español</span>
+</label>
+<label class="splash-lang-option">
+<input name="splashLangRadio" onchange="cambiarIdiomaGlobal('pt')" type="radio" value="pt"/>
+<span>Português</span>
+</label>
+<label class="splash-lang-option">
+<input name="splashLangRadio" onchange="cambiarIdiomaGlobal('en')" type="radio" value="en"/>
+<span>English</span>
+</label>
+<!-- BOTÓN VERSIÓN 1.5 -->
+<div class="splash-version-tag" id="btnSplashVersion">
+        ⚡ VERSIÓN 1.5
+      </div>
+</div>
+<!-- 👇 PANEL DE NOVEDADES FLOTANTE MULTILINGÜE 👇 -->
+<div class="splash-changelog-panel" id="splashChangelogPanel">
+<div class="splash-changelog-header">
+<div class="splash-changelog-title" data-i18n="chTitle">🚀 Novedades y Actualizaciones (v1.5)</div>
+<span style="font-size: 0.8rem; color: #9ca3af; font-weight: 700;">AI DAN SOLUTIONS 2026</span>
+</div>
+<div class="splash-changelog-list">
+<div class="changelog-item" style="border-left-color: #3b82f6;">
+<h4 data-i18n="ch1Title">🎬 Extractor de Video Turnaround 3D</h4>
+<p data-i18n="ch1Desc">Escanea giros 360° en video y extrae automáticamente los 5 ángulos ortográficos con selector de proporción personalizado.</p>
+</div>
+<div class="changelog-item" style="border-left-color: #facc15;">
+<h4 data-i18n="ch2Title">🎨 Paleta Automática HEX</h4>
+<p data-i18n="ch2Desc">Algoritmo que filtra fondos y extrae los 5 colores esenciales del personaje en muestras visuales listas para producción.</p>
+</div>
+<div class="changelog-item" style="border-left-color: #ec4899;">
+<h4 data-i18n="ch3Title">⚙️ Barra Flotante Contextual</h4>
+<p data-i18n="ch3Desc">Menú flotante con arrastre manual para controlar carga de foto, zoom y paneo directamente sobre cada módulo.</p>
+</div>
+<div class="changelog-item" style="border-left-color: #10b981;">
+<h4 data-i18n="ch4Title">↩️ Historial Deshacer (Undo)</h4>
+<p data-i18n="ch4Desc">Recupera hasta 30 pasos previos ante cualquier cambio, movimiento o eliminación accidental dentro de la hoja.</p>
+</div>
+<div class="changelog-item" style="border-left-color: #a855f7;">
+<h4 data-i18n="ch5Title">✏️ Suite 2D Ampliada y Chispas</h4>
+<p data-i18n="ch5Desc">Nuevos módulos (Live2D, Chibi, Keyframes de acción) y efectos dinámicos de partículas térmicas en el inicio.</p>
+</div>
+</div>
+</div>
+<!-- 👆 FIN DEL PANEL DE NOVEDADES 👆 -->
+<!-- BOTÓN INICIAR AMARILLO NEÓN EN LA ESQUINA INFERIOR IZQUIERDA -->
+<div class="splash-bottom-container">
+<button class="btn-splash-start" id="btnSplashStart" onclick="iniciarAppDesdeSplash()">INICIAR</button>
+</div>
+</div>
+<!-- PANTALLITA FLOTANTE OBLIGATORIA AL INICIAR LA APP -->
+<div class="welcome-modal-overlay" id="welcomeModalOverlay">
+<div class="welcome-modal-card">
+<h2 data-i18n="welcomeTitle">🎯 SELECCIONA EL MODO DE GENERACIÓN</h2>
+<p class="subtitle" data-i18n="welcomeSubtitle">Elige el estilo visual para configurar la Hoja de Referencia del Personaje (HDP)</p>
+<div class="mode-options-grid">
+<div class="mode-card-option selected-3d" id="cardMode3d" onclick="seleccionarOpcionModo('3d')">
+<span class="mode-icon">👤</span>
+<span class="mode-title" data-i18n="modeRealTitle">Estilo Realista</span>
+<input checked="" id="radioMode3d" name="appModeRadio" type="radio" value="3d"/>
+</div>
+<div class="mode-card-option" id="cardMode2d" onclick="seleccionarOpcionModo('2d')">
+<span class="mode-icon">✏️</span>
+<span class="mode-title" data-i18n="mode2dTitle">Estilo 2D</span>
+<input id="radioMode2d" name="appModeRadio" type="radio" value="2d"/>
+</div>
+</div>
+<div class="mode-desc-box" id="modeDescriptionBox">
+<!-- Renderizado dinámico -->
+</div>
+<button class="btn-accept-mode" data-i18n="btnAccept" id="btnAcceptWelcomeMode">ACEPTAR</button>
+</div>
+</div>
+<!-- POPUP LEYENDA FLOTANTE DE AYUDA FISONÓMICA (?) -->
+<div class="floating-help-popup" id="floatingHelpPopup">
+<div class="floating-help-header">
+<div class="floating-help-title">
+<span>❓</span> <span id="helpTitle">Información del Módulo</span>
+</div>
+<button class="btn-close-help" id="btnCloseHelp" title="Cerrar">✕</button>
+</div>
+<div class="floating-help-body" id="helpBody">
+      Explicación técnica del módulo.
+    </div>
+</div>
+<!-- MODAL EXTRACTOR DE FOTOGRAMAS TURNAROUND 3D -->
+<!-- MODAL EXTRACTOR DE FOTOGRAMAS TURNAROUND 3D MULTILINGÜE -->
+<div class="prompt-modal-overlay" id="videoModalOverlay" style="display:none; z-index:25000;">
+<div class="prompt-modal-popup" style="max-width: 880px;">
+<!-- 💡 CAJA GUÍA DE PROMPT VIDEO -->
+<div style="background: rgba(59, 130, 246, 0.1); border: 1.5px dashed #3b82f6; border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+<strong data-i18n="vmPromptBoxTitle" style="color:#60a5fa; font-size:0.9rem;">💡 ¿Cómo crear este video en Kling / Luma / Runway / ComfyUI?</strong>
+<button class="btn btn-primary" data-i18n="vmBtnCopyVideoPrompt" onclick="copiarPromptTurnaround(this)" style="font-size:0.75rem; padding:4px 10px; gap:4px;" type="button">📋 Copiar Prompt Video</button>
+</div>
+<p data-i18n="vmPromptBoxDesc" style="font-size:0.8rem; color:#d1d5db; line-height:1.4; margin-bottom:8px;">
+          Genera una imagen frontal de tu personaje en fondo gris neutro, súbela a tu motor de IA de video (Image-to-Video) y utiliza este prompt maestro:
+        </p>
+<div id="promptVideoTexto" style="background:#121316; padding:8px 12px; border-radius:6px; border:1px solid #2e323b; font-family:monospace; font-size:0.8rem; color:#a7f3d0; word-break:break-word;">
+          A smooth and continuous 360-degree turntable rotation around the exact subject. Strictly preserve 100% of the original image's visual art style, medium, line art, textures, materials, and intricate details without alteration. Perfect temporal consistency, rigid structure, static pose, zero morphing, zero deformation, no style shift, no 2D-to-3D or 3D-to-2D conversion. The subject remains completely identical to the source reference from every angle on a solid neutral background.
+        </div>
+</div>
+<div class="prompt-modal-header">
+<div class="prompt-modal-title" data-i18n="vmModalTitle" style="color: #60a5fa; font-size: 1.1rem;">
+          🎬 Escáner 3D / Extractor Turnaround a HRP 4K
+        </div>
+<button class="btn-close-help" onclick="cerrarModalVideo()" title="Cerrar">✕</button>
+</div>
+<p data-i18n="vmModalSubtitle" style="font-size:0.83rem; color:var(--text-muted); margin-bottom:12px;">
+        La IA ha extraído automáticamente los 5 ángulos orbitales exactos de tu video 360°. Selecciona la proporción de salida deseada:
+      </p>
+<!-- CONTROLES: SENTIDO DE GIRO Y SELECTOR DE MEDIDAS / RATIOS -->
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; background:rgba(0,0,0,0.35); padding:12px; border-radius:8px; margin-bottom:14px; border:1px solid var(--border-color);">
+<!-- 1. SENTIDO DE GIRO -->
+<div>
+<label data-i18n="vmRotationLabel" style="display:block; font-size:0.78rem; font-weight:700; color:#93c5fd; margin-bottom:4px;">Sentido de rotación del video:</label>
+<select class="input-text" id="videoRotationDirection" onchange="reprocesarDireccionGiro()" style="padding: 6px 8px; font-size: 0.8rem;">
+<option id="optRotCW" selected="" value="cw">🔄 Sentido Horario (Gira hacia la derecha)</option>
+<option id="optRotCCW" value="ccw">🔄 Sentido Antihorario (Gira hacia la izquierda)</option>
+</select>
+</div>
+<!-- 2. SELECTOR DE PROPORCIÓN -->
+<div>
+<label data-i18n="vmRatioLabel" style="display:block; font-size:0.78rem; font-weight:700; color:#facc15; margin-bottom:4px;">📐 Proporción de salida de los módulos:</label>
+<select class="input-text" id="videoModuleRatioSelect" onchange="actualizarAspectoMiniaturas()" style="padding: 6px 8px; font-size: 0.8rem; font-weight:700; border-color: rgba(250, 204, 21, 0.5);">
+<option id="optRatio916" selected="" value="9:16">9:16 (Cuerpo Entero Vertical - Recomendado)</option>
+<option id="optRatio34" value="3:4">3:4 (Busto / Retrato Estándar)</option>
+<option id="optRatio11" value="1:1">1:1 (Cuadrado / Detalle)</option>
+<option id="optRatio43" value="4:3">4:3 (Horizontal Medio)</option>
+<option id="optRatio169" value="16:9">16:9 (Panorámico / Cinemático)</option>
+</select>
+</div>
+</div>
+<!-- CUADRÍCULA CON LAS 5 CAPTURAS EXTRAÍDAS -->
+<div id="videoThumbnailsGrid" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:10px; margin-bottom:16px;">
+<!-- Se llena dinámicamente con JavaScript -->
+</div>
+<!-- CASILLA EXTRACTOR AUTOMÁTICO DE PALETA DE COLOR -->
+<div style="background:rgba(250, 204, 21, 0.08); border:1px solid rgba(250, 204, 21, 0.3); padding:10px 14px; border-radius:8px; margin-bottom:14px; display:flex; align-items:center; gap:10px;">
+<input checked="" id="chkAutoExtractPalette" style="accent-color:#facc15; width:18px; height:18px; cursor:pointer;" type="checkbox"/>
+<label data-i18n="vmChkPalette" for="chkAutoExtractPalette" style="font-size:0.85rem; font-weight:700; color:#facc15; cursor:pointer; user-select:none;">
+          🎨 Extraer automáticamente los 5 colores del personaje y generar el Módulo de Paleta (Swatches HEX)
+        </label>
+</div>
+<!-- BOTÓN PARA APLICAR A LA HOJA -->
+<button class="btn btn-primary" data-i18n="vmBtnApply" id="btnAplicarVideoAHoj" onclick="aplicarFotogramasAlCanvas()" style="width:100%; justify-content:center; padding:12px; font-size:0.95rem; font-weight:800; letter-spacing:0.5px;">
+        🚀 APLICAR LOS 5 ÁNGULOS A LA HOJA 4K
+      </button>
+</div>
+</div>
+<!-- VENTANA EMERGENTE MODAL DE PROMPT IA -->
+<div class="prompt-modal-overlay" id="promptModalOverlay">
+<div class="prompt-modal-popup" id="promptModalPopup">
+<div class="prompt-modal-header">
+<div class="prompt-modal-title" id="modalPromptTitle">
+          📷 Pieza 1: Busto de Frente
+        </div>
+<button class="btn-close-help" id="btnClosePromptModal" title="Cerrar">✕</button>
+</div>
+<ul class="prompt-specs">
+<li>• <strong data-i18n="modalRatioLabel">Ratio Requerido:</strong> <code id="modalRatioText">--ar 3:4</code></li>
+<li>• <strong data-i18n="modalQualityLabel">Enfoque de Calidad:</strong> <span id="modalQualityText">Hiperrealismo milimétrico 8K, poros, micro-textura y referencia fisonómica 1:1.</span></li>
+</ul>
+<div style="background:rgba(59, 130, 246, 0.08); border:1px solid rgba(59, 130, 246, 0.25); padding:12px; border-radius:8px; margin:12px 0;">
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<label id="modalCustomLabel" style="font-size:0.8rem; font-weight:700; color:var(--accent);">💡 Ajuste Personalizado (Uso Recomendado):</label>
+<button data-i18n="btnRestoreBase" id="modalBtnRestore" onclick="restaurarPromptInModal()" style="background:none; border:none; color:#ef4444; font-size:0.75rem; cursor:pointer; font-weight:700; display:none;">🔄 Restaurar Base</button>
+</div>
+<div id="modalInputContainer"></div>
+<div id="modalHeadCheckboxContainer"></div>
+</div>
+<div class="prompt-box-wrapper">
+<div class="prompt-text" id="modalPromptText">Cargando prompt...</div>
+<button class="btn-copy" data-i18n="btnCopyPrompt" id="modalBtnCopy" onclick="copyPromptText(this, 'modalPromptText')">📋 Copiar Prompt</button>
+</div>
+<p id="modalUsageTip" style="font-size:0.85rem; color:var(--text-muted); margin-top:14px;">
+        💡 <strong>Uso Recomendado:</strong> Carga tu referencia.
+      </p>
+</div>
+</div>
+<div class="app-viewport">
+<header>
+<div class="logo-title-container">
+<div class="logo-title">
+<h1>Metodo Zuppelli 4k - Constructor HRP</h1>
+<p data-i18n="headerSubtitle">Creador de Hojas de Personaje en 16:9 (3840x2160) By AI DAN SOLUTIONS.com 2026</p>
+</div>
+<a class="btn-sub-neon" data-i18n="btnSubscribe" href="https://www.youtube.com/@clicmayores?sub_confirmation=1" rel="noopener" target="_blank" title="Suscripción automática al canal de YouTube">
+          ▶ Suscríbete
+        </a>
+</div>
+<div class="header-actions">
+<!-- SELECTOR OCULTO PARA CARGAR VIDEO -->
+<input accept="video/mp4,video/webm,video/quicktime,video/*" id="videoTurnaroundInput" onchange="manejarSeleccionVideo(event)" style="display:none;" type="file"/>
+<!-- CHECKBOX GRILLA -->
+<label class="grid-checkbox-label" style="font-size: 0.75rem; padding: 5px 10px;">
+<input id="chkShowGrid" style="width: 14px; height: 14px;" type="checkbox"/> <span data-i18n="chkGrid">Activar Grilla</span>
+</label>
+<!-- BOTÓN DESHACER -->
+<button class="btn" id="btnUndo" onclick="deshacerUltimoPaso()" style="font-size: 0.75rem; padding: 6px 10px; opacity: 0.5; cursor: not-allowed;" title="Deshacer último cambio (Ctrl + Z)">
+<span data-i18n="btnUndo">↩ Deshacer</span>
+</button>
+<!-- BOTÓN MODO CALIBRE -->
+<button class="btn" data-i18n="btnCaliper" id="btnToggleGuides" style="font-size: 0.75rem; padding: 6px 10px;">📏 Activar Modo Calibre</button>
+<!-- BOTÓN EXPORTAR 4K -->
+<button class="btn btn-primary" data-i18n="btnExport" id="btnExport" style="font-size: 0.78rem; padding: 6px 12px;">💾 Exportar Hoja 4K</button>
+</div>
+</header>
+<main>
+<sidebar>
+<div class="sidebar-section">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<h3 data-i18n="sectionGeneralConfig" style="margin-bottom: 0;">Configuración General</h3>
+<!-- BADGE DEL ESTILO ACTIVO (REALISTA / 2D) -->
+<!-- DESPUÉS (SOLO LEYENDA INFORMATIVA) -->
+<span id="sidebarModeBadge" style="font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); background: rgba(59, 130, 246, 0.15); cursor: default; text-transform: uppercase;">Realista</span>
+</div>
+<div class="form-group">
+<label data-i18n="lblCharName" for="charName">Nombre / Rótulo del Personaje:</label>
+<input class="input-text" id="charName" type="text" value="JUAN MANUEL ZUPPELLI — MODEL SHEET"/>
+</div>
+<div class="form-group">
+<label data-i18n="lblTextPos" for="textPos">Posición del Rótulo:</label>
+<select id="textPos">
+<option data-i18n="optTopLeft" value="top-left">Superior Izquierda</option>
+<option data-i18n="optTopCenter" selected="" value="top-center">Superior Centro</option>
+<option data-i18n="optTopRight" value="top-right">Superior Derecha</option>
+<option data-i18n="optBottomCenter" value="bottom-center">Inferior Centro</option>
+</select>
+</div>
+<div class="form-group">
+<label data-i18n="lblTextOpacity" for="textOpacity">Opacidad del Rótulo (Transparencia 35%):</label>
+<input class="input-range" id="textOpacity" max="1" min="0.1" step="0.05" type="range" value="0.35"/>
+</div>
+<!-- CÓDIGO NUEVO CON PRESET GRIS MEDIO (#808080) -->
+<div class="form-group">
+<label data-i18n="lblBgColor" for="bgColor">Color de Fondo del Lienzo:</label>
+<div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+<input id="bgColor" style="flex:1; height:34px; border:none; cursor:pointer; border-radius:6px; background:transparent;" type="color" value="#808080"/>
+<button class="btn" onclick="establecerColorLienzo('#808080')" style="padding:6px 10px; font-size:0.75rem; background:#808080; color:#fff; border:1px solid #fff;" title="Gris Medio 50% (Recomendado IA)" type="button">🎯 50% Gris</button>
+<button class="btn" onclick="establecerColorLienzo('#ffffff')" style="padding:6px 10px; font-size:0.75rem; background:#ffffff; color:#000; border:1px solid #ccc;" title="Blanco Puro" type="button">Blanco</button>
+</div>
+</div>
+</div>
+<div class="sidebar-section">
+<h3 data-i18n="sectionAddModule">➕ Añadir Módulo al Canvas</h3>
+<div class="add-module-box">
+<select id="selectNuevoModulo"></select>
+<button class="btn btn-primary" data-i18n="btnAddModule" id="btnAgregarModulo" style="width:100%; justify-content:center; margin-bottom:8px;">➕ Agregar a la Hoja</button>
+<!-- 👇 AQUÍ QUEDA COMO SEGUNDA OPCIÓN DENTRO DE LA CAJA 👇 -->
+<button class="btn" data-i18n="btnTurnaroundVideo" id="btnCargarVideo" onclick="document.getElementById('videoTurnaroundInput').click()" style="width:100%; justify-content:center; background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #93c5fd; font-weight: 700; font-size: 0.8rem; padding: 8px 10px;" title="Extraer automáticamente las vistas desde un video 360°" type="button">
+              🎬 Turnaround 3D (Desde Video)
+            </button>
+</div>
+</div>
+<div class="sidebar-section">
+<div class="guides-panel" id="guidesPanel">
+<h3 data-i18n="caliperTitle" style="color:#ef4444; margin-bottom:8px;">🎯 Modo Calibre (Escala 1:1)</h3>
+<div class="caliper-info">
+<span data-i18n="caliperGapLabel">Distancia Facial Fija:</span> <span id="val-guide-gap">975px</span>
+</div>
+<div style="display:flex; gap:6px; margin-bottom:12px;">
+<input class="input-text" id="inputManualGap" placeholder="Distancia en px (ej: 975)" style="flex:1; padding:6px 10px; font-size:0.8rem;" type="number" value="975"/>
+<button class="btn btn-primary" data-i18n="btnSetGap" id="btnSetManualGap" style="padding:6px 12px; font-size:0.75rem; white-space:nowrap;">Establecer px</button>
+</div>
+<div class="control-row" style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; margin-bottom:12px;">
+<label style="color:#3b82f6; font-weight:700;"><span data-i18n="lblMoveCaliper">↕️ MOVER CALIBRE COMPLETO:</span> <span id="val-guide-center">1412px</span></label>
+<input class="input-range" id="sliderGuideMove" max="1900" min="200" step="5" type="range" value="1412"/>
+</div>
+<hr style="border:none; border-top:1px dashed var(--border-color); margin:10px 0;"/>
+<div class="control-row">
+<label><span data-i18n="lblEyeGuide">🔴 Altura Línea Ojos</span> <span id="val-guide-eye">925px</span></label>
+<input class="input-range" id="sliderGuideEye" max="1800" min="100" step="5" type="range" value="925"/>
+</div>
+<div class="control-row">
+<label><span data-i18n="lblChinGuide">🔵 Altura Línea Mentón</span> <span id="val-guide-chin">1900px</span></label>
+<input class="input-range" id="sliderGuideChin" max="2100" min="200" step="5" type="range" value="1900"/>
+</div>
+</div>
+<h3 data-i18n="sectionActiveModules">Módulos Activos en Lienzo</h3>
+<div id="activeModulesContainer"></div>
+</div>
+</sidebar>
+<div class="canvas-container">
+<div class="canvas-wrapper" id="canvasWrapper">
+<canvas id="previewCanvas"></canvas>
+<!-- BARRA FLOTANTE CONTEXTUAL DE HERRAMIENTAS MULTI-IDIOMA -->
+<div class="module-floating-toolbar" id="moduleFloatingToolbar">
+<!-- BOTÓN PARA ARRASTRAR LA BARRA FLOTANTE -->
+<button class="floating-tool-btn" id="btnFloatDragHandle" style="cursor: grab; padding: 6px 8px; font-size: 1rem; user-select: none;" title="Mantén presionado para mover la barra">⠿</button>
+<!-- Input oculto para cargar fotos -->
+<input accept="image/*" id="floatingFileInput" onchange="cargarImagenDesdeToolbar(event)" style="display:none;" type="file"/>
+<!-- 1. BOTÓN CARGAR / CAMBIAR FOTO -->
+<button class="floating-tool-btn" id="btnFloatPhoto" onclick="document.getElementById('floatingFileInput').click()" title="Cargar o cambiar foto">
+            🖼️ <span data-i18n="tbPhoto" id="txtFloatPhoto">Foto</span>
+</button>
+<!-- 2. BOTÓN ENCUADRE (ZOOM Y PANEO) -->
+<button class="floating-tool-btn" id="btnToggleFloatTransform" onclick="toggleTransformPopover(event)" title="Ajustar Zoom y Paneo">
+            🔍 <span data-i18n="tbFraming" id="txtFloatFraming">Encuadre</span>
+</button>
+<!-- TARJETA CON LOS 3 DESLIZADORES DE ENCUADRE -->
+<div class="floating-transform-popover" id="floatingTransformPopover">
+<div class="popover-row">
+<label><span data-i18n="tbZoom" id="txtFloatZoom">🔍 Zoom</span> <span id="val-float-zoom">1.00x</span></label>
+<input id="sliderFloatZoom" max="3" min="0.5" oninput="actualizarFloatControl('zoom', this.value)" step="0.05" type="range" value="1"/>
+</div>
+<div class="popover-row">
+<label><span data-i18n="tbPanX" id="txtFloatPanX">↔️ Pan X</span> <span id="val-float-panX">0</span></label>
+<input id="sliderFloatPanX" max="800" min="-800" oninput="actualizarFloatControl('panX', this.value)" step="2" type="range" value="0"/>
+</div>
+<div class="popover-row">
+<label><span data-i18n="tbPanY" id="txtFloatPanY">↕️ Pan Y</span> <span id="val-float-panY">0</span></label>
+<input id="sliderFloatPanY" max="800" min="-800" oninput="actualizarFloatControl('panY', this.value)" step="2" type="range" value="0"/>
+</div>
+</div>
+<!-- 3. BOTÓN ELIMINAR -->
+<button class="floating-tool-btn btn-danger" id="btnFloatDelete" onclick="eliminarModuloSeleccionado()" title="Eliminar Módulo">
+            🗑️
+          </button>
+<!-- 4. BOTÓN CERRAR -->
+<button class="floating-tool-btn" id="btnFloatClose" onclick="cerrarToolbarFlotante()" style="padding: 6px 9px;" title="Cerrar Opciones">
+            ✕
+          </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- SECCIÓN MANUAL DE USUARIO DETALLADO Y MULTI-IDIOMA -->
+<section class="manual-section">
+<div class="manual-container">
+<div class="manual-header">
+<h2 data-i18n="manualTitle">📖 MANUAL DE USUARIO Y GUÍA TÉCNICA OFICIAL</h2>
+<h3 data-i18n="manualSubtitle">🚀 MÉTODO ZUPPELLI 4K — CONSTRUCTOR DE HOJAS DE PERSONAJE (HRP / MODEL SHEET)</h3>
+<p data-i18n="manualAuthor">Desarrollado para producción cinematográfica, videojuegos, animación 2D y creación con IA — Por <strong>AI DAN SOLUTIONS.com (2026)</strong></p>
+</div>
+<!-- BLOQUE 1: VENTAJAS 4K VS ESTÁNDAR -->
+<div class="manual-block">
+<h4 data-i18n="manualSec1Title">💎 1. ¿POR QUÉ UNA HOJA HRP EN 4K NATIVO (3840×2160)?</h4>
+<p data-i18n="manualSec1Text1">Una <strong>Hoja de Referencia de Personaje (HRP / Model Sheet)</strong> estándar suele crearse en resoluciones bajas (1080p o imágenes sueltas sin escala). Esto provoca que los modelos de Inteligencia Artificial (Midjourney, Flux, Stable Diffusion) pierdan detalles faciales finos, generen piel plástica o deformen las proporciones anatómicas al cambiar de ángulo.</p>
+<p data-i18n="manualSec1Text2"><strong>Ventajas exclusivas del Método Zuppelli 4K:</strong></p>
+<ul>
+<li data-i18n="manualSec1List1"><strong>Densidad de Píxeles Ultra HD (4K Nativo):</strong> Al maquetar en un lienzo de 3840×2160 px en relación 16:9, la IA puede extraer micro-poros, textura de iris, drapeado textil y arrugas con fidelidad 1:1.</li>
+<li data-i18n="manualSec1List2"><strong>Consistencia Multiangular Absoluta:</strong> Tus personajes no cambian de fisionomía entre tomas de frente, perfil y 3/4 gracias al calibrador milimétrico integrado.</li>
+<li data-i18n="manualSec1List3"><strong>Dualidad de Motores Gráficos:</strong> Soporta tanto <em>Estilo Realista</em> (textura dérmica 8K) como <em>Estilo 2D Universal</em> (anula texturas 3D y conserva trazos limpios, cel-shading y colores planos).</li>
+</ul>
+<!-- ESPACIO PUBLICITARIO ADSENSE ETIQUETADO -->
+<div style="margin: 25px 0; text-align: center; background: rgba(0, 0, 0, 0.25); border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 14px 10px;">
+<!-- hrp 19 ag nuevo -->
+</div>
+</div>
+<!-- BLOQUE 2: PASO A PASO -->
+<div class="manual-block">
+<h4 data-i18n="manualSec2Title">👣 2. GUÍA PASO A PASO: CÓMO CREAR TU MODEL SHEET EN 5 PASOS</h4>
+<div class="manual-tool-item" style="border-left: 3px solid var(--accent); margin-bottom: 10px;">
+<p data-i18n="manualStep1" style="margin-bottom:0;"><strong>Paso 1: Configuración Inicial</strong> — Selecciona tu idioma y elige entre Estilo Realista o 2D.</p>
+</div>
+<div class="manual-tool-item" style="border-left: 3px solid var(--accent); margin-bottom: 10px;">
+<p data-i18n="manualStep2" style="margin-bottom:0;"><strong>Paso 2: Generar y Cargar Vista Ancla</strong> — Genera el Busto de Frente con el botón PROMPT IA y cárgalo en el lienzo.</p>
+</div>
+<div class="manual-tool-item" style="border-left: 3px solid var(--accent); margin-bottom: 10px;">
+<p data-i18n="manualStep3" style="margin-bottom:0;"><strong>Paso 3: Calibrar Escala 1:1</strong> — Usa el Modo Calibre para fijar la distancia exacta de ojos y mentón.</p>
+</div>
+<div class="manual-tool-item" style="border-left: 3px solid var(--accent); margin-bottom: 10px;">
+<p data-i18n="manualStep4" style="margin-bottom:0;"><strong>Paso 4: Añadir Vistas e Igualar</strong> — Agrega perfiles y cuerpo entero, usando el botón '=' para clonar el tamaño.</p>
+</div>
+<div class="manual-tool-item" style="border-left: 3px solid #10b981; margin-bottom: 10px;">
+<p data-i18n="manualStep5" style="margin-bottom:0;"><strong>Paso 5: Encuadre y Exportación 4K</strong> — Ajusta Zoom/Panorámica y exporta tu PNG final en 3840×2160 px.</p>
+</div>
+</div>
+<!-- BLOQUE 3: HERRAMIENTAS -->
+<div class="manual-block">
+<h4 data-i18n="manualSec3Title">🛠️ 3. DICCIONARIO DE HERRAMIENTAS Y CONTROLES DEL LIENZO</h4>
+<div class="manual-tool-item">
+<strong data-i18n="manualTool1Title">🤖 Botón PROMPT IA (Embebido en el Lienzo)</strong>
+<p data-i18n="manualTool1Desc" style="margin-top:6px;">Abre la ficha técnica del módulo con el prompt optimizado en tiempo real, incluyendo parámetros avanzados (--cref, --sref, --ar, --style raw) y filtros anti-artefactos.</p>
+</div>
+<div class="manual-tool-item">
+<strong data-i18n="manualTool2Title">⚙️ Botón OPCIONES y Barra Flotante Contextual</strong>
+<p data-i18n="manualTool2Desc" style="margin-top:6px;">Aparece sobre el módulo seleccionado. Permite cargar fotos, abrir el panel de encuadre (Zoom y Paneo horizontal/vertical) y eliminar el módulo sin perder de vista el lienzo.</p>
+</div>
+<div class="manual-tool-item">
+<strong data-i18n="manualTool3Title">📏 Calibrador Digital 1:1 (Pie de Rey Facial)</strong>
+<p data-i18n="manualTool3Desc" style="margin-top:6px;">Guías de alineación extrema con extremos circulares marcados. Permite fijar y mover en bloque la distancia milimétrica exacta entre ojos y mentón.</p>
+</div>
+<div class="manual-tool-item">
+<strong data-i18n="manualTool4Title">🔲 Botón de Clonación de Ratio y Tamaño (=)</strong>
+<p data-i18n="manualTool4Desc" style="margin-top:6px;">Al activarse (rojo titilante), convierte al módulo en "fuente". Al hacer clic en cualquier otro módulo, transfiere instantáneamente su escala y relación de aspecto.</p>
+</div>
+<div class="manual-tool-item">
+<strong data-i18n="manualTool5Title">🧲 Snap Magnético Inteligente y Grilla 4K</strong>
+<p data-i18n="manualTool5Desc" style="margin-top:6px;">Líneas guía neón amarillas que saltan automáticamente al alinear módulos entre sí o con el centro exacto del lienzo panorámico 16:9.</p>
+</div>
+</div>
+</div>
+</section>
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

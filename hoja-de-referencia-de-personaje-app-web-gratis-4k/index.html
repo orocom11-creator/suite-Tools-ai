@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metodo Zuppelli 4k - Constructor HRP — AI DAN SOLUTIONS.com 2026</title>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<!-- ELEMENTO POPUP LEYENDA FLOTANTE DE AYUDA FISONÓMICA (?) -->
+<div class="floating-help-popup" id="floatingHelpPopup">
+<div class="floating-help-header">
+<div class="floating-help-title">
+<span>❓</span> <span id="helpTitle">Información del Módulo</span>
+</div>
+<button class="btn-close-help" id="btnCloseHelp" title="Cerrar">✕</button>
+</div>
+<div class="floating-help-body" id="helpBody">
+      Explicación técnica del módulo.
+    </div>
+</div>
+<div class="app-viewport">
+<header>
+<div class="logo-title-container">
+<div class="logo-title">
+<h1>Metodo Zuppelli 4k - Constructor HRP</h1>
+<p>Creador de Hojas de Personaje en 16:9 (3840x2160) By AI DAN SOLUTIONS.com 2026</p>
+</div>
+<a class="btn-sub-neon" href="https://www.youtube.com/@clicmayores?sub_confirmation=1" rel="noopener" target="_blank" title="Suscripción automática al canal de YouTube">
+          ▶ Suscríbete
+        </a>
+</div>
+<div class="header-actions">
+<label class="grid-checkbox-label">
+<input id="chkShowGrid" type="checkbox"/> Activar Grilla
+        </label>
+<button class="btn" id="btnToggleGuides">📏 Activar Modo Calibre</button>
+<button class="btn btn-primary" id="btnExport">💾 Exportar Hoja 4K (PNG)</button>
+</div>
+</header>
+<main>
+<sidebar>
+<div class="sidebar-section">
+<h3>Configuración General</h3>
+<div class="form-group">
+<label for="charName">Nombre / Rótulo del Personaje:</label>
+<input class="input-text" id="charName" type="text" value="JUAN MANUEL ZUPPELLI — MODEL SHEET"/>
+</div>
+<div class="form-group">
+<label for="textPos">Posición del Rótulo:</label>
+<select id="textPos">
+<option value="top-left">Superior Izquierda</option>
+<option selected="" value="top-center">Superior Centro</option>
+<option value="top-right">Superior Derecha</option>
+<option value="bottom-center">Inferior Centro</option>
+</select>
+</div>
+<div class="form-group">
+<label for="textOpacity">Opacidad del Rótulo (Transparencia 35%):</label>
+<input class="input-range" id="textOpacity" max="1" min="0.1" step="0.05" type="range" value="0.35"/>
+</div>
+<div class="form-group">
+<label for="bgColor">Color de Fondo del Lienzo:</label>
+<input id="bgColor" style="width:100%; height:32px; border:none; cursor:pointer; border-radius:4px;" type="color" value="#C5C5C5"/>
+</div>
+</div>
+<div class="sidebar-section">
+<h3>➕ Añadir Módulo al Canvas</h3>
+<div class="add-module-box">
+<select id="selectNuevoModulo"></select>
+<button class="btn btn-primary" id="btnAgregarModulo" style="width:100%; justify-content:center;">➕ Agregar a la Hoja</button>
+</div>
+</div>
+<div class="sidebar-section">
+<div class="guides-panel" id="guidesPanel">
+<h3 style="color:#ef4444; margin-bottom:8px;">🎯 Modo Calibre (Escala 1:1)</h3>
+<div class="caliper-info">
+              Distancia Facial Fija: <span id="val-guide-gap">975px</span>
+</div>
+<div style="display:flex; gap:6px; margin-bottom:12px;">
+<input class="input-text" id="inputManualGap" placeholder="Distancia en px (ej: 975)" style="flex:1; padding:6px 10px; font-size:0.8rem;" type="number" value="975"/>
+<button class="btn btn-primary" id="btnSetManualGap" style="padding:6px 12px; font-size:0.75rem; white-space:nowrap;">Establecer px</button>
+</div>
+<div class="control-row" style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; margin-bottom:12px;">
+<label style="color:#3b82f6; font-weight:700;">↕️ MOVER CALIBRE COMPLETO: <span id="val-guide-center">1412px</span></label>
+<input class="input-range" id="sliderGuideMove" max="1900" min="200" step="5" type="range" value="1412"/>
+</div>
+<hr style="border:none; border-top:1px dashed var(--border-color); margin:10px 0;"/>
+<div class="control-row">
+<label>🔴 Altura Línea Ojos <span id="val-guide-eye">925px</span></label>
+<input class="input-range" id="sliderGuideEye" max="1800" min="100" step="5" type="range" value="925"/>
+</div>
+<div class="control-row">
+<label>🔵 Altura Línea Mentón <span id="val-guide-chin">1900px</span></label>
+<input class="input-range" id="sliderGuideChin" max="2100" min="200" step="5" type="range" value="1900"/>
+</div>
+</div>
+<h3>Módulos Activos en Lienzo</h3>
+<div id="activeModulesContainer"></div>
+</div>
+</sidebar>
+<div class="canvas-container">
+<div class="canvas-wrapper" id="canvasWrapper">
+<canvas id="previewCanvas"></canvas>
+</div>
+</div>
+</main>
+</div>
+<section class="prompts-section">
+<div class="prompts-container">
+<div class="prompts-header">
+<h2>📋 PROMPTS DE GENERACIÓN PARA IA (EDICIÓN MÁXIMA CALIDAD FISONÓMICA 8K)</h2>
+<p>Prompts optimizados con preservación estricta de Ratio, textura dermatológica milimétrica, poros e iluminación fotográfica.</p>
+</div>
+<div id="dynamicPromptsContainer"></div>
+<div style="margin: 30px 0; text-align: center;">
+</div>
+<div style="text-align: center; margin: 35px 0;">
+<a class="btn-video-titilante" href="https://youtu.be/Yw7lqBiCW-k" rel="noopener" target="_blank">
+          🎬 Ver Video Explicación AQUÍ
+        </a>
+</div>
+<div class="tips-card">
+<h4>💡 Consejo para ejecutar las imágenes en la IA:</h4>
+<ol>
+<li><strong>Midjourney:</strong> Sube tu foto base, copia su enlace y al final de cada uno de estos prompts agrega: <code>--cref [LINK_DE_TU_FOTO] --cw 100</code>.</li>
+<li><strong>Stable Diffusion / Flux / Leonardo:</strong> Carga tu foto base en el módulo de referencia (IP-Adapter o Image-to-Image) fijando el peso al máximo (1.0).</li>
+</ol>
+</div>
+</div>
+</section>
+<!-- MANUAL DE USUARIO ACTUALIZADO CON NUEVAS HERRAMIENTAS -->
+<section class="manual-section">
+<div class="manual-container">
+<div class="manual-header">
+<h2>📖 MANUAL DE USUARIO Y GUÍA TÉCNICA COMPLETA</h2>
+<h3>🚀 MÉTODO ZUPPELLI 4K - CONSTRUCTOR HRP (HIGH-RESOLUTION MODEL SHEET)</h3>
+<p>Creador Profesional de Hojas de Referencia de Personaje en Resolución 16:9 Ultra HD (3840x2160 px) — Desarrollado por <strong>AI DAN SOLUTIONS.com (2026)</strong></p>
+</div>
+<div class="manual-block">
+<h4>📍 1. ¿QUÉ ES EL MÉTODO ZUPPELLI 4K - CONSTRUCTOR HRP?</h4>
+<p>El <strong>Método Zuppelli 4K - Constructor HRP</strong> es una aplicación web interactiva diseñada para que artistas 3D, concept artists, animadores y directores visuales maqueten <strong>Model Sheets (Hojas de Referencia de Personaje)</strong> profesionales en calidad 4K Nativa (3840 x 2160 píxeles, aspecto 16:9).</p>
+<p>El sistema combina herramientas de diseño visual e ingeniería fisonómica con un **Generador Dinámico de Prompts para Inteligencia Artificial** (Midjourney v6, Stable Diffusion, Flux, Leonardo AI), garantizando la consistencia del personaje en 32 vistas y ángulos anatómicos diferentes.</p>
+</div>
+<div class="manual-block">
+<h4>💻 2. ARQUITECTURA DEL LIENZO Y EDICIÓN INTERACTIVA (CANVAS 4K)</h4>
+<div class="ascii-diagram">+-------------------------------------------------------+-----------------------+
+|  METODO ZUPPELLI 4K - CONSTRUCTOR HRP (BY AI DAN SOLUTIONS)      | [Grilla] [Calibre]    |
++-------------------------------------------------------+-----------------------+
+|  PANEL DE CONTROL (380px) | VISTA PREVIA INTERACTIVA (3840 x 2160 px / 16:9)  |
+|  - Configuración Rótulo   |                                                   |
+|  - Selección 32 Módulos   |  +-------------------+ +---------------+ +-----+ |
+|  - Calibrador por Píxel   |  | BUSTO FRENTE [?][=]| | PERFIL DERECHO | |C.F. | |
+|  - Encuedre Zoom &amp; Pan    |  | (1800x2120 px)    | +---------------+ |(916)| |
+|  - Prompts en Vivo        |  +-------------------+ +---------------+ +-----+ |
++---------------------------+---------------------------------------------------+</div>
+<ul>
+<li><strong>Lienzo Ultra HD Nativo:</strong> Mantiene la escala exacta de 3840x2160 px sin importar la resolución del monitor donde se visualice.</li>
+<li><strong>Arrastre y Cambio de Tamaño con Ratón:</strong> Puedes mover cualquier módulo haciendo clic y arrastrando sobre el lienzo. La esquina inferior derecha (<code>↘</code>) permite redimensionarlo directamente.</li>
+<li><strong>Bloqueo Sagrado de Aspect Ratio:</strong> Cada pieza mantiene bloqueada su proporción anatómica (9:16, 16:9, 1:1, 4:3, 3:4) tanto al redimensionar con el ratón como al clonar tamaños.</li>
+<li><strong>Límites Infranqueables del Lienzo:</strong> Los módulos quedan confinados automáticamente para evitar que sobresalgan de la hoja.</li>
+<li><strong>Etiqueta de Dimensiones en Píxeles:</strong> Cada pieza muestra en su esquina superior izquierda su tamaño exacto en píxeles (ej: `1800x2120 px`) que se actualiza en vivo al redimensionar. *(Nota: Esta etiqueta solo es visible durante la edición y NO aparece en la exportación final)*.</li>
+</ul>
+</div>
+<div class="manual-block">
+<h4>🎯 3. HERRAMIENTAS DE PRECISIÓN Y HERRAMIENTAS TÉCNICAS</h4>
+<div class="manual-tool-item">
+<strong>1. 📏 Calibrador de Escala 1:1 con Extremos Marcados (Pie de Rey Digital)</strong>
+<p>Permite activar líneas horizontales guía extremadamente marcadas (Línea de Ojos en rojo y Línea de Mentón en azul), equipadas con marcadores circulares macizos en cada extremo (4 veces el grosor de la línea). Incluye una casilla para <strong>ingresar a mano la distancia fija exacta en píxeles (ej: 975 px)</strong>. De este modo, puedes calibrar diferentes vistas y hojas de personajes manteniendo estrictamente la misma escala fisonómica 1:1.</p>
+<span class="advantage">✔ Ventaja: Alineación anatómica perfecta de ojos y mentón en turnarounds de perfil e imágenes de comparación.</span>
+</div>
+<div class="manual-tool-item">
+<strong>2. ❓ Botón de Ayuda Fisonómica y Leyenda Flotante Titilante</strong>
+<p>Ubicado al lado del botón <code>=</code> en la esquina superior derecha de cada módulo, el icono de interrogación <code>?</code> abre una leyenda emergente flotante con animación neón titilante. Esta ventana explica en 3 a 4 oraciones la utilidad fisonómica del módulo y para qué se usa en la Hoja de Referencia del Personaje. Puede cerrarse pulsando la "X" o haciendo clic fuera.</p>
+<span class="advantage">✔ Ventaja: Guía pedagógica e informativa inmediata sobre cada ángulo del modelo en tiempo real.</span>
+</div>
+<div class="manual-tool-item">
+<strong>3. 🧲 Guías Inteligentes de Alineación y Centrado Neón Amarillo</strong>
+<p>Al mover módulos a mano alzada por el lienzo, el sistema detecta de forma automática cuando los bordes horizontales o verticales (o el centro) de la pieza coinciden con otros módulos activos o con el centro del lienzo 4K. Dibuja al instante una fina línea guía en color amarillo neón brillante con ajuste magnético automático (snapping style Canva/Photoshop).</p>
+<span class="advantage">✔ Ventaja: Maquetación y maquetado milimétrico instantáneo sin esfuerzo.</span>
+</div>
+<div class="manual-tool-item">
+<strong>4. 📐 Clonador de Ratio y Tamaño (Botón `=` con Filtro Rojo)</strong>
+<p>Al hacer clic en el botón <code>=</code> ubicado en la esquina superior derecha de cualquier módulo, este entra en **modo origen** y se tiñe de un **filtro rojo fluorescente**. Al hacer clic en cualquier otra pieza del lienzo, la pieza destino copiará de inmediato la proporción, tamaño exacto en píxeles y actualizará la etiqueta `--ar` de su prompt IA.</p>
+<span class="advantage">✔ Ventaja: Unifica el tamaño de varias vistas de perfil o accesorios con un solo clic.</span>
+</div>
+<div class="manual-tool-item">
+<strong>5. 🏁 Grilla de Ajuste Fino (Cuadrícula de 50px)</strong>
+<p>Al marcar la casilla *"Activar Grilla"* en la barra superior, se dibuja una retícula semitransparente de 50x50 píxeles sobre todo el lienzo. Esta grilla sirve como guía visual para alinear manualmente y tampoco aparece en la imagen exportada.</p>
+</div>
+<div class="manual-tool-item">
+<strong>6. 🔍 Encuadre de Foto (Zoom y Panorámica)</strong>
+<p>Al subir una fotografía a un módulo, la barra lateral despliega los mandos de Zoom óptico y desplazamiento cartesiano (Pan X / Pan Y) con actualización de cifra numérica en vivo para encuadrar perfectamente el rostro o cuerpo.</p>
+</div>
+</div>
+<div class="manual-block">
+<h4>📋 4. GENERADOR DINÁMICO DE PROMPTS Y CATÁLOGO DE 32 MÓDULOS</h4>
+<p>El sistema cuenta con un catálogo completo de <strong>32 piezas organizadas en 5 categorías fundamentales</strong>:</p>
+<ul>
+<li><strong>📐 Turnarounds y Vistas:</strong> Busto Frente, Perfil D, Perfil I, Vistas 3/4, Posterior, Giro de Cabeza (Turnaround), Vistas Superior/Inferior.</li>
+<li><strong>😀 Rostro y Expresividad:</strong> 6 Expresiones Clave, Visemas/Sincronización Labial, Macro Ojos/Iris, Macro Piel/Poros, Macro Boca/Dientes, Macro Nariz, Macro Oreja/Cartílago, Macro Cicatrices.</li>
+<li><strong>🧍 Cuerpo, Proporciones y Estructura:</strong> Cuerpo Frente (Sin Cabeza), Cuerpo Espalda (Sin Mochila), Cuerpo Entero de Perfil (con/sin cabeza), Pose Neutra T/A (con opción de incluir/excluir cabeza), Silueta Vectorial, Guía de Cabezas (1:8), Macro Manos, Macro Pies, Poses de Acción.</li>
+<li><strong>👗 Vestuario y Props:</strong> Ficha de Props/Armas, Variaciones de Atuendo, Piezas Desmontables, Modo de Sujeción/Hebillas.</li>
+<li><strong>🎨 Color, Materiales y Producción:</strong> Paleta Swatches, Guía de Materiales, Escala Comparativa de Altura.</li>
+</ul>
+<p>Cada tarjeta de prompt incluye un campo de <strong>Ajuste Personalizado (Uso Recomendado)</strong> y modificadores con interruptor (checkbox) para decidir si una vista corporal debe incluir o excluir cabeza y cuello. Al pulsar <code>📋 Copiar Prompt</code> obtendrás el prompt optimizado para tu IA. Si deseas borrar los cambios, el botón <code>🔄 Restaurar Base</code> regresa el texto a la plantilla predeterminada.</p>
+</div>
+<div class="manual-block">
+<h4>💾 5. RÓTULO DEL PERSONAJE Y EXPORTACIÓN LIMPIA 4K</h4>
+<p>Puedes personalizar el **Rótulo del Personaje** modificando su nombre, opacidad de transparencia y ubicación (Superior Centro, Izquierda, Derecha o Inferior Centro).</p>
+<p>Al hacer clic en <code>💾 Exportar Hoja 4K (PNG)</code>, el motor genera un archivo PNG en resolución nativa de <strong>3840 x 2160 píxeles</strong> en alta definición limpia, filtrando automáticamente todas las guías técnicas (grilla, líneas de calibre, guías neón de alineación, etiquetas de píxeles, bordes de selección y filtro rojo).</p>
+</div>
+</div>
+</section>
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

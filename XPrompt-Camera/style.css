@@ -1,0 +1,46 @@
+
+    html, body { min-height: 100%; overflow-x: hidden; background-color: #060810; color: #f8fafc; font-family: ui-sans-serif, system-ui, sans-serif; }
+    canvas { touch-action: none; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0b1120; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+
+    @media (max-width: 1024px) {
+      #appContainer { height: auto !important; min-height: 100vh; }
+      .viewport-container { height: 60vh !important; min-height: 420px; }
+    }
+
+    /* Animación titilante para el botón de video tutorial */
+    @keyframes titilarBtn {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 35px rgba(245, 158, 11, 0.6);
+      }
+      50% {
+        opacity: 0.82;
+        transform: scale(1.04);
+        box-shadow: 0 0 35px rgba(239, 68, 68, 1), 0 0 50px rgba(245, 158, 11, 0.9);
+      }
+    }
+    .btn-titilante {
+      animation: titilarBtn 1.3s infinite ease-in-out;
+    }
+
+/* CANDADO ANTI-SELECT GLOBAL */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* EXCEPCIÓN: Permitir seleccionar y escribir en cajas de texto y resultado */
+    input, textarea, select, .select-all, .select-text {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+
+  

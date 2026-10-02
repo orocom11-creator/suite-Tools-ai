@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tazas con frase IA - Prompt en AI DAN SOLUTIONS</title>
+<!-- Meta tags para vista previa al compartir (Open Graph) -->
+<meta content="Tazas con frase IA - Prompt en AI DAN SOLUTIONS" property="og:title"/>
+<meta content="Aprende a usar la Inteligencia Artificial. Copia este prompt optimizado en un solo clic." property="og:description"/>
+<meta content="assets/ai-dan-logo.jpg" property="og:image"/>
+<meta content="#" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<!-- Script de Google AdSense -->
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<header>
+<div class="header-content">
+<a class="back-btn" href="../index.html">
+<!-- Icono flecha izquierda -->
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al inicio
+            </a>
+</div>
+</header>
+<div class="container">
+<article>
+<!-- Logotipo centrado sobre el título del post -->
+<div class="post-logo-container">
+<img alt="Logo AI DAN SOLUTIONS" class="post-logo" src="assets/ai-dan-logo.jpg"/>
+</div>
+<!-- Título del Post -->
+<h1>Tazas con frase IA</h1>
+<!-- Imagen Destacada del Post (Se asume en la raíz de la web) -->
+<div class="post-image-container">
+<img alt="Tazas con frase IA" class="post-image" src="assets/taza-50b2f09d.jpg"/>
+</div>
+<!-- Cuadro explicativo decorado -->
+<div class="info-box">
+<h2>☕ ¿Cómo se usa?</h2>
+<p>Solo tenés que completar 7 cosas:</p>
+<ul>
+<li>📸 <strong>Foto</strong> → subís la foto de la persona.</li>
+<li>🧑 <strong>Nombre</strong> → escribís el nombre.</li>
+<li>✍️ <strong>Frase</strong> → escribís exactamente lo que querés que aparezca.</li>
+<li>🇦🇷 <strong>País</strong> → determina la bandera que será el fondo del diseño.</li>
+<li>📍 <strong>Escenario</strong> → dónde estará fotografiada la taza: oficina, bar, campo, ciudad, etc.</li>
+<li>📐 <strong>Texto</strong> → elegís: <code>ARRIBA</code> | <code>ABAJO</code> | <code>ARRIBA Y ABAJO</code></li>
+<li>🏷️ <strong>Logo</strong> → subís uno o elegís <code>SIN LOGO</code>.</li>
+</ul>
+<h3>🎨 ¿Qué hace automáticamente la IA?</h3>
+<p>Vos no tenés que decidir el diseño detallado. La IA decide:</p>
+<ul>
+<li>Tamaño y tipo de letra</li>
+<li>Cantidad de líneas</li>
+<li>Distribución del texto</li>
+<li>Tamaño del retrato</li>
+<li>Composición</li>
+<li>Adaptación a la curvatura de la taza</li>
+<li>Iluminación</li>
+<li>Fotografía del producto</li>
+</ul>
+<p>Y mantiene una regla muy importante:</p>
+<ul>
+<li>🇦🇷 <strong>La bandera está pintada en la taza.</strong></li>
+<li>🏢 <strong>El escenario está afuera de la taza.</strong></li>
+</ul>
+<p><em>Por ejemplo:</em><br/>
+<strong>País:</strong> Argentina<br/>
+<strong>Escenario:</strong> Oficina<br/>
+<strong>Resultado:</strong> Taza con la bandera argentina + retrato + frase, fotografiada sobre un escritorio de una oficina. La oficina no aparece pintada en la taza.</p>
+<h3>🔄 ¿Qué opciones tenés?</h3>
+<p>Podés crear prácticamente tres tipos de composición:</p>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ARRIBA</strong></td>
+<td>Frase arriba + retrato debajo</td>
+</tr>
+<tr>
+<td><strong>ABAJO</strong></td>
+<td>Retrato arriba + frase abajo</td>
+</tr>
+<tr>
+<td><strong>ARRIBA Y ABAJO</strong></td>
+<td>Frase repartida arriba y abajo + retrato central</td>
+</tr>
+</tbody>
+</table>
+<p>Además podés variar:</p>
+<ul>
+<li>👤 <strong>Persona</strong> → cualquier foto</li>
+<li>🇦🇷 <strong>País</strong> → cualquier bandera</li>
+<li>💬 <strong>Frase</strong> → hasta 45 palabras</li>
+<li>📍 <strong>Ambiente</strong> → oficina, bar, ciudad, campo, etc.</li>
+<li>🏷️ <strong>Logo</strong> → con logo o sin logo</li>
+</ul>
+<h3>🧠 Lo más importante</h3>
+<p>El prompt está pensado para que el usuario solamente dé los datos y la IA haga de diseñador.</p>
+<div class="formula">
+                    FOTO + NOMBRE + FRASE + PAÍS + ESCENARIO + POSICIÓN + LOGO → TAZA TERMINADA
+                </div>
+<p>Y además tiene una validación: si la frase es demasiado larga, no genera la imagen y pide una frase más corta, sin modificarla automáticamente.</p>
+</div>
+<!-- Contenedor del Prompt -->
+<div class="prompt-container">
+<div class="prompt-header">
+<span class="prompt-label">Prompt para copiar</span>
+<button class="copy-btn" id="btnCopiar" onclick="copiarAlPortapapeles()">
+<!-- Icono copiar (SVG) -->
+<svg fill="none" height="14" id="copyIcon" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" ry="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+<span id="btnText">Copiar</span>
+</button>
+</div>
+<pre class="prompt-body" id="textoPrompt">============================================================
+☕🎨 TAZA ARTÍSTICA — DATOS DEL USUARIO
+============================================================
+
+🔴 COMPLETAR ESTOS DATOS ANTES DE EJECUTAR EL PROMPT
+
+1. 📸 FOTO DEL PERSONAJE:
+[ADJUNTAR FOTOGRAFÍA]
+
+2. 🧑 NOMBRE DEL PERSONAJE:
+[ESCRIBIR NOMBRE]
+
+3. ✍️ FRASE:
+"[ESCRIBIR FRASE EXACTA]"
+
+4. 🇦🇷 PAÍS DE LA BANDERA:
+[ESCRIBIR PAÍS]
+
+5. 📍 ESCENARIO EXTERIOR DE LA FOTOGRAFÍA:
+[OFICINA / BAR / CIUDAD / CAMPO / ETC.]
+
+IMPORTANTE:
+Este escenario corresponde ÚNICAMENTE al lugar donde
+se fotografía físicamente la taza.
+
+NO forma parte del diseño pintado sobre la taza.
+
+6. 📐 POSICIÓN DEL TEXTO:
+
+Elegir únicamente UNA:
+
+[ ] ARRIBA
+
+[ ] ABAJO
+
+[ ] ARRIBA Y ABAJO
+
+7. 🏷️ LOGO:
+
+[ADJUNTAR LOGO]
+
+O:
+
+[SIN LOGO]
+
+
+============================================================
+☕🎨 PROMPT MAESTRO DEFINITIVO
+TAZA ARTÍSTICA — RETRATO + BANDERA + FRASE + LOGO
+============================================================
+
+## FUNCIÓN PRINCIPAL DE LA IA
+
+Actúa como un:
+
+• diseñador gráfico profesional
+• diseñador especializado en productos personalizados
+• director de arte
+• experto en composición tipográfica
+• experto en diseño de tazas y productos cerámicos
+• fotógrafo profesional de producto
+
+Tu objetivo es crear una fotografía hiperrealista de una taza
+de cerámica blanca premium que tenga un diseño artístico
+pintado directamente sobre su superficie.
+
+La taza debe combinar:
+
+PERSONA + BANDERA + FRASE + LOGO OPCIONAL
+
+El resultado debe parecer un producto real, físico y
+profesionalmente fotografiado.
+
+============================================================
+🚨 REGLA FUNDAMENTAL SOBRE EL FONDO
+============================================================
+
+ESTA REGLA ES MUY IMPORTANTE.
+
+Existen DOS FONDOS COMPLETAMENTE DIFERENTES:
+
+1. FONDO DEL DISEÑO DE LA TAZA.
+2. FONDO DEL LUGAR DONDE SE FOTOGRAFÍA LA TAZA.
+
+NO confundirlos.
+
+------------------------------------------------------------
+1. FONDO DEL DISEÑO DE LA TAZA
+------------------------------------------------------------
+
+Dentro de la decoración de la taza, el único fondo principal
+debe ser LA BANDERA DEL PAÍS INDICADO POR EL USUARIO.
+
+La bandera debe ocupar el fondo del diseño de la taza.
+
+NO colocar una oficina dentro de la taza.
+
+NO colocar un bar dentro de la taza.
+
+NO colocar una ciudad dentro de la taza.
+
+NO colocar un campo dentro de la taza.
+
+NO colocar una biblioteca dentro de la taza.
+
+NO colocar edificios, escritorios, computadoras,
+mesas, lámparas ni otros elementos del escenario
+dentro del diseño de la taza.
+
+El diseño de la taza debe estar compuesto únicamente por:
+
+• retrato de la persona
+• bandera del país
+• frase
+• logo opcional
+
+La bandera debe funcionar como fondo pictórico
+del retrato.
+
+------------------------------------------------------------
+2. FONDO EXTERIOR DE LA FOTOGRAFÍA
+------------------------------------------------------------
+
+El escenario indicado por el usuario corresponde
+ÚNICAMENTE al lugar donde se fotografía físicamente
+la taza.
+
+Ejemplos:
+
+Si el usuario indica:
+
+"OFICINA"
+
+La taza debe estar apoyada sobre un escritorio
+y fotografiada dentro de una oficina realista.
+
+PERO:
+
+LA OFICINA NO DEBE APARECER PINTADA EN LA TAZA.
+
+Si indica:
+
+"BAR"
+
+La taza debe estar fotografiada en un bar.
+
+PERO:
+
+EL BAR NO DEBE APARECER PINTADO EN LA TAZA.
+
+Si indica:
+
+"CAMPO"
+
+La taza debe estar fotografiada en un entorno rural.
+
+PERO:
+
+EL CAMPO NO DEBE APARECER PINTADO EN LA TAZA.
+
+Si indica:
+
+"CIUDAD"
+
+La taza debe estar fotografiada en un entorno urbano.
+
+PERO:
+
+LA CIUDAD NO DEBE APARECER PINTADO EN LA TAZA.
+
+El escenario exterior debe funcionar únicamente
+como ambiente fotográfico.
+
+Debe aparecer preferentemente desenfocado mediante
+profundidad de campo para que la taza sea el elemento
+principal de la imagen.
+
+============================================================
+🧠 REGLA DE DISEÑO PROFESIONAL
+============================================================
+
+NO limitar la creatividad del diseñador respecto a:
+
+• tamaño del texto
+• ancho del texto
+• altura del texto
+• separación entre líneas
+• espaciado
+• márgenes
+• posición exacta
+• proporción
+• alineación
+• jerarquía visual
+• relación entre texto y retrato
+• adaptación a la curvatura de la taza
+
+La IA debe ACTUAR COMO UN DISEÑADOR GRÁFICO PROFESIONAL.
+
+El usuario solamente indica:
+
+ARRIBA
+
+o
+
+ABAJO
+
+o
+
+ARRIBA Y ABAJO.
+
+A partir de esa instrucción, la IA debe decidir
+la mejor composición visual posible.
+
+============================================================
+🎯 POSICIÓN DEL TEXTO
+============================================================
+
+------------------------------------------------------------
+OPCIÓN 1 — ARRIBA
+------------------------------------------------------------
+
+Toda la frase debe ubicarse en la zona superior
+del diseño de la taza.
+
+El retrato debe ocupar la zona central/inferior.
+
+La IA debe determinar profesionalmente:
+
+• tamaño de letra
+• cantidad de líneas
+• separación
+• ancho
+• márgenes
+• posición vertical
+
+La frase puede ocupar hasta 3 líneas.
+
+No es obligatorio utilizar 3 líneas.
+
+Utilizar solamente las líneas necesarias para lograr
+una composición estética y legible.
+
+------------------------------------------------------------
+OPCIÓN 2 — ABAJO
+------------------------------------------------------------
+
+TODA la frase debe ubicarse en la zona inferior
+del diseño de la taza.
+
+El retrato debe ocupar la zona superior/central.
+
+ESTA REGLA ES ABSOLUTA.
+
+Si el usuario selecciona:
+
+"ABAJO"
+
+NO colocar ninguna parte de la frase arriba.
+
+NO dividir la frase entre arriba y abajo.
+
+NO colocar una línea arriba solamente para equilibrar
+la composición.
+
+Toda la frase debe permanecer abajo.
+
+La IA debe diseñar profesionalmente el bloque inferior
+para que tenga la mejor composición posible.
+
+------------------------------------------------------------
+OPCIÓN 3 — ARRIBA Y ABAJO
+------------------------------------------------------------
+
+La frase puede dividirse entre la zona superior
+y la zona inferior de la taza.
+
+La IA debe decidir profesionalmente cómo dividir
+el texto para conseguir la mejor composición.
+
+Puede utilizar:
+
+• una parte arriba y otra abajo
+• una línea arriba y dos abajo
+• dos arriba y una abajo
+
+siempre respetando el límite máximo de texto.
+
+El retrato debe permanecer como elemento central
+y protagonista.
+
+============================================================
+✍️ REGLA DE DISEÑO TIPOGRÁFICO
+============================================================
+
+La IA NO debe limitarse a "poner texto".
+
+Debe DISEÑAR el texto.
+
+Analizar:
+
+• longitud de la frase
+• cantidad de palabras
+• proporción del retrato
+• curvatura de la taza
+• espacio disponible
+• equilibrio visual
+• legibilidad
+• jerarquía
+• peso tipográfico
+
+Elegir automáticamente el tamaño de letra
+más apropiado.
+
+El texto debe ser suficientemente grande para
+ser claramente visible.
+
+Pero nunca debe ocupar tanto espacio que destruya
+el protagonismo del retrato.
+
+El texto debe sentirse integrado en una composición
+profesional de producto.
+
+============================================================
+🔠 TIPOGRAFÍA
+============================================================
+
+Utilizar preferentemente:
+
+• tipografía sans serif
+• condensada
+• gruesa
+• fuerte
+• editorial
+• estilo cartel
+• mayúsculas
+• color negro
+
+El texto debe tener un aspecto similar al de
+un póster editorial o cartel vintage.
+
+Debe existir alto contraste entre el texto y el fondo.
+
+NO utilizar:
+
+• tipografías manuscritas
+• tipografías infantiles
+• letras ornamentales
+• letras excesivamente finas
+• efectos 3D exagerados
+• sombras excesivas
+
+============================================================
+🚨 VALIDACIÓN OBLIGATORIA DEL TEXTO
+============================================================
+
+ANTES DE GENERAR LA IMAGEN:
+
+analizar la frase.
+
+LÍMITE ABSOLUTO:
+
+• máximo 3 líneas
+• máximo 15 palabras por línea
+• máximo 45 palabras totales
+
+Ninguna línea puede superar 15 palabras.
+
+------------------------------------------------------------
+SI LA FRASE SUPERA EL LÍMITE
+------------------------------------------------------------
+
+NO GENERAR LA IMAGEN.
+
+NO resumir.
+
+NO modificar.
+
+NO parafrasear.
+
+NO eliminar palabras.
+
+NO reemplazar palabras.
+
+NO inventar una versión corta.
+
+NO intentar solucionar el problema automáticamente.
+
+Responder:
+
+⚠️ DISEÑO NO GENERADO
+
+La frase supera el límite permitido.
+
+Límite máximo:
+
+• 3 líneas
+• 15 palabras por línea
+• 45 palabras totales
+
+Frase recibida:
+
+"[FRASE]"
+
+Cantidad de palabras:
+
+[X]
+
+Por favor, proporciona una versión más corta
+para poder generar el diseño.
+
+============================================================
+📝 FIDELIDAD ABSOLUTA DE LA FRASE
+============================================================
+
+La frase debe reproducirse EXACTAMENTE.
+
+NO cambiar palabras.
+
+NO agregar palabras.
+
+NO eliminar palabras.
+
+NO sustituir palabras.
+
+NO corregir el contenido.
+
+NO agregar signos que no correspondan.
+
+NO agregar el nombre del personaje.
+
+NO agregar "como dijo..."
+
+NO agregar "según..."
+
+NO agregar ninguna explicación.
+
+La frase debe aparecer únicamente como fue proporcionada
+por el usuario.
+
+============================================================
+🔎 ATRIBUCIÓN DE LA FRASE
+============================================================
+
+La IA NO debe inventar citas.
+
+La IA NO debe fabricar frases famosas.
+
+La IA NO debe atribuir automáticamente una frase
+a una persona solamente porque parece compatible
+con su personalidad.
+
+Si el usuario proporciona una frase y la atribuye
+a la persona de la fotografía:
+
+UTILIZAR ESA FRASE.
+
+No modificarla.
+
+No agregar explicaciones sobre su autenticidad
+dentro del diseño.
+
+La función principal es realizar el diseño gráfico
+solicitado.
+
+============================================================
+🧑 RETRATO DEL PERSONAJE
+============================================================
+
+Utilizar la fotografía adjunta como referencia
+visual principal.
+
+Conservar:
+
+• identidad visual
+• estructura facial
+• forma del rostro
+• ojos
+• nariz
+• boca
+• cabello
+• peinado
+• edad aparente
+• características distintivas
+• expresión general
+
+El retrato debe ser claramente reconocible.
+
+NO convertirlo en caricatura.
+
+NO convertirlo en dibujo infantil.
+
+NO sustituirlo por una persona genérica.
+
+NO inventar un rostro diferente.
+
+============================================================
+🎨 ESTILO PICTÓRICO
+============================================================
+
+El retrato debe parecer una pintura realizada
+directamente sobre la cerámica.
+
+Utilizar:
+
+• pintura realista
+• acuarela
+• pinceladas visibles
+• textura artística
+• pigmentación natural
+• bordes pictóricos
+• pequeñas irregularidades artesanales
+• iluminación y volumen realistas
+
+El estilo debe parecer una combinación de:
+
+RETRATO REALISTA
++
+ACUARELA
++
+PINTURA ARTÍSTICA
++
+ILUSTRACIÓN EDITORIAL
+
+No debe parecer una fotografía simplemente pegada
+sobre la taza.
+
+============================================================
+🇦🇷 BANDERA
+============================================================
+
+La bandera del país indicado debe constituir
+EL FONDO DEL DISEÑO DE LA TAZA.
+
+Debe estar detrás del retrato.
+
+Debe parecer pintada directamente sobre la cerámica.
+
+Respetar correctamente:
+
+• colores
+• diseño
+• símbolos
+• proporciones
+• identidad nacional
+
+No inventar una bandera.
+
+No utilizar otra bandera.
+
+No mezclar banderas.
+
+La bandera debe ser claramente reconocible.
+
+============================================================
+🚫 PROHIBICIÓN DE ELEMENTOS DEL ESCENARIO
+============================================================
+
+Dentro de la taza NO introducir elementos
+pertenecientes al escenario exterior.
+
+Por ejemplo:
+
+Si el escenario exterior es OFICINA:
+
+PROHIBIDO pintar dentro de la taza:
+
+❌ computadora
+❌ escritorio
+❌ silla
+❌ lámpara
+❌ cuadros
+❌ ventanas
+❌ oficina
+
+Si el escenario exterior es BAR:
+
+PROHIBIDO pintar dentro de la taza:
+
+❌ barra
+❌ botellas
+❌ mesas
+❌ copas
+❌ taburetes
+
+Si el escenario exterior es CAMPO:
+
+PROHIBIDO pintar dentro de la taza:
+
+❌ árboles
+❌ animales
+❌ graneros
+❌ montañas
+❌ campos
+
+El único fondo del diseño interior de la taza
+es la BANDERA.
+
+============================================================
+🏷️ LOGO OPCIONAL
+============================================================
+
+Si el usuario adjunta un logo:
+
+incorporarlo de manera profesional.
+
+Respetar:
+
+• forma
+• proporciones
+• colores
+• identidad
+• legibilidad
+
+El logo debe ser discreto.
+
+No debe competir con el retrato ni con la frase.
+
+Si el usuario indica:
+
+"SIN LOGO"
+
+NO agregar ningún logo.
+
+============================================================
+☕ TAZA
+============================================================
+
+La taza debe ser:
+
+• cerámica blanca
+• brillante
+• premium
+• realista
+• físicamente correcta
+• con asa
+• con volumen
+• con reflejos naturales
+• con sombras realistas
+
+El diseño debe seguir la curvatura natural
+de la superficie.
+
+============================================================
+📐 ADAPTACIÓN A LA SUPERFICIE
+============================================================
+
+El retrato, bandera y texto deben adaptarse
+a la curvatura física de la taza.
+
+NO deformar excesivamente el texto.
+
+NO cortar palabras.
+
+NO ocultar letras.
+
+NO colocar texto detrás del asa.
+
+NO colocar texto fuera de la superficie de impresión.
+
+El diseño debe parecer realmente impreso o pintado
+sobre una taza física.
+
+============================================================
+📸 ESCENARIO DE LA FOTOGRAFÍA
+============================================================
+
+El escenario indicado por el usuario debe utilizarse
+SOLAMENTE para crear el entorno exterior.
+
+La taza debe estar físicamente dentro de ese lugar.
+
+Ejemplo:
+
+Usuario:
+
+ESCENARIO: OFICINA
+
+Resultado:
+
+Una taza sobre un escritorio de una oficina,
+fotografiada profesionalmente.
+
+La oficina debe aparecer detrás de la taza,
+preferentemente desenfocada.
+
+IMPORTANTE:
+
+La oficina NO aparece dentro de la pintura
+de la taza.
+
+============================================================
+📷 FOTOGRAFÍA DEL PRODUCTO
+============================================================
+
+Crear una fotografía comercial premium.
+
+Utilizar:
+
+• iluminación cinematográfica
+• luz natural o ambiental coherente
+• profundidad de campo
+• fondo desenfocado
+• perspectiva realista
+• reflejos cerámicos
+• sombras naturales
+• textura física
+• alta resolución
+• fotografía profesional de producto
+
+La taza debe ser claramente el protagonista.
+
+El escenario exterior debe complementar
+la fotografía sin robar protagonismo.
+
+============================================================
+🚫 ERRORES PROHIBIDOS
+============================================================
+
+NO generar:
+
+❌ escenario pintado dentro de la taza
+❌ oficina dentro de la taza
+❌ bar dentro de la taza
+❌ ciudad dentro de la taza
+❌ campo dentro de la taza
+❌ fondo diferente a la bandera
+❌ frase dividida incorrectamente
+❌ texto arriba cuando se seleccionó ABAJO
+❌ texto abajo cuando se seleccionó ARRIBA
+❌ texto repartido si se seleccionó ARRIBA o ABAJO
+❌ texto ilegible
+❌ palabras inventadas
+❌ palabras eliminadas
+❌ palabras duplicadas
+❌ rostro diferente
+❌ caricatura
+❌ bandera incorrecta
+❌ logo inventado
+❌ taza deformada
+❌ texto cortado
+❌ diseño plano
+❌ mockup genérico
+
+============================================================
+🔍 CONTROL FINAL OBLIGATORIO
+============================================================
+
+Antes de generar la imagen comprobar:
+
+☑ ¿Existe fotografía del personaje?
+☑ ¿Existe la frase?
+☑ ¿Existe el país?
+☑ ¿Existe el escenario exterior?
+☑ ¿Existe la posición del texto?
+☑ ¿La posición es ARRIBA, ABAJO o ARRIBA Y ABAJO?
+☑ ¿La frase tiene máximo 45 palabras?
+☑ ¿Ninguna línea supera 15 palabras?
+☑ ¿La frase permanece exactamente igual?
+☑ ¿La bandera es el único fondo del diseño de la taza?
+☑ ¿El escenario está únicamente fuera de la taza?
+☑ ¿El retrato es el protagonista?
+☑ ¿El texto es legible?
+☑ ¿El texto está correctamente ubicado?
+☑ ¿El diseño parece pintado sobre cerámica?
+☑ ¿La taza parece un objeto físico real?
+☑ ¿El logo fue respetado si existe?
+
+============================================================
+🛑 REGLA FINAL
+============================================================
+
+SI TODO ES CORRECTO:
+
+→ GENERAR LA IMAGEN.
+
+SI ALGÚN DATO O REGLA NO ES CORRECTO:
+
+→ NO GENERAR LA IMAGEN.
+
+→ Explicar exactamente qué debe corregir el usuario.
+
+============================================================
+🎯 PRIORIDADES ABSOLUTAS
+============================================================
+
+1. FIDELIDAD AL RETRATO.
+2. FIDELIDAD A LA FRASE.
+3. FIDELIDAD A LA BANDERA.
+4. BANDERA COMO ÚNICO FONDO DEL DISEÑO DE LA TAZA.
+5. ESCENARIO SOLAMENTE COMO FONDO FOTOGRÁFICO EXTERIOR.
+6. RESPETAR ARRIBA / ABAJO / ARRIBA Y ABAJO.
+7. ACTUAR COMO DISEÑADOR GRÁFICO PROFESIONAL.
+8. DECIDIR AUTOMÁTICAMENTE TAMAÑO Y COMPOSICIÓN DEL TEXTO.
+9. MANTENER LEGIBILIDAD.
+10. CREAR UNA TAZA FÍSICA REALISTA Y PREMIUM.
+11. INTEGRAR EL RETRATO KOMO PINTURA SOBRE CERÁMICA.
+
+============================================================
+🔒 REGLA DE INTEGRIDAD DEL PROMPT
+============================================================
+
+Los datos colocados al principio de este prompt son
+VARIABLES DE ENTRADA proporcionadas por el usuario.
+
+NO modificar, reinterpretar ni eliminar ninguna de las
+reglas de diseño posteriores debido a la ubicación de
+estos campos.
+
+La posición de los campos de entrada al principio del prompt
+es solamente para facilitar su utilización por parte del usuario.
+
+Todas las reglas posteriores continúan siendo obligatorias.
+============================================================</pre>
+</div>
+<!-- Bloque de Publicidad AdSense (Post Template) -->
+</article>
+<!-- Botón de unirse a la comunidad enlazado a YouTube -->
+<div class="community-btn-container">
+<a class="pulsate-btn" href="#" target="_blank">
+<svg fill="currentColor" height="18" style="margin-right: 8px;" viewbox="0 0 24 24" width="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+EXPLORA NUESTRAS HERRAMIENTAS
+</a>
+</div>
+</div>
+<!-- Pie de página con Texto SEO Optimizado y Estructurado (600 palabras) -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<!-- Script de copiado y cambio dinámico de icono -->
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

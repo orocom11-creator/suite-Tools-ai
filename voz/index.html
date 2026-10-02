@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AudioLab Studio Pro - Editor de Audio</title>
+<!-- LameJS para codificación nativa MP3 en el navegador -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<div class="container">
+<!-- Header con selector de idioma -->
+<header>
+<h1>AudioLab Studio Pro</h1>
+<div style="display: flex; align-items: center; gap: 0.5rem;">
+<label data-i18n="langLabel" for="langSelect">Idioma:</label>
+<select id="langSelect">
+<option value="es">Español</option>
+<option value="en">English</option>
+<option value="pt">Português</option>
+</select>
+</div>
+</header>
+<!-- 1. Carga y Grabación -->
+<section class="card">
+<h2 data-i18n="inputTitle">1. Fuente de Audio</h2>
+<div class="io-grid">
+<div>
+<label data-i18n="uploadLabel" style="display:block; margin-bottom: 0.5rem;">Importar archivo MP3:</label>
+<input accept="audio/mp3,audio/mpeg,audio/wav,audio/*" id="audioFileInput" type="file"/>
+</div>
+<div class="record-box">
+<button class="btn-danger" data-i18n="btnRecord" id="btnRecord">Grabar Micrófono</button>
+<button data-i18n="btnStopRecord" disabled="" id="btnStopRecord">Detener</button>
+<span class="status-badge" data-i18n="recReady" id="recStatus">Micrófono inactivo</span>
+</div>
+</div>
+</section>
+<!-- 2. Editor Robusto de Línea de Tiempo -->
+<section class="card">
+<h2 data-i18n="timelineTitle">2. Editor de Audio y Línea de Tiempo</h2>
+<p data-i18n="editorHint" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      Arrastra sobre la onda con el ratón para seleccionar un tramo o pulsa "Seleccionar Todo". Puedes cortar, silenciar, aplicar efectos o fraccionar en lapsos continuos idénticos.
+    </p>
+<!-- Lienzo interactivo -->
+<div class="timeline-container">
+<canvas id="timelineCanvas"></canvas>
+</div>
+<!-- Barra de Transporte y Edición -->
+<div class="editor-toolbar">
+<!-- Transporte -->
+<div class="tool-group">
+<button class="btn-primary" data-i18n="btnPlay" disabled="" id="btnPlay">▶ Reproducir</button>
+<button class="btn-action" data-i18n="btnPlaySel" disabled="" id="btnPlaySelection">▶ Tramo</button>
+<button data-i18n="btnStop" disabled="" id="btnStop">⏹ Detener</button>
+</div>
+<!-- Lectura temporal -->
+<div class="tool-group">
+<span class="time-badge" id="timeDisplay">00:00.0 / 00:00.0</span>
+<span class="time-badge" id="selDisplay">Sel: Ninguna</span>
+</div>
+<!-- Herramientas de Edición -->
+<div class="tool-group">
+<button class="btn-action" data-i18n="btnSelectAll" disabled="" id="btnSelectAll">Seleccionar Todo</button>
+<button class="btn-primary" data-i18n="btnFxSel" disabled="" id="btnApplyFxSel">✨ FX a Selección</button>
+<button class="btn-action" data-i18n="btnCrop" disabled="" id="btnCrop">✂ Recortar</button>
+<button class="btn-action" data-i18n="btnDelete" disabled="" id="btnDelete">🗑 Borrar</button>
+<button class="btn-action" data-i18n="btnSilence" disabled="" id="btnSilence">🔇 Silenciar</button>
+<button class="btn-action" data-i18n="btnUndo" disabled="" id="btnUndo">↩ Deshacer</button>
+</div>
+<!-- Zoom -->
+<div class="tool-group">
+<button class="btn-action" id="btnZoomIn" title="Acercar">🔍 +</button>
+<button class="btn-action" id="btnZoomOut" title="Alejar">🔍 -</button>
+<button class="btn-action" id="btnZoomFit" title="Ajustar">↔ Reset</button>
+</div>
+</div>
+<!-- Partición continua automática -->
+<div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.8rem;">
+<label data-i18n="autoSliceLabel">Partir continuo cada:</label>
+<select id="sliceInterval">
+<option value="5">5 segundos</option>
+<option value="6">6 segundos</option>
+<option value="7">7 segundos</option>
+<option value="8">8 segundos</option>
+<option value="9">9 segundos</option>
+<option value="10">10 segundos</option>
+<option value="15">15 segundos</option>
+<option value="20">20 segundos</option>
+<option value="30">30 segundos</option>
+<option value="60">60 segundos (1 min)</option>
+</select>
+<button class="btn-primary" data-i18n="btnAutoSlice" disabled="" id="btnAutoSlice">Procesar Lapsos Continuos</button>
+<span class="slice-info-box" id="sliceInfo"></span>
+</div>
+</section>
+<!-- 3. Ecualizador de 7 Canales -->
+<section class="card">
+<h2 data-i18n="eqTitle">3. Ecualizador Gráfico (7 Bandas)</h2>
+<div class="eq-grid">
+<div class="eq-band"><span>60 Hz</span><input class="eq-slider" data-freq="60" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+<div class="eq-band"><span>170 Hz</span><input class="eq-slider" data-freq="170" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+<div class="eq-band"><span>400 Hz</span><input class="eq-slider" data-freq="400" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+<div class="eq-band"><span>1 kHz</span><input class="eq-slider" data-freq="1000" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+<div class="eq-band"><span>3 kHz</span><input class="eq-slider" data-freq="3000" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+<div class="eq-band"><span>6 kHz</span><input class="eq-slider" data-freq="6000" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+<div class="eq-band"><span>14 kHz</span><input class="eq-slider" data-freq="14000" max="12" min="-12" step="1" type="range" value="0"/><span class="eq-val">0 dB</span></div>
+</div>
+</section>
+<!-- 4. Efectos Especiales -->
+<section class="card">
+<h2 data-i18n="fxTitle">4. Efectos de Audio</h2>
+<div class="fx-grid">
+<!-- Robot Voice -->
+<div class="fx-item">
+<div class="fx-toggle">
+<span data-i18n="fxRobot">Voz Robótica</span>
+<input id="robotToggle" type="checkbox"/>
+</div>
+<label data-i18n="fxRobotFreq">Frecuencia Modulación:</label>
+<input id="robotFreq" max="120" min="20" type="range" value="50"/>
+</div>
+<!-- Echo / Delay -->
+<div class="fx-item">
+<div class="fx-toggle">
+<span data-i18n="fxEcho">Eco / Retardo</span>
+<input id="echoToggle" type="checkbox"/>
+</div>
+<label data-i18n="fxEchoTime">Tiempo de Retardo (s):</label>
+<input id="echoTime" max="1.0" min="0.1" step="0.05" type="range" value="0.3"/>
+<label data-i18n="fxEchoFeedback">Intensidad / Feedback:</label>
+<input id="echoFeedback" max="0.8" min="0" step="0.05" type="range" value="0.4"/>
+</div>
+</div>
+</section>
+<!-- 5. Exportación -->
+<section class="card">
+<h2 data-i18n="exportTitle">5. Exportación</h2>
+<div class="export-grid">
+<button class="btn-primary" data-i18n="btnExportMp3" disabled="" id="btnExportMp3">Exportar Audio MP3</button>
+<button class="btn-primary" data-i18n="btnExportMp4" disabled="" id="btnExportMp4">Exportar Video MP4 (Pantalla Negra)</button>
+<button class="btn-primary" data-i18n="btnExportPartsMp4" disabled="" id="btnExportPartsMp4" style="background:#f59e0b; color:#000;">Exportar PARTES en Video MP4 (Pantalla Negra)</button>
+<span id="exportStatus" style="font-size:0.9rem; color:var(--accent); font-weight:bold;"></span>
+</div>
+<div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+</section>
+<!-- Manual de Usuario Multilingüe y Explicación -->
+<section class="card">
+<h2 data-i18n="manualTitle">¿Para qué sirve esta página y Manual de Uso?</h2>
+<div class="manual-content" id="manualText">
+<div id="manualIntro"></div>
+<!-- Bloque publicitario de AdSense etiquetado como Anuncio -->
+<div id="manualGuide"></div>
+</div>
+</section>
+<!-- Botón Comunidad YouTube -->
+<div class="community-box">
+<a class="btn-community" href="https://www.youtube.com/@clicmayores?sub_confirmation=1" rel="noopener noreferrer" target="_blank">
+      UNETE A NUESTRA COMUNIDAD
+    </a>
+</div>
+<!-- Pie de página y Políticas -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+</div>
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>

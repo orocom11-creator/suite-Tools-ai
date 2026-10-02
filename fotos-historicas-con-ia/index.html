@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Foto historicas con IA - Prompt en AI DAN SOLUTIONS</title>
+<!-- Meta tags para vista previa al compartir (Open Graph) -->
+<meta content="Foto historicas con IA - Prompt en AI DAN SOLUTIONS" property="og:title"/>
+<meta content="Aprende a usar la Inteligencia Artificial. Copia este prompt optimizado en un solo clic." property="og:description"/>
+<meta content="assets/ai-dan-logo.jpg" property="og:image"/>
+<meta content="#" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<!-- Script de Google AdSense -->
+<link href="style.css" rel="stylesheet"/>
+<meta content="#0a0a0f" name="theme-color"/><link href="../_shared/auth.css" rel="stylesheet"/>
+<!-- Auth CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase SDK --></head>
+<body>
+<header>
+<div class="header-content">
+<a class="back-btn" href="../index.html">
+<!-- Icono flecha izquierda -->
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al inicio
+            </a>
+</div>
+</header>
+<div class="container">
+<article>
+<!-- Logotipo centrado sobre el título del post -->
+<div class="post-logo-container">
+<img alt="Logo AI DAN SOLUTIONS" class="post-logo" src="assets/ai-dan-logo.jpg"/>
+</div>
+<!-- Título del Post -->
+<h1>Foto historicas con IA</h1>
+<!-- Imagen Destacada del Post -->
+<div class="post-image-container">
+<img alt="Foto historicas con IA" class="post-image" src="assets/80s-8d600996.jpg"/>
+</div>
+<!-- ========================================================
+                 CASILLA RESUMIDA Y DECORADA: MANUAL DE USUARIO
+                 ======================================================== -->
+<div class="manual-box">
+<div class="manual-header">
+<div class="manual-title-group">
+<div class="manual-icon-badge">
+<!-- Icono Manual / Libro -->
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="20"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+</div>
+<h2 class="manual-title">Manual de Uso Rápido</h2>
+</div>
+<span class="manual-tag">⚡ 3 Pasos Simples</span>
+</div>
+<div class="steps-grid">
+<!-- Paso 1 -->
+<div class="step-item step-1">
+<div class="step-number">1</div>
+<div class="step-content">
+<strong>📋 Copia el Prompt con 1 Clic</strong>
+                            Presiona el botón oscuro <span class="code-pill">Copiar</span> en el bloque inferior para guardar toda la instrucción en la memoria de tu dispositivo.
+                        </div>
+</div>
+<!-- Paso 2 -->
+<div class="step-item step-2">
+<div class="step-number">2</div>
+<div class="step-content">
+<strong>✏️ Personaliza las Variables Entre Corchetes</strong>
+                            Reemplaza <span class="code-pill">[AÑO O DÉCADA]</span> por el año que quieras (ej: <em>1880, 1920, 1985</em>) y elige el sujeto: <span class="code-pill">[HOMBRE / MUJER]</span>.
+                        </div>
+</div>
+<!-- Paso 3 -->
+<div class="step-item step-3">
+<div class="step-number">3</div>
+<div class="step-content">
+<strong>🚀 Pega y Genera en tu IA Favorita</strong>
+                            Pégalo en <strong>ChatGPT, Midjourney, Flow Labs, Kling o Leonardo AI</strong>. Si subes tu foto o video, la IA adaptará peinado, ropa, fondo y tecnología de cámara al año elegido.
+                        </div>
+</div>
+</div>
+<!-- Alerta / Consejo Pro -->
+<div class="manual-tip">
+<svg class="tip-icon" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+<div>
+<strong>Consejo Pro:</strong> Si utilizas tu propia foto de referencia, mantén activa la línea de <em>"Mantén exactamente los rasgos faciales"</em> para conservar tu identidad y no parecer otra persona.
+                    </div>
+</div>
+</div>
+<!-- ======================================================== -->
+<!-- Contenedor del Prompt -->
+<div class="prompt-container">
+<div class="prompt-header">
+<span class="prompt-label">Prompt para copiar</span>
+<button class="copy-btn" id="btnCopiar" onclick="copiarAlPortapapeles()">
+<!-- Icono copiar (SVG) -->
+<svg fill="none" height="14" id="copyIcon" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" ry="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+<span id="btnText">Copiar</span>
+</button>
+</div>
+<pre class="prompt-body" id="textoPrompt">Retrato individual de medio cuerpo de [UN HOMBRE / UNA MUJER], ambientado exactamente en el año [AÑO O DÉCADA, ej: 1985 / década de 1940 / 1880 / año 2000]. 
+
+[SI SUBES TU FOTO: "Mantén exactamente los rasgos faciales, estructura ósea, ojos y forma de la cara de la persona de la imagen de referencia"]. 
+
+Detalles de la época:
+- Peinado y arreglo personal: Peinado icónico y fidedigno del año [AÑO/DÉCADA] para [HOMBRE / MUJER] [si es mujer: maquillaje característico de la época; si es hombre: corte de cabello y vello facial acordes a la moda del año].
+- Vestimenta: Ropa auténtica de época con textiles realistas, costuras, cortes y accesorios típicos de [AÑO/DÉCADA].
+- Entorno y fondo: Un escenario realista y cotidiano de [AÑO/DÉCADA] (arquitectura, automóviles, carteles o decoración de interiores fidedigna de ese tiempo), con profundidad de campo natural.
+- Estilo visual y tecnología fotográfica: La imagen debe parecer capturada con la tecnología de cámara real de esa fecha (si es siglo XIX: daguerrotipo/ferrotipo en blanco y negro con textura antigua; si es 1940-1970: película clásica analógica en tono sepia o Kodachrome cálido; si son los 80s/90s: fotografía de 35mm con grano visible y flash directo suave; si es 2000: estética de cámara digital temprana o rollos desechables). 
+
+Sin aspecto digital falso, iluminación natural acorde a la escena, texturas de piel hiperrealistas con poros visibles, sin cortes tipo collage, una sola fotografía cinematográfica e inmersiva.</pre>
+</div>
+<!-- Bloque de Publicidad AdSense (Post Template) -->
+</article>
+<!-- Botón de unirse a la comunidad enlazado a YouTube -->
+<div class="community-btn-container">
+<a class="pulsate-btn" href="#" target="_blank">
+<svg fill="currentColor" height="18" style="margin-right: 8px;" viewbox="0 0 24 24" width="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+EXPLORA NUESTRAS HERRAMIENTAS
+</a>
+</div>
+</div>
+<!-- Pie de página con Texto SEO Optimizado y Estructurado (600 palabras) -->
+<footer>
+<div class="footer-content">
+<div class="footer-grid">
+<div class="footer-col">
+<h3>Herramientas de IA</h3>
+<p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
+<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+</div>
+<div class="footer-col">
+<h3>Soluciones Inteligentes</h3>
+<p>Desde la generación de imágenes artísticas hasta la creación de storyboards cinematográficos, nuestras herramientas cubren un amplio espectro de necesidades creativas. Todo con la simplicidad de un clic para copiar y pegar.</p>
+<p>Nuestro enfoque combina ingeniería de prompts avanzada con diseño intuitivo, permitiendo que cualquier persona aproveche el poder de la inteligencia artificial sin barreras técnicas.</p>
+</div>
+<div class="footer-col">
+<h3>Innovación Accesible</h3>
+<p>Creemos que la tecnología de IA debe estar al alcance de todos. AI DAN SOLUTIONS democratiza el acceso a herramientas avanzadas de generación de contenido, proporcionando soluciones profesionales con una experiencia de usuario excepcional.</p>
+<p>Explora nuestra biblioteca de herramientas y descubre cómo la inteligencia artificial puede transformar tu flujo de trabajo creativo y profesional.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 AI DAN SOLUTIONS. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+<!-- Script de copiado y cambio dinámico de icono -->
+<script src="app.js"></script><!-- Auth System --><script src="../_shared/config.js"></script><script src="../_shared/auth.js"></script><div id="authTarget"></div></body>
+</html>
