@@ -534,3 +534,102 @@
     .auth-email { max-width: 100px; }
     .premium-modal { padding: 2rem 1.25rem; }
 }
+
+
+/* ===================================================
+   NAVBAR STICKY HOMOLOGADO PARA SUBHERRAMIENTAS
+   =================================================== */
+.subtool-sticky-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+    background: rgba(10, 10, 15, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    padding: 0.65rem 1.25rem !important;
+    box-sizing: border-box !important;
+}
+
+.subtool-nav-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 1rem !important;
+    box-sizing: border-box !important;
+}
+
+.subtool-nav-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.55rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+    text-decoration: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    transition: all 0.25s ease !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+
+.subtool-nav-back {
+    color: #cbd5e1 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.subtool-nav-back:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    transform: translateX(-2px) !important;
+}
+
+.subtool-nav-advisor {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.95) 0%, rgba(99, 102, 241, 1) 100%) !important;
+    border: 1px solid rgba(165, 180, 252, 0.5) !important;
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.35) !important;
+}
+
+.subtool-nav-advisor:hover {
+    background: linear-gradient(135deg, rgba(67, 56, 202, 1) 0%, rgba(79, 70, 229, 1) 100%) !important;
+    box-shadow: 0 0 24px rgba(99, 102, 241, 0.6) !important;
+    transform: translateY(-1px) !important;
+    border-color: rgba(199, 210, 254, 0.9) !important;
+}
+
+.subtool-advisor-icon {
+    font-size: 1.1rem !important;
+    line-height: 1 !important;
+}
+
+.subtool-advisor-ping {
+    width: 7px !important;
+    height: 7px !important;
+    background: #34d399 !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 0 8px #34d399 !important;
+    display: inline-block !important;
+    margin-left: 0.25rem !important;
+}
+
+@media (max-width: 640px) {
+    .subtool-sticky-navbar {
+        padding: 0.5rem 0.75rem !important;
+    }
+    .subtool-nav-btn {
+        font-size: 0.78rem !important;
+        padding: 0.4rem 0.65rem !important;
+    }
+}
+

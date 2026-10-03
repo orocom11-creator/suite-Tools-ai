@@ -23,12 +23,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase SDK --></head>
 <body>
-<header>
-<div class="header-content">
-<a class="back-btn" href="../index.html">
-<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al inicio
-            </a>
+<header class="subtool-sticky-navbar">
+<div class="subtool-nav-content">
+<a class="subtool-nav-btn subtool-nav-back" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+<span>← Volver al Menú Principal</span>
+</a>
+<a class="subtool-nav-btn subtool-nav-advisor" href="https://notebook.google.com/notebook/1f81702d-0d88-47c7-aa00-a5a760269b70" rel="noopener noreferrer" target="_blank">
+<span class="subtool-advisor-icon">🤖</span>
+<span>Consultar Asesor IA</span>
+<span class="subtool-advisor-ping"></span>
+</a>
 </div>
 </header>
 <div class="container">
@@ -90,26 +95,12 @@
 <h3>Paso 3: ¿Dónde y cómo ejecutarlo?</h3>
 <p>Este prompt está diseñado para modelos multimodales (que admiten texto + imagen). Las mejores opciones son:</p>
 <div class="sub-card">
-<strong>Opción A: ChatGPT (GPT-4o con DALL-E / visión integrada):</strong>
+<strong>Ejecución en Google Flow (Nano Banana 2):</strong>
 <ol>
-<li>Abre un nuevo chat en ChatGPT.</li>
-<li>Haz clic en el icono del clip/imagen y sube tu foto.</li>
-<li>Copia todo el prompt completo, reemplazando la frase de terror por la tuya.</li>
-<li>Envía el mensaje.</li>
+<li>Abre <strong>Google Flow</strong> y selecciona <strong>Nano Banana 2</strong> en proporción <strong>16:9</strong>.</li>
+<li>En el panel lateral <strong>Ingredients</strong> (+ Add Image), sube tu foto y nómbrala <code>Personaje 1</code> para que la IA preserve fielmente tu rostro.</li>
+<li>Pega el prompt con la frase de terror editada en la consola y pulsa <strong>Generate</strong>.</li>
 </ol>
-</div>
-<div class="sub-card">
-<strong>Opción B: Midjourney (v6 o superior):</strong>
-<ul>
-<li>Sube tu foto a Midjourney (o pega el enlace de tu foto).</li>
-<li>Utiliza las partes descriptivas del prompt junto al enlace de tu imagen usando parámetros como <code>--ar 4:5</code> y <code>--cref [URL_FOTO]</code> (Character Reference) para fijar el rostro.</li>
-</ul>
-</div>
-<div class="sub-card">
-<strong>Opción C: Herramientas basadas en Stable Diffusion / Flux (con IP-Adapter o ControlNet):</strong>
-<ul>
-<li>Carga tu foto en el nodo de IP-Adapter para preservar la cara/ropa y pega la descripción del entorno y estilo en el prompt positivo.</li>
-</ul>
 </div>
 <h3>Paso 4: Ajustes opcionales (Modo Manual vs. Modo Aleatorio)</h3>
 <ul>
@@ -124,7 +115,35 @@
 </div>
 </section>
 <!-- Contenedor del Prompt -->
-<div class="prompt-container">
+<!-- Cuadro descriptivo homologado Google Flow -->
+<div class="info-box">
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" x2="12.01" y1="17" y2="17"></line></svg>
+                        ¿Qué es?
+                    </h3>
+<p class="info-text">Ubica a la persona de la fotografía en una atmósfera cinematográfica de suspenso dentro de un cine vintage, donde presencias fantasmales comparten las butacas con iluminación tenebrosa.</p>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ¿Cómo usarlo?
+                    </h3>
+<ol class="info-list">
+<li>Abre <strong>Google Flow</strong> y selecciona <strong>Nano Banana 2</strong> en formato <strong>16:9</strong>.</li>
+<li>En la sección <strong>Ingredients</strong>, sube la foto del espectador (+ Add Image).</li>
+<li>Nombra la referencia como <code>Personaje 1</code> para transferir su gesto y fisonomía exacta a la butaca.</li>
+<li>Escribe la frase de terror en el encabezado del prompt y genera la atmósfera de miedo.</li>
+</ol>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Cómo personalizar / Parámetros:
+                    </h3>
+<p class="info-text">Reemplaza <code>[ESCRIBIR / EDITAR AQUÍ LA FRASE DE TERROR]</code> por el lema o título en mayúsculas que coronará la escena.</p>
+</div>
+</div><div class="prompt-container">
 <div class="prompt-header">
 <span class="prompt-label">
 <svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="15"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -756,7 +775,7 @@ EXPLORA NUESTRAS HERRAMIENTAS
 <div class="footer-col">
 <h3>Herramientas de IA</h3>
 <p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
-<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+<p>Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 </div>
 <div class="footer-col">
 <h3>Soluciones Inteligentes</h3>

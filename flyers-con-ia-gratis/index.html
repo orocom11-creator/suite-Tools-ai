@@ -19,13 +19,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase SDK --></head>
 <body>
-<header>
-<div class="header-content">
-<a class="back-btn" href="../index.html">
-<!-- Icono flecha izquierda -->
-<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al inicio
-            </a>
+<header class="subtool-sticky-navbar">
+<div class="subtool-nav-content">
+<a class="subtool-nav-btn subtool-nav-back" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+<span>← Volver al Menú Principal</span>
+</a>
+<a class="subtool-nav-btn subtool-nav-advisor" href="https://notebook.google.com/notebook/1f81702d-0d88-47c7-aa00-a5a760269b70" rel="noopener noreferrer" target="_blank">
+<span class="subtool-advisor-icon">🤖</span>
+<span>Consultar Asesor IA</span>
+<span class="subtool-advisor-ping"></span>
+</a>
 </div>
 </header>
 <div class="container">
@@ -45,7 +49,7 @@
 <h2 style="text-align: center; color: #1e40af; margin-top: 0; font-size: 1.4rem;">🗺️ Guía de Uso: El Detrás de Escena de los 6 Pasos</h2>
 <h3 style="color: #2563eb; margin-top: 1rem; border-bottom: 2px solid #bfdbfe; padding-bottom: 0.3rem;">¿CÓMO USARLO? (3 Pasos Rápidos)</h3>
 <ul style="line-height: 1.8; color: #1e293b; padding-left: 1.2rem;">
-<li><strong>Copiar y Pegar:</strong> Inicia un chat nuevo en ChatGPT y pega el Prompt Maestro.</li>
+<li><strong>Copiar y Pegar:</strong> Abre Google Flow y pega el Prompt Maestro en la consola de Nano Banana 2.</li>
 <li><strong>Responder uno a uno:</strong> Contesta únicamente a las preguntas activas. No te adelantes.</li>
 <li><strong>Generar:</strong> Al responder el paso 6, el sistema creará tu publicidad automáticamente.</li>
 </ul>
@@ -70,7 +74,35 @@
 <em>Por qué lo hace:</em> Para ajustar la relación de aspecto de la imagen (9:16, 1:1, 16:9), ubicar los elementos fuera de las zonas que tapan las apps y darte el formato óptimo para ese canal.</p>
 </div>
 <!-- Contenedor del Prompt -->
-<div class="prompt-container">
+<!-- Cuadro descriptivo homologado Google Flow -->
+<div class="info-box">
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" x2="12.01" y1="17" y2="17"></line></svg>
+                        ¿Qué es?
+                    </h3>
+<p class="info-text">Suite de dirección de arte publicitario para formular flyers, carteles y anuncios gráficos de alto lujo para eventos, gastronomía premium y marcas corporativas exclusivas.</p>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ¿Cómo usarlo?
+                    </h3>
+<ol class="info-list">
+<li>Copia el prompt maestro desde esta herramienta.</li>
+<li>Abre <strong>Google Flow</strong> y pega la instrucción en la consola de <strong>Nano Banana 2</strong>.</li>
+<li>Establece la relación de aspecto publicitaria (<strong>9:16</strong> para historias móviles o <strong>3:4</strong> para afiche impreso).</li>
+<li>Genera para recibir la propuesta publicitaria con composición de impacto y paleta armónica.</li>
+</ol>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Cómo personalizar / Parámetros:
+                    </h3>
+<p class="info-text">Define el tipo de producto/evento, gama cromática y llamadas a la acción (CTA) en las preguntas del asistente.</p>
+</div>
+</div><div class="prompt-container">
 <div class="prompt-header">
 <span class="prompt-label">Prompt para copiar</span>
 <button class="copy-btn" id="btnCopiar" onclick="copiarAlPortapapeles()">
@@ -87,7 +119,7 @@ Sigue estrictamente estas reglas de comportamiento:
 1. No muestres todo el cuestionario de golpe. Haz solo una o dos preguntas a la vez y espera mi respuesta antes de avanzar.
 2. Adáptate dinámicamente a mis respuestas según si es Producto, Servicio o Evento.
 3. Sé profesional, claro y humilde. Guíame con ejemplos prácticos en cada paso.
-4. **REGLA DE SEGURIDAD CRÍTICA:** Bajo ninguna circunstancia debes generar la imagen de DALL-E, ni entregar el prompt de Midjourney, ni dar por finalizado el cuestionario hasta que yo haya respondido el Paso 6.
+4. **REGLA DE SEGURIDAD CRÍTICA:** Bajo ninguna circunstancia debes generar la imagen directamente sin antes entregar el prompt para Google Flow, ni dar por finalizado el cuestionario hasta que yo haya respondido el Paso 6.
 
 Comienza el proceso ahora siguiendo este orden:
 
@@ -130,9 +162,9 @@ Pregúntame por el tipo de evento con ejemplos (ej. Conciertos/Festivales con lu
 ### FINALIZACIÓN (Ejecución automática tras responder el Paso 6)
 Inmediatamente después de que yo responda al Paso 6 seleccionando **una única opción**, procederás de forma automática a entregar los siguientes entregables finales:
 
-1. **GENERACIÓN DE LA IMAGEN (DALL-E):** Llama inmediatamente a tu herramienta de generación de imágenes (DALL-E) y crea **una sola imagen limpia en alta definición** que represente la publicidad diseñada, adaptando la composición, el encuadre y el estilo a la plataforma elegida en el Paso 6.
+1. **GENERACIÓN DE LA IMAGEN (Google Flow / Nano Banana 2):** Llama inmediatamente a tu herramienta de generación de imágenes (Nano Banana 2) y crea **una sola imagen limpia en alta definición** que represente la publicidad diseñada, adaptando la composición, el encuadre y el estilo a la plataforma elegida en el Paso 6.
 2. **Especificaciones del Formato:** Explica brevemente bajo la imagen generada los detalles técnicos del diseño adaptados a la plataforma elegida (resolución, zonas seguras y paleta).
-3. **El Prompt Externo (Midjourney):** Redacta el prompt detallado en inglés para Midjourney con la relación de aspecto correcta (ej. `--ar 9:16`, `--ar 16:9`, `--ar 1:1`).
+3. **El Prompt Optimizado (Google Flow):** Redacta el prompt detallado en inglés para Google Flow con la relación de aspecto correcta (ej. `--ar 9:16`, `--ar 16:9`, `--ar 1:1`).
 4. **La Guía de Maquetación final:** Detalla cómo ordenar los textos, logotipos, datos del evento o globos de especificaciones en Photoshop, Figma o Canva para complementar la imagen.
 
 Inicia el Paso 1 ahora saludándome cordialmente.</pre>
@@ -154,7 +186,7 @@ EXPLORA NUESTRAS HERRAMIENTAS
 <div class="footer-col">
 <h3>Herramientas de IA</h3>
 <p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
-<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+<p>Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 </div>
 <div class="footer-col">
 <h3>Soluciones Inteligentes</h3>

@@ -1,81 +1,67 @@
 -- ============================================================
--- AI DAN SOLUTIONS — Schema de Autenticación y Autorización
--- Ejecutar en Supabase SQL Editor (Dashboard > SQL Editor > New Query)
+-- AI DAN SOLUTIONS — Asignar Rol Administrador y Permisos RLS
+-- Usuario: integracionesacs@gmail.com
+-- Ejecutar en Supabase: Dashboard > SQL Editor > New Query > Run
 -- ============================================================
 
--- 1. Crear tabla de clientes
-CREATE TABLE IF NOT EXISTS public.clientes (
-    email           VARCHAR(255) PRIMARY KEY,
-    telefono        VARCHAR(50),
-    origen          VARCHAR(50)   DEFAULT 'bundle_google_pro',
-    super_vip       BOOLEAN       DEFAULT true,
-    premium         BOOLEAN       DEFAULT false,
-    estado          VARCHAR(20)   DEFAULT 'activo',
-    fecha_activacion TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    codigo_operacion VARCHAR(100)
+-- 1. Asignar rol de "admin" en el sistema de autenticación de Supabase (auth.users)
+UPDATE auth.users
+SET 
+    raw_app_meta_data = COALESCE(raw_app_meta_data, '{}'::jsonb) || '{"role": "admin"}'::jsonb,
+    raw_user_meta_data = COALESCE(raw_user_meta_data, '{}'::jsonb) || '{"role": "admin"}'::jsonb
+WHERE LOWER(TRIM(email)) = 'integracionesacs@gmail.com';
+
+-- 2. Asegurar que el correo figure como cliente SuperVIP y Premium Activo
+INSERT INTO public.clientes (email, super_vip, premium, estado, origen)
+VALUES ('integracionesacs@gmail.com', true, true, 'activo', 'ADMIN')
+ON CONFLICT (email) DO UPDATE 
+SET 
+    super_vip = true,
+    premium = true,
+    estado = 'activo';
+
+-- 3. Eliminar políticas antiguas que bloqueaban inserciones o modificaciones
+DROP POLICY IF EXISTS "clientes_deny_insert" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_deny_update" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_deny_delete" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_deny_anon_read" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_read_own" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_admin_manage" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_admin_full_access" ON public.clientes;
+DROP POLICY IF EXISTS "clientes_alumnos_read_own" ON public.clientes;
+
+-- 4. POLÍTICA DE ADMINISTRADOR:
+-- Otorga permisos totales (SELECT, INSERT, UPDATE, DELETE) a integracionesacs@gmail.com
+CREATE POLICY "clientes_admin_full_access"
+ON public.clientes
+FOR ALL
+TO authenticated
+USING (
+    LOWER(TRIM(auth.jwt() ->> 'email')) = 'integracionesacs@gmail.com'
+    OR (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
+    OR (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+)
+WITH CHECK (
+    LOWER(TRIM(auth.jwt() ->> 'email')) = 'integracionesacs@gmail.com'
+    OR (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
+    OR (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
 );
 
--- 2. Índice para consultas frecuentes por estado
-CREATE INDEX IF NOT EXISTS idx_clientes_estado ON public.clientes(estado);
-
--- 3. Activar Row Level Security
-ALTER TABLE public.clientes ENABLE ROW LEVEL SECURITY;
-
--- 4. POLÍTICA DE LECTURA: el usuario autenticado SOLO puede leer su propia fila
--- La función auth.jwt() extrae el claim 'email' del JWT emitido por Supabase Auth
--- (que a su vez fue validado criptográficamente contra Google OAuth)
-CREATE POLICY "clientes_read_own"
-    ON public.clientes
-    FOR SELECT
-    TO authenticated
-    USING (
-        LOWER(TRIM(email)) = LOWER(TRIM(auth.jwt() ->> 'email'))
-    );
-
--- 5. BLOQUEAR toda escritura desde el cliente
--- Solo service_role (backend / Supabase Dashboard) puede INSERT/UPDATE/DELETE
--- Esto impide que un usuario modifique su campo premium/super_vip desde el navegador
-
-CREATE POLICY "clientes_deny_insert"
-    ON public.clientes
-    FOR INSERT
-    TO authenticated, anon
-    WITH CHECK (false);
-
-CREATE POLICY "clientes_deny_update"
-    ON public.clientes
-    FOR UPDATE
-    TO authenticated, anon
-    USING (false)
-    WITH CHECK (false);
-
-CREATE POLICY "clientes_deny_delete"
-    ON public.clientes
-    FOR DELETE
-    TO authenticated, anon
-    USING (false);
-
--- 6. Denegar acceso anónimo a lectura también
-CREATE POLICY "clientes_deny_anon_read"
-    ON public.clientes
-    FOR SELECT
-    TO anon
-    USING (false);
+-- 5. POLÍTICA PARA ALUMNOS REGULARES:
+-- Los alumnos normales solo pueden consultar su propia membresía
+CREATE POLICY "clientes_alumnos_read_own"
+ON public.clientes
+FOR SELECT
+TO authenticated
+USING (
+    LOWER(TRIM(auth.jwt() ->> 'email')) = 'integracionesacs@gmail.com'
+    OR (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
+    OR LOWER(TRIM(email)) = LOWER(TRIM(auth.jwt() ->> 'email'))
+);
 
 -- ============================================================
--- DATOS DE PRUEBA (OPCIONAL — eliminar en producción)
--- Añade tu propio correo para probar
+-- VERIFICACIÓN: Comprueba que el rol se asignó correctamente
 -- ============================================================
-/*
-INSERT INTO public.clientes (email, telefono, super_vip, premium, estado)
-VALUES
-    ('tu-correo@gmail.com', '+51999999999', true, true, 'activo'),
-    ('cliente-svip@gmail.com', '+51888888888', true, false, 'activo'),
-    ('cliente-inactivo@gmail.com', '+51777777777', true, false, 'inactivo');
-*/
-
--- ============================================================
--- VERIFICACIÓN: Ejecuta esto para confirmar que RLS está activo
--- ============================================================
--- SELECT tablename, rowsecurity FROM pg_tables WHERE tablename = 'clientes';
--- SELECT * FROM pg_policies WHERE tablename = 'clientes';
+SELECT id, email, raw_app_meta_data, raw_user_meta_data 
+FROM auth.users 
+WHERE LOWER(TRIM(email)) = 'integracionesacs@gmail.com';

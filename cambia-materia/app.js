@@ -713,11 +713,11 @@
         }
         negPrompt = "flickering, morphing artifacts, frame blending glitches, low resolution, plastic flat shading, temporal instability, cartoon, extra limbs, jitter, melting, cracks, broken pieces, dripping";
 
-      } else if (engine === "midjourney") {
+      } else if (engine === "google-flow") {
         const scopeStr = isAll ? "full scene transformation" : `${targetText} transformation`;
         prompt = `${scopeStr}, ${intensityInfo.prefix} ${materialPromptText}, hyper-detailed PBR shaders, raytraced caustics, octane render, 8k resolution, cinematic lighting, master craftsmanship, solid intact form`;
         if (motionLocked) {
-          prompt += ", locked camera perspective, consistent temporal geometry --v 6.1 --motion high";
+          prompt += ", locked camera perspective, consistent temporal geometry locked camera perspective, consistent temporal geometry";
         }
         negPrompt = "blurry, low quality, flat texture, oversaturated, deformed geometry, stuttering, flickering, ugly, noise, melted, dripping, cracked, broken";
 

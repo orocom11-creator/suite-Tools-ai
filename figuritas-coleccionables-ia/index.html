@@ -19,12 +19,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase SDK --></head>
 <body>
-<header>
-<div class="header-content">
-<a class="back-btn" href="../index.html">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al inicio
-            </a>
+<header class="subtool-sticky-navbar">
+<div class="subtool-nav-content">
+<a class="subtool-nav-btn subtool-nav-back" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+<span>← Volver al Menú Principal</span>
+</a>
+<a class="subtool-nav-btn subtool-nav-advisor" href="https://notebook.google.com/notebook/1f81702d-0d88-47c7-aa00-a5a760269b70" rel="noopener noreferrer" target="_blank">
+<span class="subtool-advisor-icon">🤖</span>
+<span>Consultar Asesor IA</span>
+<span class="subtool-advisor-ping"></span>
+</a>
 </div>
 </header>
 <div class="container">
@@ -103,9 +108,7 @@
 <svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                         4. Manual de uso: Paso a paso
                     </h3>
-<p class="manual-text">
-                        Sigue esta guía para implementar el prompt en herramientas que admitan generación con imagen de referencia (como Midjourney, FLUX con ControlNet/LoRA, Stable Diffusion, o modelos avanzados en ChatGPT Plus / DALL·E 3).
-                    </p>
+<p class="manual-text">Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 <div class="step-block">
 <div class="step-header">
 <span class="step-number">1</span>
@@ -125,7 +128,7 @@
 <pre class="snippet-box">[ FICHA DE CONFIGURACIÓN ]
 
 MARCA HORIZONTAL SUPERIOR:
-ClicMayores (o la marca/evento que desees)
+AI DAN SOLUTIONS (o la marca/evento que desees)
 
 NOMBRE DEL PERSONAJE:
 CARMEN o JORGE
@@ -167,10 +170,7 @@ POSE 07 — THE LEGEND (o cualquier número del 01 al 12)</pre>
 <li>Sube la foto original en la herramienta de IA como referencia de entrada.</li>
 <li>Si seleccionaste <strong>LOGO = SÍ</strong>, sube también el archivo del logotipo.</li>
 <li>Pega el texto completo del prompt (con la ficha ya editada).</li>
-<li><strong>Parámetros recomendados (si usas Midjourney):</strong>
-<ul style="list-style: disc; margin-top: 0.35rem; padding-left: 1.25rem;">
-<li>Añade <code>--ar 9:16</code> para forzar la relación de aspecto vertical de póster.</li>
-<li>Si el modelo modifica mucho el rostro, utiliza parámetros de peso de imagen más altos (por ejemplo, <code>--iw 2.0</code> en Midjourney).</li>
+<li><strong>Configuración recomendada en Google Flow:</strong> Carga la foto en el panel <em>Ingredients (+ Add Image)</em> y nómbrala <code>Personaje 1</code> para conservar fielmente la identidad fisonómica.</li>
 </ul>
 </li>
 </ul>
@@ -178,7 +178,35 @@ POSE 07 — THE LEGEND (o cualquier número del 01 al 12)</pre>
 </section>
 </div>
 <!-- CONTENEDOR DEL PROMPT COPIABLE -->
-<div class="prompt-container">
+<!-- Cuadro descriptivo homologado Google Flow -->
+<div class="info-box">
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" x2="12.01" y1="17" y2="17"></line></svg>
+                        ¿Qué es?
+                    </h3>
+<p class="info-text">Transforma al sujeto de la fotografía en una figura de acción coleccionable de edición limitada sellada en su blíster de exhibición con accesorios temáticos y tarjeta de respaldo oficial.</p>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ¿Cómo usarlo?
+                    </h3>
+<ol class="info-list">
+<li>Abre <strong>Google Flow</strong> y configura <strong>Nano Banana 2</strong> en proporción vertical (<strong>9:16</strong> o <strong>3:4</strong>).</li>
+<li>En el panel <strong>Ingredients</strong>, añade la foto del personaje con <strong>+ Add Image</strong>.</li>
+<li>Etiqueta la imagen como <code>Personaje 1</code> para esculpir la figura de juguete con sus facciones exactas.</li>
+<li>Pega el prompt completando el nombre y profesión y genera tu figura en empaque de colección.</li>
+</ol>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Cómo personalizar / Parámetros:
+                    </h3>
+<p class="info-text">Personaliza en la ficha superior: <code>NOMBRE DEL PERSONAJE:</code>, <code>ROL O PROFESIÓN:</code> y los <code>ACCESORIOS:</code> que vendrán en las bandejas del blíster.</p>
+</div>
+</div><div class="prompt-container">
 <div class="prompt-header">
 <span class="prompt-label">PROMPT DE IA</span>
 <button class="copy-btn" onclick="copyPrompt()">
@@ -187,13 +215,13 @@ POSE 07 — THE LEGEND (o cualquier número del 01 al 12)</pre>
                     </button>
 </div>
 <pre class="prompt-content" id="promptText">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-HEROIC CHARACTER MASTER — CLICMAYORES
+HEROIC CHARACTER MASTER — AI DAN SOLUTIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [ FICHA DE CONFIGURACIÓN — EDITAR ANTES DE GENERAR ]
 
 MARCA HORIZONTAL SUPERIOR:
-ClicMayores
+AI DAN SOLUTIONS
 
 NOMBRE DEL PERSONAJE:
 [ESCRIBIR NOMBRE]
@@ -667,7 +695,7 @@ ficha.
 
 POR DEFECTO:
 
-CLICMAYORES
+AI DAN SOLUTIONS
 
 La marca debe aparecer HORIZONTAL.
 
@@ -944,19 +972,19 @@ SU PROPIA LEYENDA.
                     </h4>
 <div class="share-buttons-container">
 <!-- Compartir en WhatsApp -->
-<a class="share-btn share-btn-wa" href="https://api.whatsapp.com/send?text=Aprende%20a%20transformar%20fotos%20en%20p%C3%B3steres%20heroicos%20de%20colecci%C3%B3n%20con%20este%20Prompt%20de%20IA:%20https://clicmayores.com/prompt/" rel="noopener noreferrer" target="_blank">
+<a class="share-btn share-btn-wa" href="https://api.whatsapp.com/send?text=Aprende%20a%20transformar%20fotos%20en%20p%C3%B3steres%20heroicos%20de%20colecci%C3%B3n%20con%20este%20Prompt%20de%20IA:%20#/prompt/" rel="noopener noreferrer" target="_blank">
                             WhatsApp
                         </a>
 <!-- Compartir en Facebook -->
-<a class="share-btn share-btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://clicmayores.com/prompt/" rel="noopener noreferrer" target="_blank">
+<a class="share-btn share-btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=#/prompt/" rel="noopener noreferrer" target="_blank">
                             Facebook
                         </a>
 <!-- Compartir en X / Twitter -->
-<a class="share-btn share-btn-x" href="https://twitter.com/intent/tweet?text=Descubre%20este%20incre%C3%ADble%20prompt%20para%20crear%20ilustraciones%20heroicas%20con%20identidad%20real%20en%20@clicmayores&amp;url=https://clicmayores.com/prompt/" rel="noopener noreferrer" target="_blank">
+<a class="share-btn share-btn-x" href="https://twitter.com/intent/tweet?text=Descubre%20este%20incre%C3%ADble%20prompt%20para%20crear%20ilustraciones%20heroicas%20con%20identidad%20real%20en%20@AI DAN SOLUTIONS&amp;url=#/prompt/" rel="noopener noreferrer" target="_blank">
                             X (Twitter)
                         </a>
 <!-- Compartir en LinkedIn -->
-<a class="share-btn share-btn-in" href="https://www.linkedin.com/sharing/share-offsite/?url=https://clicmayores.com/prompt/" rel="noopener noreferrer" target="_blank">
+<a class="share-btn share-btn-in" href="https://www.linkedin.com/sharing/share-offsite/?url=#/prompt/" rel="noopener noreferrer" target="_blank">
                             LinkedIn
                         </a>
 <!-- Botón Nativo (Móvil) / Copiar enlace -->
@@ -967,7 +995,7 @@ SU PROPIA LEYENDA.
 </div>
 <!-- BOTÓN ROJO: UNETE A NUESTRA COMUNIDAD (YOUTUBE) -->
 <div class="community-cta-container">
-<a class="btn-youtube-community" href="https://www.youtube.com/@clicmayores?sub_confirmation=1" rel="noopener noreferrer" target="_blank">
+<a class="btn-youtube-community" href="#" rel="noopener noreferrer" target="_blank">
 <svg viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
                         ÚNETE A NUESTRA COMUNIDAD
                     </a>
@@ -979,7 +1007,7 @@ SU PROPIA LEYENDA.
 <div class="footer-col">
 <h3>Herramientas de IA</h3>
 <p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
-<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+<p>Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 </div>
 <div class="footer-col">
 <h3>Soluciones Inteligentes</h3>

@@ -17,12 +17,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase SDK --></head>
 <body>
-<header>
-<div class="header-content">
-<a class="back-btn" href="../index.html">
-<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al inicio
-            </a>
+<header class="subtool-sticky-navbar">
+<div class="subtool-nav-content">
+<a class="subtool-nav-btn subtool-nav-back" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+<span>← Volver al Menú Principal</span>
+</a>
+<a class="subtool-nav-btn subtool-nav-advisor" href="https://notebook.google.com/notebook/1f81702d-0d88-47c7-aa00-a5a760269b70" rel="noopener noreferrer" target="_blank">
+<span class="subtool-advisor-icon">🤖</span>
+<span>Consultar Asesor IA</span>
+<span class="subtool-advisor-ping"></span>
+</a>
 </div>
 </header>
 <div class="container">
@@ -34,7 +39,35 @@
 <div class="post-image-container">
 <img alt="Resumen de Partido 2026" class="post-image" src="assets/mundial2026-ab78080c.jpg"/>
 </div>
-<div class="prompt-container">
+<!-- Cuadro descriptivo homologado Google Flow -->
+<div class="info-box">
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" x2="12.01" y1="17" y2="17"></line></svg>
+                        ¿Qué es?
+                    </h3>
+<p class="info-text">Diseña una tarjeta infográfica moderna y deportiva que resume el resultado, goles, minutos, figuras destacadas y estadísticas de cualquier partido de fútbol con estética editorial premium.</p>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ¿Cómo usarlo?
+                    </h3>
+<ol class="info-list">
+<li>Copia el prompt optimizado desde esta herramienta.</li>
+<li>Abre <strong>Google Flow</strong> y pégalo en la barra de <strong>Nano Banana 2</strong>.</li>
+<li>Selecciona la relación de aspecto vertical <strong>9:16</strong> idónea para infografías móviles.</li>
+<li>Completa los datos del partido y genera el cartel de resultados.</li>
+</ol>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Cómo personalizar / Parámetros:
+                    </h3>
+<p class="info-text">Rellena en el bloque inicial los equipos rivales, marcador final, minuto y anotadores de cada tanto.</p>
+</div>
+</div><div class="prompt-container">
 <div class="prompt-header">
 <span class="prompt-label">Prompt para copiar</span>
 <button class="copy-btn" id="btnCopiar" onclick="copiarAlPortapapeles()">
@@ -66,7 +99,7 @@ Cuando el usuario te proporcione el nombre de un partido o evento deportivo:
 ## FASE 2: GENERACIÓN DE LA INFOGRAFÍA (SEGUNDO TURNO - TRAS EL "SÍ" DEL USUARIO)
 Una vez que el usuario confirme con un "Sí" o dé su visto bueno a los datos de la Fase 1, procede a realizar la entrega final que consta de dos partes:
 
-### 1. La Imagen de la Infografía (Generada con DALL-E)
+### 1. La Imagen de la Infografía (Generada con Google Flow / Nano Banana 2)
 Crea una imagen con un diseño editorial deportivo moderno y de alta gama, utilizando un estilo gráfico limpio de transmisión deportiva premium con iluminación dramática y tipografía de alto contraste (sin mencionar nombres de cadenas de televisión reales), aplicando las siguientes directrices:
 - **Formato:** Vertical (relación de aspecto 4:5 o 9:16).
 - **Estilo:** Moderno y limpio, con un fondo oscuro, texturizado o con destellos de luz que evoquen un estadio.
@@ -75,7 +108,7 @@ Crea una imagen con un diseño editorial deportivo moderno y de alta gama, utili
 - **Jerarquía Visual:**
   - Coloca en una tipografía grande, sans-serif y legible los nombres de los países/equipos y el marcador final (ej. "Corea del Sur 2 - 1 Chequia").
   - Limita el texto secundario en la imagen únicamente a los goleadores y minutos clave debajo del marcador. Evita añadir párrafos largos de texto o tablas de datos densas. Representa las estadísticas de manera abstracta con barras de color o iconos minimalistas.
-- **Marca de agua y Branding (Pie de página):** En la franja o solapa inferior de la infografía, de manera muy discreta, pequeña y sutil, incluye un pequeño icono genérico de botón de reproducción ("play button" de color rojo y blanco) seguido del texto "@clicmayores" en tipografía ultra-limpia y pequeña. *(Watermark: At the very bottom strip of the infographic, include a very subtle, small generic red-and-white play icon followed by the clean, legible text "@clicmayores")*.
+- **Marca de agua y Branding (Pie de página):** En la franja o solapa inferior de la infografía, de manera muy discreta, pequeña y sutil, incluye un pequeño icono genérico de botón de reproducción ("play button" de color rojo y blanco) seguido del texto "@AI DAN SOLUTIONS" en tipografía ultra-limpia y pequeña. *(Watermark: At the very bottom strip of the infographic, include a very subtle, small generic red-and-white play icon followed by the clean, legible text "@AI DAN SOLUTIONS")*.
 
 ### 2. Resumen Técnico en Texto (Markdown)
 Justo debajo de la imagen generada, escribe el siguiente resumen técnico en texto plano para asegurar una lectura precisa:
@@ -107,7 +140,7 @@ EXPLORA NUESTRAS HERRAMIENTAS
 <div class="footer-col">
 <h3>Herramientas de IA</h3>
 <p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
-<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+<p>Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 </div>
 <div class="footer-col">
 <h3>Soluciones Inteligentes</h3>

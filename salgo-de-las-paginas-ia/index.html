@@ -21,12 +21,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase SDK --></head>
 <body>
-<header>
-<div class="header-content">
-<a class="back-btn" href="../index.html">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Inicio
-            </a>
+<header class="subtool-sticky-navbar">
+<div class="subtool-nav-content">
+<a class="subtool-nav-btn subtool-nav-back" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+<span>← Volver al Menú Principal</span>
+</a>
+<a class="subtool-nav-btn subtool-nav-advisor" href="https://notebook.google.com/notebook/1f81702d-0d88-47c7-aa00-a5a760269b70" rel="noopener noreferrer" target="_blank">
+<span class="subtool-advisor-icon">🤖</span>
+<span>Consultar Asesor IA</span>
+<span class="subtool-advisor-ping"></span>
+</a>
 </div>
 </header>
 <div class="container">
@@ -50,7 +55,7 @@
 <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="16" y2="12"></line><line x1="12" x2="12.01" y1="8" y2="8"></line></svg>
                         1. DESCRIPCIÓN GENERAL: ¿DE QUÉ TRATA EL PROMPT?
                     </h3>
-<p class="manual-p">Este prompt es una plantilla avanzada de generación de imagen a imagen (Image-to-Image / Face Reference) diseñada para inteligencias artificiales generativas (como Midjourney con <span class="code-pill">--cref</span>, Stable Diffusion con IP-Adapter/ControlNet, o FLUX).</p>
+<p class="manual-p">Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 <p class="manual-p">Su propósito central es crear un efecto visual de ruptura dimensional (efecto 3D hiperrealista o trompe-l'œil): toma la fotografía real de un usuario y genera una escena donde esa persona parece estar emergiendo físicamente y rasgando las páginas de una publicación (manga, cómic, libro o periódico), manteniendo un contraste absoluto entre el entorno impreso y el sujeto fotorrealista.</p>
 </div>
 <!-- 2. ANÁLISIS DE VENTAJAS Y FORTALEZAS -->
@@ -120,9 +125,7 @@
 <div class="manual-step-header">
 <span class="manual-badge">Paso 4</span> Carga y Ejecución según la Herramienta Utilizada
                         </div>
-<p class="manual-p"><strong>En Midjourney v6 / Niji:</strong><br/>
-                        1. Sube la foto original al chat y copia su enlace/URL.<br/>
-                        2. Escribe: <span class="code-pill">/imagine prompt: [URL de la foto] [Pega el prompt positivo editado] --cref [URL de la foto] --cw 80 --ar 9:16 --v 6.1 --no [pega aquí los negativos]</span></p>
+<p class="manual-p">Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 <p class="manual-p"><strong>En Stable Diffusion / Fooocus / Forge:</strong><br/>
                         1. Carga la foto en Image Prompt / IP-Adapter (activa ControlNet OpenPose o Depth si deseas forzar la postura).<br/>
                         2. Ajusta el <em>Denoising strength</em> entre <strong>0.65 y 0.75</strong> (para que cambie la escena pero conserve la identidad).<br/>
@@ -158,7 +161,7 @@
 <tr>
 <td class="td-problem">El rostro no se parece al de la foto.</td>
 <td>Parámetro de referencia facial muy bajo o foto base confusa.</td>
-<td>En Midjourney usa <span class="code-pill">--cw 100</span>. En Stable Diffusion sube el peso de IP-Adapter a <strong>0.85</strong> o usa un modelo auxiliar como ReActor/Roop.</td>
+<td>En Google Flow vincula el ingrediente <span class="code-pill">Personaje 1</span> en el panel Ingredients para mantener fidelidad fisonómica total.<strong>0.85</strong> o usa un modelo auxiliar como ReActor/Roop.</td>
 </tr>
 <tr>
 <td class="td-problem">Aparecen dos personas en la imagen.</td>
@@ -170,7 +173,35 @@
 </div>
 </div>
 </section>
-<div class="prompt-container">
+<!-- Cuadro descriptivo homologado Google Flow -->
+<div class="info-box">
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" x2="12.01" y1="17" y2="17"></line></svg>
+                        ¿Qué es?
+                    </h3>
+<p class="info-text">Ilustra una composición fantástica donde la persona de la foto salta físicamente fuera de las páginas ilustradas de un libro abierto sobre un escritorio, pasando de dibujo 2D a cuerpo tangible.</p>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ¿Cómo usarlo?
+                    </h3>
+<ol class="info-list">
+<li>Abre <strong>Google Flow</strong> y prepara <strong>Nano Banana 2</strong> en proporción <strong>16:9</strong>.</li>
+<li>En <strong>Ingredients</strong>, sube la foto del sujeto mediante <strong>+ Add Image</strong>.</li>
+<li>Etiquétala como <code>Personaje 1</code> para vincular los rasgos de quien emerge del tomo.</li>
+<li>Pega el prompt y pulsa generar para materializar el efecto de realismo mágico.</li>
+</ol>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Cómo personalizar / Parámetros:
+                    </h3>
+<p class="info-text">Selecciona la opción en el prompt entre persona real que escapa del libro o criatura fantástica que cobra vida.</p>
+</div>
+</div><div class="prompt-container">
 <div class="prompt-header">
 <span class="prompt-label">PROMPT PARA COPIAR</span>
 <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">
@@ -425,7 +456,7 @@ EXPLORA NUESTRAS HERRAMIENTAS
 <div class="footer-col">
 <h3>Herramientas de IA</h3>
 <p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
-<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+<p>Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 </div>
 <div class="footer-col">
 <h3>Soluciones Inteligentes</h3>

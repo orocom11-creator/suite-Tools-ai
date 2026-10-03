@@ -19,13 +19,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase SDK --></head>
 <body>
-<header>
-<div class="header-content">
-<a class="back-btn" href="../index.html">
-<!-- Icono flecha izquierda -->
-<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al inicio
-            </a>
+<header class="subtool-sticky-navbar">
+<div class="subtool-nav-content">
+<a class="subtool-nav-btn subtool-nav-back" href="../index.html">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+<span>← Volver al Menú Principal</span>
+</a>
+<a class="subtool-nav-btn subtool-nav-advisor" href="https://notebook.google.com/notebook/1f81702d-0d88-47c7-aa00-a5a760269b70" rel="noopener noreferrer" target="_blank">
+<span class="subtool-advisor-icon">🤖</span>
+<span>Consultar Asesor IA</span>
+<span class="subtool-advisor-ping"></span>
+</a>
 </div>
 </header>
 <div class="container">
@@ -41,77 +45,34 @@
 <img alt="Tazas con frase IA" class="post-image" src="assets/taza-50b2f09d.jpg"/>
 </div>
 <!-- Cuadro explicativo decorado -->
+<!-- Cuadro descriptivo homologado Google Flow -->
 <div class="info-box">
-<h2>☕ ¿Cómo se usa?</h2>
-<p>Solo tenés que completar 7 cosas:</p>
-<ul>
-<li>📸 <strong>Foto</strong> → subís la foto de la persona.</li>
-<li>🧑 <strong>Nombre</strong> → escribís el nombre.</li>
-<li>✍️ <strong>Frase</strong> → escribís exactamente lo que querés que aparezca.</li>
-<li>🇦🇷 <strong>País</strong> → determina la bandera que será el fondo del diseño.</li>
-<li>📍 <strong>Escenario</strong> → dónde estará fotografiada la taza: oficina, bar, campo, ciudad, etc.</li>
-<li>📐 <strong>Texto</strong> → elegís: <code>ARRIBA</code> | <code>ABAJO</code> | <code>ARRIBA Y ABAJO</code></li>
-<li>🏷️ <strong>Logo</strong> → subís uno o elegís <code>SIN LOGO</code>.</li>
-</ul>
-<h3>🎨 ¿Qué hace automáticamente la IA?</h3>
-<p>Vos no tenés que decidir el diseño detallado. La IA decide:</p>
-<ul>
-<li>Tamaño y tipo de letra</li>
-<li>Cantidad de líneas</li>
-<li>Distribución del texto</li>
-<li>Tamaño del retrato</li>
-<li>Composición</li>
-<li>Adaptación a la curvatura de la taza</li>
-<li>Iluminación</li>
-<li>Fotografía del producto</li>
-</ul>
-<p>Y mantiene una regla muy importante:</p>
-<ul>
-<li>🇦🇷 <strong>La bandera está pintada en la taza.</strong></li>
-<li>🏢 <strong>El escenario está afuera de la taza.</strong></li>
-</ul>
-<p><em>Por ejemplo:</em><br/>
-<strong>País:</strong> Argentina<br/>
-<strong>Escenario:</strong> Oficina<br/>
-<strong>Resultado:</strong> Taza con la bandera argentina + retrato + frase, fotografiada sobre un escritorio de una oficina. La oficina no aparece pintada en la taza.</p>
-<h3>🔄 ¿Qué opciones tenés?</h3>
-<p>Podés crear prácticamente tres tipos de composición:</p>
-<table>
-<thead>
-<tr>
-<th>Opción</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>ARRIBA</strong></td>
-<td>Frase arriba + retrato debajo</td>
-</tr>
-<tr>
-<td><strong>ABAJO</strong></td>
-<td>Retrato arriba + frase abajo</td>
-</tr>
-<tr>
-<td><strong>ARRIBA Y ABAJO</strong></td>
-<td>Frase repartida arriba y abajo + retrato central</td>
-</tr>
-</tbody>
-</table>
-<p>Además podés variar:</p>
-<ul>
-<li>👤 <strong>Persona</strong> → cualquier foto</li>
-<li>🇦🇷 <strong>País</strong> → cualquier bandera</li>
-<li>💬 <strong>Frase</strong> → hasta 45 palabras</li>
-<li>📍 <strong>Ambiente</strong> → oficina, bar, ciudad, campo, etc.</li>
-<li>🏷️ <strong>Logo</strong> → con logo o sin logo</li>
-</ul>
-<h3>🧠 Lo más importante</h3>
-<p>El prompt está pensado para que el usuario solamente dé los datos y la IA haga de diseñador.</p>
-<div class="formula">
-                    FOTO + NOMBRE + FRASE + PAÍS + ESCENARIO + POSICIÓN + LOGO → TAZA TERMINADA
-                </div>
-<p>Y además tiene una validación: si la frase es demasiado larga, no genera la imagen y pide una frase más corta, sin modificarla automáticamente.</p>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" x2="12.01" y1="17" y2="17"></line></svg>
+                        ¿Qué es?
+                    </h3>
+<p class="info-text">Diseña un mockup fotorrealista de taza cerámica personalizada con la caricatura 3D del usuario, su nombre, bandera patria y una frase célebre o divertida estampada en alta resolución.</p>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ¿Cómo usarlo?
+                    </h3>
+<ol class="info-list">
+<li>Abre <strong>Google Flow</strong> y activa el motor <strong>Nano Banana 2</strong> en formato <strong>1:1</strong>.</li>
+<li>En el panel <strong>Ingredients</strong>, carga la foto de la persona (+ Add Image).</li>
+<li>Etiqueta la imagen como <code>Personaje 1</code> para trasladar su parecido exacto a la taza.</li>
+<li>Completa el nombre, frase y país en el prompt y genera tu diseño de cerámica exclusivo.</li>
+</ol>
+</div>
+<div class="info-item">
+<h3 class="info-title">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Cómo personalizar / Parámetros:
+                    </h3>
+<p class="info-text">Completa los datos en la cabecera: <code>[ESCRIBIR NOMBRE]</code>, <code>[ESCRIBIR FRASE EXACTA]</code> y <code>[ESCRIBIR PAÍS]</code>.</p>
+</div>
 </div>
 <!-- Contenedor del Prompt -->
 <div class="prompt-container">
@@ -954,7 +915,7 @@ EXPLORA NUESTRAS HERRAMIENTAS
 <div class="footer-col">
 <h3>Herramientas de IA</h3>
 <p>AI DAN SOLUTIONS ofrece una colección de herramientas de inteligencia artificial diseñadas para creativos, profesionales y entusiastas de la tecnología. Nuestros prompts están optimizados para obtener los mejores resultados con las IA más avanzadas del mercado.</p>
-<p>Cada instrucción ha sido probada y refinada para garantizar compatibilidad con ChatGPT, Gemini, Claude, Midjourney y otras plataformas líderes.</p>
+<p>Cada instrucción ha sido optimizada y verificada para el ecosistema nativo de Google Flow (Nano Banana 2 / OmniFlash 1.1) por AI DAN SOLUTIONS.</p>
 </div>
 <div class="footer-col">
 <h3>Soluciones Inteligentes</h3>

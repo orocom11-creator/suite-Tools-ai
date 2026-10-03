@@ -19,7 +19,7 @@
         function sharePost() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'Figuritas Coleccionables IA - Prompt en ClicMayores',
+                    title: 'Figuritas Coleccionables IA - Prompt en AI DAN SOLUTIONS',
                     text: 'Aprende a usar la Inteligencia Artificial con este prompt optimizado en un solo clic.',
                     url: window.location.href
                 }).catch((error) => console.log('Acción cancelada', error));
